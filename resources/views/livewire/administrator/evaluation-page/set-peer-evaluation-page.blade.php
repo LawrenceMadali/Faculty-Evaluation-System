@@ -237,14 +237,14 @@
                                             </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                                @foreach ($students as $student)
+                                                @foreach ($instructors as $instructor)
                                                 <tr>
                                                     <td colspan="8" class="px-6 py-4 whitespace-nowrap">
                                                         <div class="flex items-center">
                                                             <div class="ml-4">
                                                                 <div class="text-sm font-medium text-gray-900">
-                                                                    <input wire:model="selectedStudents" value="{{ $student->id }}" type="checkbox" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                                                    {{ $student->id_number }}
+                                                                    <input wire:model="selectedStudents" value="{{ $instructor->id }}" type="checkbox" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                                    {{ $instructor->id_number }}
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -253,16 +253,6 @@
                                                 @endforeach
                                             </tbody>
                                         </table>
-                                        {{-- <div class="flex justify-between px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                            <div class="text-left">
-                                                <x-jet-validation-errors class="mb-4" />
-                                            </div>
-                                            <div>
-                                                <x-jet-button class="ml-2" wire:click="create" wire:loading.attr="disabled">
-                                                    {{ __('Create') }}
-                                                </x-jet-button>
-                                            </div>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
@@ -305,18 +295,21 @@
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white divide-y divide-gray-200">
-                                        {{-- @foreach ($studentEvaluator->users as $user) --}}
+                                        @if ($peerCounts == 0)
+
+                                        @else
+                                        @foreach ($studentEvaluator->users as $user)
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="flex items-center">
                                                     <div class="ml-4">
-                                                        {{-- <div class="text-sm text-gray-500">{{ count($user->id) }}</div> --}}
-                                                        {{-- <div class="text-sm font-medium text-gray-900">{{ $user->id_number }}</div> --}}
+                                                        <div class="text-sm font-medium text-gray-900">{{ $user->id_number }}</div>
                                                     </div>
                                                 </div>
                                             </td>
                                         </tr>
-                                    {{-- @endforeach --}}
+                                        @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>

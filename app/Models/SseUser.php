@@ -13,4 +13,5 @@ class SseUser extends Model
         'user_id',
         'sse_id'
     ];
+    
 }

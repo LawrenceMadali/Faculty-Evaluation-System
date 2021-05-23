@@ -165,7 +165,6 @@ class PeerRaterForm extends Component
     {
         return view('livewire.peer-rater-form.peer-rater-form',[
             'questionairs'  => PeerQuestionairForm::all(),
-            // 'spes'          => Spe::with('users')->first()->dd(),
         ]);
     }
 }

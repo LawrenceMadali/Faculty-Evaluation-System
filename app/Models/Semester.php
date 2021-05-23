@@ -13,8 +13,4 @@ class Semester extends Model
         'semester',
     ];
 
-    public function user()
-    {
-        return $this->hasMany(User::class, '');
-    }
 }

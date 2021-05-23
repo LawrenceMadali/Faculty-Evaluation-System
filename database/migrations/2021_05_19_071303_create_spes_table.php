@@ -21,13 +21,6 @@ class CreateSpesTable extends Migration
             $table->foreignId('course_name_id')->constrained();
             $table->foreignId('subject_code_id')->constrained();
             $table->foreignId('year_and_section_id')->constrained();
-
-            // $table->string('school_year');
-            // $table->string('semester');
-            // $table->string('instructor');
-            // $table->string('course_name');
-            // $table->string('subject_code');
-            // $table->string('year_and_section');
             $table->timestamps();
         });
     }

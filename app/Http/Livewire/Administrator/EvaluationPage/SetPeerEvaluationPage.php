@@ -54,10 +54,8 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect100($value)
     {
-        // $studentCount = User::where('role_id', 5)->count();
-        // $percentage = 1 * $studentCount;
         if ($value) {
-            $this->selectedStudents = User::where('role_id', 5)
+            $this->selectedStudents = User::where('role_id', 4)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
         } else {
@@ -70,10 +68,10 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect80($value)
     {
-        $studentCount = User::where('role_id', 5)->count();
+        $studentCount = User::where('role_id', 4)->count();
         $percentage = .80 * $studentCount;
         if ($value) {
-            $this->selectedStudents = User::where('role_id', 5)->inRandomOrder()
+            $this->selectedStudents = User::where('role_id', 4)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -87,11 +85,11 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect60($value)
     {
-        $studentCount = User::where('role_id',5)->count();
+        $studentCount = User::where('role_id', 4)->count();
         $percentage = .60 * $studentCount;
 
         if ($value) {
-            $this->selectedStudents = User::where('role_id', 5)->inRandomOrder()
+            $this->selectedStudents = User::where('role_id', 4)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -105,11 +103,11 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect40($value)
     {
-        $studentCount = User::where('role_id',5)->count();
+        $studentCount = User::where('role_id', 4)->count();
         $percentage = .40 * $studentCount;
 
         if ($value) {
-            $this->selectedStudents = User::where('role_id', 5)->inRandomOrder()
+            $this->selectedStudents = User::where('role_id', 4)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -123,11 +121,11 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect20($value)
     {
-        $studentCount = User::where('role_id',5)->count();
+        $studentCount = User::where('role_id', 4)->count();
         $percentage = .20 * $studentCount;
 
         if ($value) {
-            $this->selectedStudents = User::where('role_id', 5)->inRandomOrder()
+            $this->selectedStudents = User::where('role_id', 4)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -142,10 +140,10 @@ class SetPeerEvaluationPage extends Component
     {
 
         if ($value) {
-            $studentCount = User::where('role_id', 5)->count();
+            $studentCount = User::where('role_id', 4)->count();
             $percentage = $studentCount * .10;
 
-            $this->selectedStudents = User::where('role_id', 5)->inRandomOrder()
+            $this->selectedStudents = User::where('role_id', 4)->inRandomOrder()
             ->take($percentage)
             ->pluck('id');
             // ->map(fn($id) => (string)$id)->toArray();
@@ -210,18 +208,16 @@ class SetPeerEvaluationPage extends Component
 
     public function render()
     {
-        // $speUser = User::find(1);
-        // dd($speUser->spes());
         return view('livewire.administrator.evaluation-page.set-peer-evaluation-page',[
             'instructors'   => User::where('role_id', 4)->get(),
-            'students'      => User::where('role_id', 5)->get(),
-            'studentCount'  => User::where('role_id', 5)->count(),
+            'studentCount'  => User::where('role_id', 4)->count(),
             'courses'       => CourseName::all(),
             'sems'          => Semester::all(),
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),
             'scs'           => SubjectCode::all(),
-            // 'studentEvaluator'=> Spe::with('users')->first(),
+            'studentEvaluator'=> Spe::with('users')->first(),
+            'peerCounts'    => Spe::count(),
             'spes'          => Spe::with('schoolYears', 'instructors', 'semesters',
                                          'courses', 'yearSections', 'subjectCodes')
             ->latest('id')

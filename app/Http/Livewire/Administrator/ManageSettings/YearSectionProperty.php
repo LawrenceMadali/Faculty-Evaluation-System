@@ -14,7 +14,7 @@ class YearSectionProperty extends Component
     public $user_id;
 
     protected $rules = [
-        'year_and_section'  => 'required|unique:year_and_sections',
+        'year_and_section'  => 'required',
         'user_id'    => 'required'
     ];
 

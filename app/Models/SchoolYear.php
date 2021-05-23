@@ -17,4 +17,9 @@ class SchoolYear extends Model
     {
         return $this->hasMany(Spe::class);
     }
+
+    public function sse()
+    {
+        return $this->hasMany(Spe::class);
+    }
 }

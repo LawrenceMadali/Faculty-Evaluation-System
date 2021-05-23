@@ -101,7 +101,7 @@ class User extends Authenticatable
     }
     public function spes()
     {
-        return $this->belongsToMany(Spe::class, 'spe_users', 'user_id', 'spe_id');
+        return $this->belongsToMany(Spe::class, 'spe_users');
     }
 
 

@@ -50,7 +50,7 @@ class Spe extends Model
 
     public function yearSections()
     {
-        return $this->belongsTo(YearAndSection::Class, 'year_and_section_id');
+        return $this->belongsTo(YearAndSection::class, 'year_and_section_id');
     }
 
     public function subjectCodes()
