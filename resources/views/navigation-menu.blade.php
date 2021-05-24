@@ -88,7 +88,8 @@
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative flex items-center">
                     <div class="px-3 py-2 text-sm text-center">
-                        <div class="text-sm text-gray-100 block">{{ Auth::user()->name }}</div>
+                        <div class="text-sm text-gray-100">
+                            {{ Auth::user()->last_name }}, {{ Auth::user()->first_name }} {{ Auth::user()->middle_initial }}</div>
                             @switch(Auth::user()->role_id)
                                 @case(1)
                                     <div class="text-xs text-gray-300 block">Administrator</div>
@@ -114,7 +115,7 @@
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <div>
                                     <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
-                                        <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                        <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->first_name }}" />
                                     </button>
                                 </div>
                             @endif
@@ -125,7 +126,7 @@
                             <div class="block px-4 py-2 text-xs text-gray-400">
                                 {{ __('Manage Account') }}
                             </div>
-                            @if (in_array(Auth::user()->role_id, [1, 2, 3]))
+                            @if (in_array(Auth::user()->role_id, [1, 2, 3, 6]))
                                 <x-jet-dropdown-link href="{{ route('dashboard') }}">
                                     {{ __('Dashboard') }}
                                 </x-jet-dropdown-link>
@@ -176,12 +177,12 @@
                 {{ __('Home') }}
             </x-jet-responsive-nav-link>
 
-            @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
+            @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 4)
                 <x-jet-responsive-nav-link href="{{ route('peerRaterForm') }}" :active="request()->routeIs('peerRaterForm')">
                     {{__('Peer to Peer')}}
                 </x-jet-responsive-nav-link>
             @endif
-            @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 3)
+            @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 5)
                 <x-jet-responsive-nav-link href="{{ route('studentRaterForm') }}" :active="request()->routeIs('studentRaterForm')">
                     {{__('Student Rater Form')}}
             </x-jet-responsive-nav-link>
@@ -195,12 +196,12 @@
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div class="flex-shrink-0 mr-3">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->first_name }}" />
                     </div>
                 @endif
 
                 <div>
-                    <div class="font-medium text-base text-gray-200">{{ Auth::user()->name }}</div>
+                    <div class="font-medium text-base text-gray-200">{{ Auth::user()->last_name }}, {{ Auth::user()->first_name }} {{ Auth::user()->middle_initial }}</div>
                     <div class="font-medium text-sm text-gray-400">{{ Auth::user()->email }}</div>
                 </div>
             </div>
@@ -211,9 +212,9 @@
                     {{ __('Profile') }}
                 </x-jet-responsive-nav-link>
 
-                @if (in_array(Auth::user()->role_id, [1, 2, 3]))
+                @if (in_array(Auth::user()->role_id, [1, 2, 3, 6]))
                     <x-jet-responsive-nav-link href="{{ route('dashboard') }}">
-                        {{ __('Administrator') }}
+                        {{ __('Dashboard') }}
                     </x-jet-responsive-nav-link>
                 @endif
 

@@ -24,7 +24,7 @@ class YearSectionProperty extends Component
 
         YearAndSection::create([
             'year_and_section'  => $this->year_and_section,
-            'user_id'    => $this->user_id
+            'user_id'    => $this->user_id,
         ]);
         $this->reset();
         $this->resetValidation();

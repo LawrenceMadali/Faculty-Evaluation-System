@@ -1,8 +1,8 @@
 <div class="flex items-center space-x-4">
     <div class="ml-3 relative flex items-center">
         <div class="px-3 py-2 text-sm text-center">
-            <div class="text-sm text-gray-800 block">{{ Auth::user()->name }}</div>
             <div class="text-sm text-gray-800 block">
+                {{ Auth::user()->last_name }}, {{ Auth::user()->first_name }} {{ Auth::user()->middle_initial }}</div>
                 @switch(Auth::user()->role_id)
                     @case(1)
                         <div class="text-xs text-gray-400 block">Administrator</div>
@@ -21,14 +21,13 @@
                         @break
                     @default
                 @endswitch
-            </div>
         </div>
         <x-jet-dropdown align="right">
             <x-slot name="trigger">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div>
                         <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
-                            <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                            <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->first_name }}" />
                         </button>
                     </div>
                 @endif

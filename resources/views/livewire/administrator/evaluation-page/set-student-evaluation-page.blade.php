@@ -50,7 +50,6 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject Code</th>
-                            <th scope="col" class="relative px-6 py-3"><span class="sr-only">View</span></th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -79,9 +78,6 @@
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $spe->subjectCodes->subject_code }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button wire:click="$toggle('viewModal')" class="text-indigo-600 hover:text-indigo-900">View</button>
                         </td>
                     </tr>
                     @endforeach
@@ -273,60 +269,5 @@
                 </x-jet-button>
             </x-slot>
         </x-jet-dialog-modal>
-
-        {{-------------------------------------------------- View modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="viewModal">
-            <x-slot name="title">
-                <label class="block text-sm font-medium text-gray-700">
-                    Evaluator
-                </label>
-            </x-slot>
-
-            <x-slot name="content">
-                <div class="flex flex-col">
-                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Number</th>
-                                            <th scope="col" class="relative px-6 py-3"><span class="sr-only">View</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white divide-y divide-gray-200">
-                                        @if ($counts == 0)
-
-                                        @else
-                                        @foreach ($studentEvaluator->users as $user)
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="ml-4">
-                                                        {{-- <div class="text-sm text-gray-500">{{ count($user->id) }}</div> --}}
-                                                        <div class="text-sm font-medium text-gray-900">{{ $user->id_number }}</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </x-slot>
-                <x-slot name="footer">
-                <div class="text-left">
-                    <x-jet-validation-errors class="mb-4" />
-                </div>
-                <x-jet-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
-                    {{ __('Okay') }}
-                </x-jet-secondary-button>
-            </x-slot>
-        </x-jet-dialog-modal>
-
     </div>
 </div>

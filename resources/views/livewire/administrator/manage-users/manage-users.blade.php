@@ -92,6 +92,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> id number </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> name </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> year & section </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> college </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> status </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Role </th>
@@ -110,17 +111,18 @@
                                     </td>
 
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10">
-                                            <img class="h-10 w-10 rounded-full" src="{{ $user->profile_photo_url }}" alt="">
+                                        <div class="flex items-center">
+                                            <div class="flex-shrink-0 h-10 w-10">
+                                                <img class="h-10 w-10 rounded-full" src="{{ $user->profile_photo_url }}" alt="">
+                                            </div>
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900"> {{ $user->name }} </div>
+                                                <div class="text-sm text-gray-500"> {{ $user->email }} </div>
+                                            </div>
                                         </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-gray-900"> {{ $user->name }} </div>
-                                            <div class="text-sm text-gray-500"> {{ $user->email }} </div>
-                                        </div>
-                                    </div>
                                     </td>
 
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->year_and_section_id }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->college }} </td>
 
                                     <td class="px-6 py-4 whitespace-nowrap">
@@ -338,9 +340,9 @@
         {{-------------------------------------------------- Import Modal --------------------------------------------------}}
         <x-jet-dialog-modal wire:model.defer="importModal">
             <x-slot name="title">
-                <label class="block text-sm font-medium text-gray-700">
-                    Import user
-                </label>
+                <p class="text-sm text-yellow-700 bg-yellow-200 p-2 rounded-lg">
+                    <span class="text-red-400">*</span>Note: Please check the excel file headings with matching fields in the table below.
+                </p>
             </x-slot>
 
             <x-slot name="content">
@@ -350,14 +352,11 @@
                         <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         <div class="flex text-sm text-gray-600">
                         <label for="studentFile" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                            <span>Upload a file</span>
+                            <span>Import a file</span>
                             <input wire:model="studentFile" id="studentFile" type="file" class="sr-only">
                         </label>
                         <p class="pl-1">or drag and drop</p>
                         </div>
-                        <p class="text-sm text-yellow-700 bg-yellow-100 p-2 rounded-lg">
-                            <span class="text-red-400">*</span>Note: Please check the excel file headings with matching fields in the table below.</p>
-                        {{-- <x-jet-input-error for="studentFile"/> --}}
                         <x-jet-validation-errors class="mb-4" />
                         <div wire:loading class="text-sm text-green-700 px-2 bg-green-200 rounded-md">
                             Please wait

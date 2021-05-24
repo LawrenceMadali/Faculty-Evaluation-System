@@ -20,12 +20,10 @@ class SetStudentEvaluationPage extends Component
     use WithPagination;
 
     public $openModal = false;
-    public $viewModal = false;
 
     public function closeModal()
     {
         $this->openModal = false;
-        $this->viewModal = false;
         $this->reset();
         $this->resetValidation();
     }
@@ -208,10 +206,6 @@ class SetStudentEvaluationPage extends Component
 
     public function render()
     {
-        $peer = Sse::find(1);
-        // $peer->users();
-        dd($peer->users);
-
         return view('livewire.administrator.evaluation-page.set-student-evaluation-page',[
             'instructors'   => User::where('role_id', 4)->get(),
             'students'      => User::where('role_id', 5)->get(),
@@ -221,7 +215,6 @@ class SetStudentEvaluationPage extends Component
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),
             'scs'           => SubjectCode::all(),
-            'studentEvaluator'=> Sse::with('users')->first(),
             'counts'        => Sse::count(),
             'spes'          => Sse::with('schoolYears', 'instructors', 'semesters',
                                          'courses', 'yearSections', 'subjectCodes')

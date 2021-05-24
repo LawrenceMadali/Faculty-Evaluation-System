@@ -26,16 +26,21 @@ class ManageUsers extends Component
 
     public $role_id;
     public $id_number;
-    public $name;
+    public $first_name;
+    public $last_name;
+    public $middle_initial;
     public $email;
     public $college;
+    public $year_and_section_id;
     public $status = true;
 
     protected $rules = [
-        'role_id'   => 'required',
-        'id_number' => 'required|unique:users',
-        'name'      => 'required',
-        'email'     => 'required|email',
+        'role_id'       => 'required',
+        'id_number'     => 'required|unique:users',
+        'first_name'    => 'required',
+        'last_name'     => 'required',
+        'middle_initial'=> 'required',
+        'email'         => 'required|email',
     ];
 
     public function create()
@@ -43,7 +48,7 @@ class ManageUsers extends Component
         $users = $this->validate();
 
         User::create($users + [
-            'password'  => bcrypt('ursbinangonanpassword'),
+            'password'  => bcrypt('urspassword'),
         ]);
         $this->reset();
         $this->resetValidation();
@@ -63,13 +68,15 @@ class ManageUsers extends Component
     public function editOpenModal($id)
     {
         $this->deanId = $id;
-        $deanId             = User::find($this->deanId);
-        $this->role_id      = $deanId->role_id;
-        $this->id_number    = $deanId->id_number;
-        $this->name         = $deanId->name;
-        $this->email        = $deanId->email;
-        $this->college      = $deanId->college;
-        $this->status       = $deanId->status;
+        $deanId                 = User::find($this->deanId);
+        $this->role_id          = $deanId->role_id;
+        $this->id_number        = $deanId->id_number;
+        $this->first_name       = $deanId->first_name;
+        $this->last_name        = $deanId->last_name;
+        $this->middle_initial   = $deanId->middle_initial;
+        $this->email            = $deanId->email;
+        $this->college          = $deanId->college;
+        $this->status           = $deanId->status;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -78,11 +85,13 @@ class ManageUsers extends Component
     public function update()
     {
         $users = $this->validate([
-            'role_id'   => 'required',
-            'id_number' => 'required',
-            'name'      => 'required',
-            'email'     => 'required|email',
-            'status'    => 'required',
+            'role_id'       => 'required',
+            'id_number'     => 'required',
+            'first_name'    => 'required',
+            'last_name'     => 'required',
+            'middle_initial'=> 'required',
+            'email'         => 'required|email',
+            'status'        => 'required',
             ]);
             User::find($this->deanId)->update($users);
             $this->reset();
@@ -103,7 +112,6 @@ class ManageUsers extends Component
 
     public function importStudent()
     {
-        // dd($this->studentFile);
         $this->validate([
             'studentFile' => 'required|mimes:xlsx, xls'
         ]);
@@ -121,6 +129,7 @@ class ManageUsers extends Component
             'users'     => User::search($this->search)
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
             ->paginate($this->perPage),
+            // 'yrAndSections'  => User::with('yrAndSec')->get(),
         ]);
     }
 }

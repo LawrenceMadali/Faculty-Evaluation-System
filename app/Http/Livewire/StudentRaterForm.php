@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Sse;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\StudentRatingForm;
+use Illuminate\Support\Facades\Auth;
 
 class StudentRaterForm extends Component
 {
@@ -157,13 +159,21 @@ class StudentRaterForm extends Component
 
 
         session()->flash('message', 'Your response will be recorded.');
-        $this->reset();
+        $this->reset(); 
     }
 
 
     public function render()
     {
-        return view('livewire.student-rater-form.student-rater-form');
+        // $instructors = auth()->user();
+        // $name = $instructors->sses();
+        // dd($name);
+
+
+        return view('livewire.student-rater-form.student-rater-form',[
+            'sse'   => Sse::count(),
+            'assignInstructors' => auth()->user(),
+        ]);
     }
 
 }

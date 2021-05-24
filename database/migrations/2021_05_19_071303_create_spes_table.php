@@ -15,6 +15,7 @@ class CreateSpesTable extends Migration
     {
         Schema::create('spes', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->foreignId('school_year_id')->constrained();
             $table->foreignId('semester_id')->constrained();
             $table->foreignId('user_id')->constrained();

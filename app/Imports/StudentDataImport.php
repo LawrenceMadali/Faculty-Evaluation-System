@@ -15,11 +15,13 @@ WithValidation
     public function rules(): array
     {
         return [
-            'id_number' => 'required|unique:users',
-            'role_id'   => 'required',
-            'name'      => 'required',
-            'email'     => 'required|email',
-            'password'  => 'required',
+            'id_number'     => 'required|unique:users',
+            'role_id'       => 'required',
+            'first_name'    => 'required',
+            'last_name'     => 'required',
+            'email'         => 'required|email',
+            'password'      => 'required',
+            'year_and_section_id'  => 'required',
         ];
     }
     /**
@@ -30,12 +32,15 @@ WithValidation
     public function model(array $row)
     {
         return new User([
-            'id_number' => $row['id_number'],
-            'role_id'   => $row['role_id'],
-            'name'      => $row['name'],
-            'email'     => $row['email'],
-            'college'   => $row['college'] ?? null,
-            'password'  => Hash::make($row['password'])
+            'id_number'             => $row['id_number'],
+            'role_id'               => $row['role_id'],
+            'first_name'            => $row['first_name'],
+            'last_name'             => $row['last_name'],
+            'middle_initial'        => $row['middle_initial'],
+            'email'                 => $row['email'],
+            'college'               => $row['college'] ?? null,
+            'year_and_section_id'   => $row['year_and_section_id'],
+            'password'              => Hash::make($row['password']),
         ]);
     }
 }

@@ -36,7 +36,6 @@ class User extends Authenticatable
         'college',
         'email',
         'status',
-        'password',
     ];
 
     /**
@@ -75,7 +74,9 @@ class User extends Authenticatable
         ? static::query()
         : static::query()
         ->where('id_number', 'LIKE' , '%'.$search.'%')
-        ->orWhere('name', 'LIKE' , '%'.$search.'%')
+        ->orWhere('first_name', 'LIKE' , '%'.$search.'%')
+        ->orWhere('last_name', 'LIKE' , '%'.$search.'%')
+        ->orWhere('middle_initial', 'LIKE' , '%'.$search.'%')
         ->orWhere('email', 'LIKE' , '%'.$search.'%')
         ->orwhere('created_at', 'LIKE' , '%'.$search.'%');
     }
@@ -97,11 +98,17 @@ class User extends Authenticatable
 
     public function yrAndSec()
     {
-        return $this->hasMany(YearAndSection::class);
+        return $this->hasMany(YearAndSection::class, 'year_and_section_id');
     }
+
     public function spes()
     {
         return $this->belongsToMany(Spe::class, 'spe_users');
+    }
+
+    public function sses()
+    {
+        return $this->belongsToMany(Sse::class, 'sse_users');
     }
 
 

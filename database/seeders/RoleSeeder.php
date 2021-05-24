@@ -20,6 +20,6 @@ class RoleSeeder extends Seeder
         Role::create(['name'=>'Secretary']);
         Role::create(['name'=>'Instructor']);
         Role::create(['name'=>'Student']);
-        Role::create(['name'=>'Human Resource']);
+        Role::create(['name'=>'HR']);
     }
 }
