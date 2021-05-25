@@ -11,7 +11,7 @@ class CourseName extends Model
     use HasFactory;
     // public $table = 'courses';
 
-    protected $fillable = ['course'];
+    protected $fillable = ['name'];
 
     public function subjectCode()
     {

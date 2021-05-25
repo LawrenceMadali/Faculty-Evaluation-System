@@ -5,9 +5,11 @@ namespace App\Http\Livewire\Administrator\ManageUsers;
 use App\Models\User;
 use App\Models\College;
 use Livewire\Component;
+use App\Models\UserStatus;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
-use App\Imports\StudentDataImport;
+use App\Models\YearAndSection;
+use App\Imports\UserDataImport;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ManageUsers extends Component
@@ -26,21 +28,23 @@ class ManageUsers extends Component
 
     public $role_id;
     public $id_number;
-    public $first_name;
-    public $last_name;
-    public $middle_initial;
+    public $name;
     public $email;
-    public $college;
+    public $college_id;
     public $year_and_section_id;
-    public $status = true;
+    public $user_status_id;
 
     protected $rules = [
         'role_id'       => 'required',
         'id_number'     => 'required|unique:users',
-        'first_name'    => 'required',
-        'last_name'     => 'required',
-        'middle_initial'=> 'required',
+        'name'          => 'required',
         'email'         => 'required|email',
+        'user_status_id'=> 'required',
+    ];
+    
+    protected $messages = [
+        'user_status_id.required' => 'This user status field is required',
+        'role_id.required' => 'This role field is required',
     ];
 
     public function create()
@@ -48,7 +52,9 @@ class ManageUsers extends Component
         $users = $this->validate();
 
         User::create($users + [
-            'password'  => bcrypt('urspassword'),
+            'college_id'            => $this->college_id,
+            'year_and_section_id'   => $this->year_and_section_id,
+            'password'              => bcrypt('urspassword'),
         ]);
         $this->reset();
         $this->resetValidation();
@@ -68,15 +74,14 @@ class ManageUsers extends Component
     public function editOpenModal($id)
     {
         $this->deanId = $id;
-        $deanId                 = User::find($this->deanId);
-        $this->role_id          = $deanId->role_id;
-        $this->id_number        = $deanId->id_number;
-        $this->first_name       = $deanId->first_name;
-        $this->last_name        = $deanId->last_name;
-        $this->middle_initial   = $deanId->middle_initial;
-        $this->email            = $deanId->email;
-        $this->college          = $deanId->college;
-        $this->status           = $deanId->status;
+        $deanId                     = User::find($this->deanId);
+        $this->role_id              = $deanId->role_id;
+        $this->id_number            = $deanId->id_number;
+        $this->name                 = $deanId->name;
+        $this->email                = $deanId->email;
+        $this->college_id           = $deanId->college_id;
+        $this->year_and_section_id  = $deanId->year_and_section_id   ;
+        $this->user_status_id       = $deanId->user_status_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -85,15 +90,17 @@ class ManageUsers extends Component
     public function update()
     {
         $users = $this->validate([
-            'role_id'       => 'required',
-            'id_number'     => 'required',
-            'first_name'    => 'required',
-            'last_name'     => 'required',
-            'middle_initial'=> 'required',
-            'email'         => 'required|email',
-            'status'        => 'required',
+            'role_id'           => 'required',
+            'id_number'         => 'required',
+            'name'              => 'required',
+            'email'             => 'required|email',
+            'user_status_id'    => 'required',
             ]);
-            User::find($this->deanId)->update($users);
+            User::find($this->deanId)->update($users + [
+                'college_id'            => $this->college_id,
+                'user_status_id'        => $this->college_id,
+                'year_and_section_id'   => $this->year_and_section_id,
+            ]);
             $this->reset();
             $this->resetValidation();
             $this->emit('updated');
@@ -116,7 +123,7 @@ class ManageUsers extends Component
             'studentFile' => 'required|mimes:xlsx, xls'
         ]);
 
-        Excel::import(new StudentDataImport, $this->studentFile);
+        Excel::import(new UserDataImport, $this->studentFile);
         $this->reset();
         $this->resetValidation();
         $this->emit('import');
@@ -125,11 +132,13 @@ class ManageUsers extends Component
     public function render()
     {
         return view('livewire.administrator.manage-users.manage-users', [
-            'colleges'  => College::all(),
-            'users'     => User::search($this->search)
+            'colleges'          => College::all(),
+            'yearAndSections'   => YearAndSection::all(),
+            'studentStatuses'   => UserStatus::all(),
+            'users'             => User::with('yearAndSections', 'colleges', 'roles', 'userStatuses'),
+            'users'             => User::search($this->search)
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
             ->paginate($this->perPage),
-            // 'yrAndSections'  => User::with('yrAndSec')->get(),
         ]);
     }
 }

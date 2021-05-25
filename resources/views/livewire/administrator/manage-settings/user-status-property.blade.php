@@ -1,6 +1,6 @@
 <div>
     <div class="space-y-2">
-    {{-------------------------------------------------- Success message for Create --------------------------------------------------}}
+        {{-------------------------------------------------- Success message for Create --------------------------------------------------}}
         <x-jet-action-message on="added" class="w-full text-white bg-green-500 rounded-lg ">
             <div class="container flex items-center justify-between px-6 py-4 mx-auto">
                 <div class="flex items-center">
@@ -28,7 +28,7 @@
         <div class="flex justify-start items-center">
             <x-jet-button wire:click.prevent="createOpenModal">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                Add Year and Section
+                Add User Status
             </x-jet-button>
         </div>
 
@@ -40,29 +40,29 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Id </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Year & Section </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated at </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> ID </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Status name </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created At </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated At </th>
                                 <th scope="col" class="relative px-6 py-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
                             </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
-                                @forelse ($yrSecs as $yrSec)
+                                @forelse ($statuses as $status)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->id }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->created_at->ToFormattedDateString() }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->updated_at->ToFormattedDateString() }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm font-medium text-gray-900"> {{ $status->id }} </div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm font-medium text-gray-900"> {{ $status->name }} </div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm font-medium text-gray-900"> {{ $status->created_at->ToFormattedDateString() }} </div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm font-medium text-gray-900"> {{ $status->updated_at->ToFormattedDateString() }} </div></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                    <button wire:click="editOpenModal({{$yrSec->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
+                                        <button wire:click="editOpenModal({{ $status->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="4">
                                         <div class="flex justify-center items-center space-x-2">
                                             <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                             <span class="text-xl text-gray-400 font-medium py-8">No results yet...</span>
@@ -74,27 +74,24 @@
                         </table>
                     </div>
                     <div>
-                        {{ $yrSecs->links() }}
+                        {{ $statuses->links() }}
                     </div>
                 </div>
                 </div>
             </div>
         </div>
-
         {{-------------------------------------------------- Create Modal --------------------------------------------------}}
         <x-jet-dialog-modal wire:model.defer="createModal">
             <x-slot name="title">
-                {{ __('Add Year and Section') }}
+                {{ __('Add New Status') }}
             </x-slot>
 
             <x-slot name="content">
                 <form wire:submit.prevent="create">
-                    <div class="space-y-4">
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Year and Section</label>
-                            <input wire:model.lazy="name" type="text" placeholder="e.g. 3-1, 3-2, 3-3 etc." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="name"/>
-                        </div>
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium text-gray-700">User Status</label>
+                        <input wire:model.lazy="name" type="text" placeholder="Enrolled, Unenrolled etc." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <x-jet-input-error for="name"/>
                     </div>
                 </form>
             </x-slot>
@@ -113,13 +110,13 @@
         {{-------------------------------------------------- Edit Modal --------------------------------------------------}}
         <x-jet-dialog-modal wire:model.defer="editModal">
             <x-slot name="title">
-                {{ __('Edit Course') }}
+                {{ __('Edit Student Status') }}
             </x-slot>
 
             <x-slot name="content">
                 <form wire:submit.prevent="update">
                     <div class="col-span-6">
-                        <label class="block text-sm font-medium text-gray-700">Year and Section</label>
+                        <label class="block text-sm font-medium text-gray-700">User Status</label>
                         <input wire:model.lazy="name" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                         <x-jet-input-error for="name"/>
                     </div>

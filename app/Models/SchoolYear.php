@@ -10,7 +10,7 @@ class SchoolYear extends Model
     use HasFactory;
 
     protected $fillable = [
-        'school_year',
+        'name',
     ];
 
     public function spe()

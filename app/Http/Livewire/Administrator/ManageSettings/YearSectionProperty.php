@@ -4,18 +4,20 @@ namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 use App\Models\YearAndSection;
 
 class YearSectionProperty extends Component
 {
-    public $year_and_section;
+    use WithPagination;
+
+    public $name;
     public $createModal = false;
     public $editModal = false;
     public $user_id;
 
     protected $rules = [
-        'year_and_section'  => 'required',
-        'user_id'    => 'required'
+        'name'      => 'required',
     ];
 
     public function create()
@@ -23,8 +25,7 @@ class YearSectionProperty extends Component
         $this->validate();
 
         YearAndSection::create([
-            'year_and_section'  => $this->year_and_section,
-            'user_id'    => $this->user_id,
+            'name'  => $this->name,
         ]);
         $this->reset();
         $this->resetValidation();
@@ -44,7 +45,7 @@ class YearSectionProperty extends Component
     {
         $this->yrSec = $id;
         $yrSec = YearAndSection::find($this->yrSec);
-        $this->year_and_section = $yrSec->year_and_section;
+        $this->name = $yrSec->name;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -53,7 +54,7 @@ class YearSectionProperty extends Component
     public function update()
     {
         $yearNsection = $this->validate([
-            'year_and_section' => 'required'
+            'name' => 'required'
         ]);
         YearAndSection::find($this->yrSec)->update($yearNsection);
         $this->reset();
@@ -65,33 +66,15 @@ class YearSectionProperty extends Component
     {
         $this->editModal = false;
         $this->createModal = false;
-        $this->deleteModal = false;
         $this->reset();
         $this->resetValidation();
     }
 
-    public $deleteModal = false;
-
-    public function deleteOpenModal($id)
-    {
-        $this->yrSec = $id;
-        $this->deleteModal = true;
-    }
-
-    public function delete()
-    {
-        YearAndSection::destroy($this->yrSec);
-        $this->reset();
-        $this->emit('deleted');
-    }
 
     public function render()
     {
         return view('livewire.administrator.manage-settings.year-section-property', [
-            'yrSecs'=> YearAndSection::with('users')
-            ->latest('id')
-            ->paginate(5),
-            'instructors' => User::where('role_id', 4)->get(),
+            'yrSecs'=> YearAndSection::paginate(5),
         ]);
     }
 }

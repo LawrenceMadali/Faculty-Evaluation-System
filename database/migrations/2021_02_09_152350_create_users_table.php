@@ -17,13 +17,11 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->foreignId('role_id')->constrained();
             $table->bigInteger('id_number');
-            $table->string('first_name');
-            $table->string('last_name');
-            $table->string('middle_initial');
+            $table->string('name');
             $table->string('email')->unique();
-            $table->string('college')->nullable();
-            // $table->foreignId('year_and_section_id')->nullable()->constrained();
-            $table->boolean('status')->default(true);
+            $table->foreignId('year_and_section_id')->nullable()->constrained();
+            $table->foreignId('college_id')->nullable()->constrained();
+            $table->foreignId('user_status_id')->nullable()->constrained();
             $table->string('password');
             $table->rememberToken();
             $table->text('profile_photo_path')->nullable();

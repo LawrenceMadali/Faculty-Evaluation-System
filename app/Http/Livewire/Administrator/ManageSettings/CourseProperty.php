@@ -13,12 +13,12 @@ class CourseProperty extends Component
 {
     use WithPagination;
 
-    public $course;
+    public $name;
     public $createModal = false;
     public $editModal = false;
 
     protected $rules = [
-        'course' => 'required|unique:course_names',
+        'name' => 'required|unique:course_names',
     ];
 
     public function create()
@@ -26,7 +26,7 @@ class CourseProperty extends Component
         $this->validate();
 
         CourseName::create([
-            'course' => $this->course,
+            'name' => $this->name,
         ]);
         $this->reset();
         $this->resetValidation();
@@ -46,7 +46,7 @@ class CourseProperty extends Component
     {
         $this->crs = $id;
         $crs = CourseName::find($this->crs);
-        $this->course = $crs->course;
+        $this->name = $crs->name;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -56,7 +56,7 @@ class CourseProperty extends Component
     public function update()
     {
         $course = $this->validate([
-            'course' => 'required'
+            'name' => 'required'
             ]);
             CourseName::find($this->crs)->update($course);
             $this->reset();
@@ -68,30 +68,14 @@ class CourseProperty extends Component
     {
         $this->createModal = false;
         $this->editModal = false;
-        $this->deleteModal = false;
         $this->reset();
         $this->resetValidation();
-    }
-
-    public $deleteModal = false;
-
-    public function deleteOpenModal($id)
-    {
-        $this->crs = $id;
-        $this->deleteModal = true;
-    }
-
-    public function delete()
-    {
-        CourseName::destroy($this->crs);
-        $this->reset();
-        $this->emit('deleted');
     }
 
     public function render()
     {
         return view('livewire.administrator.manage-settings.course-property',[
-            'courses' => CourseName::latest('id')->paginate(5),
+            'courses' => CourseName::paginate(5),
         ]);
     }
 }

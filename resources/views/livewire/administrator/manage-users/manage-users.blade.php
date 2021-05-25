@@ -59,9 +59,10 @@
                     <select wire:model="sortField" class="text-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                         <option value="created_at">Created at</option>
                         <option value="id_number">Id number</option>
+                        <option value="year_and_section_id">Year and Section</option>
                         <option value="name">Name</option>
                         <option value="role_id">Role</option>
-                        <option value="status">Status</option>
+                        <option value="user_status_id">Status</option>
                     </select>
                 </div>
                 <div class="relative inline-flex">
@@ -112,60 +113,26 @@
 
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
-                                            <div class="flex-shrink-0 h-10 w-10">
-                                                <img class="h-10 w-10 rounded-full" src="{{ $user->profile_photo_url }}" alt="">
-                                            </div>
-                                            <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900"> {{ $user->name }} </div>
+                                            <div class="flex-shrink-0 h-10 w-10"> <img class="h-10 w-10 rounded-full" src="{{ $user->profile_photo_url }}" alt="{{ Auth::user()->name }}"> </div>
+                                            <div class="ml-4"> 
+                                                <div class="text-sm font-medium text-gray-900"> {{ $user->name }} </div> 
                                                 <div class="text-sm text-gray-500"> {{ $user->email }} </div>
                                             </div>
                                         </div>
                                     </td>
-
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->year_and_section_id }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->college }} </td>
-
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if (in_array($user->role_id, [1, 2, 4]))
-                                            @if ($user->status === 1)
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"> Regular </span>
-                                            @elseif ($user->status === 0)
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"> Part time </span>
-                                            @endif
-                                        @elseif ($user->role_id === 3)
-                                            @if ($user->status === 1)
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"> Staff </span>
-                                            @endif
-                                        @elseif ($user->role_id === 5)
-                                            @if ($user->status === 1)
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800"> Enrolled </span>
-                                            @elseif ($user->status === 0)
-                                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800"> Pending </span>
-                                            @endif
-                                        @endif
-                                    </td>
-                                    @if ( $user->role_id === 1 )
-                                        <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> Admin </td>
-                                    @elseif ( $user->role_id === 2 )
-                                        <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> Dean </td>
-                                    @elseif ( $user->role_id === 3 )
-                                        <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> Secretary </td>
-                                    @elseif ( $user->role_id === 4 )
-                                        <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> Instructor </td>
-                                    @elseif ( $user->role_id === 5 )
-                                        <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> Student </td>
-                                    @elseif ( $user->role_id === 6 )
-                                        <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> Human Resource </td>
-                                    @endif
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->year_and_section_id === null ? 'null' : $user->yearAndSections->name  }} </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->college_id === null ? 'null' : $user->colleges->name }} </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->user_status_id == null ? 'null' : $user->userStatuses->name }} </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> {{ $user->roles->name }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div> </td>
                                     <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div> </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     @if (!in_array(auth()->user()->role_id, [1]))
                                         @if (in_array($user->role_id, [1]))
                                         @else
-                                        <button wire:click.prevent="editOpenModal({{$user->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
+                                            <button wire:click.prevent="editOpenModal({{$user->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
                                         @endif
-                                        @else
+                                    @else
                                         <button wire:click.prevent="editOpenModal({{$user->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
                                     @endif
                                 </td>
@@ -209,7 +176,7 @@
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Role</label>
                             <select x-model="role_id" wire:model="role_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option>-- choose role --</option>
+                                <option value="null">-- choose role --</option>
                                 <option value="2">Dean</option>
                                 <option value="3">Secretary</option>
                                 <option value="4">Instructor</option>
@@ -234,14 +201,35 @@
                             <input wire:model.lazy="email" placeholder="e.g. JohnDoe@example.com" type="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-jet-input-error for="email"/>
                         </div>
-                        <div x-show="role_id == 2 || role_id == 4" class="col-span-6">
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Status</label>
+                            <select wire:model="user_status_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose status --</option>
+                                @foreach ($studentStatuses as $Ss)
+                                <option value="{{ $Ss->id }}">{{ $Ss->name }}</option>
+                                @endforeach
+                            </select>
+                            <x-jet-input-error for="user_status_id"/>
+                        </div>
+                        <div x-show="role_id == 2 || role_id == 4 || role_id == 5" class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">College</label>
-                            <select wire:model="college" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select wire:model="college_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose college --</option>
                                 @foreach ($colleges as $college)
-                                <option value="{{ $college->college }}">{{ $college->college }}</option>
+                                <option value="{{ $college->id }}">{{ $college->name }}</option>
                                 @endforeach
                             </select>
                             <x-jet-input-error for="college"/>
+                        </div>
+                        <div x-show="role_id == 4 || role_id == 5" class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Year and Section</label>
+                            <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose college --</option>
+                                @foreach ($yearAndSections as $yearAndSection)
+                                <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->name }}</option>
+                                @endforeach
+                            </select>
+                            <x-jet-input-error for="year_and_section_id"/>
                         </div>
                     </div>
                 </form>
@@ -268,11 +256,10 @@
                 <form wire:submit.prevent="update" x-data="{role: 1}">
                     <div class="space-y-4">
                         @if ($role_id == 1)
-
                         @else
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Role</label>
-                            <select x-model="role" wire:model="role_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select wire:model="role_id" x-model="role_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option>-- choose role --</option>
                                 <option value="2">Dean</option>
                                 <option value="3">Secretary</option>
@@ -299,27 +286,26 @@
                             <input wire:model.lazy="email" type="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-jet-input-error for="email"/>
                         </div>
-                        @if (in_array($role_id ,[1,3]))
-                        @else
-                        <div class="col-span-6" x-show="role == 2" >
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Status</label>
+                            <select wire:model="user_status_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose status --</option>
+                                @foreach ($studentStatuses as $Ss)
+                                <option value="{{ $Ss->id }}">{{ $Ss->name }}</option>
+                                @endforeach
+                            </select>
+                            <x-jet-input-error for="user_status_id"/>
+                        </div>
+                        @if (!in_array($role_id ,[1,3]))
+                        <div class="col-span-6" x-show="role_id == 2 || role_id == 4 || role_id == 5" >
                             <label class="block text-sm font-medium text-gray-700">College</label>
-                            <select wire:model="college" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select wire:model="college_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose college --</option>
                                 @foreach ($colleges as $college)
-                                <option value="{{ $college->college }}">{{ $college->college }}</option>
+                                <option value="{{ $college->id }}">{{ $college->name }}</option>
                                 @endforeach
                             </select>
                             <x-jet-input-error for="college"/>
-                        </div>
-                        @endif
-                        @if (in_array($role_id, [1,2,3]))
-                        @else
-                        <div class="col-span-6">
-                            <div class="flex items-center">
-                                <x-srf-form.radio-input model="status" name="status" id="1A2" for="1A2" value="1"> {{ $role_id == 4 ? 'Regular' : 'Enrolled'}} </x-srf-form.radio-input>
-                            </div>
-                            <div class="flex items-center">
-                                <x-srf-form.radio-input model="status" name="status" id="1A1" for="1A1" value="0"> {{ $role_id == 4 ? 'Part time' : 'Pending'}} </x-srf-form.radio-input>
-                            </div>
                         </div>
                         @endif
                     </div>

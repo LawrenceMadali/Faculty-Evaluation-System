@@ -21,6 +21,9 @@
         {{-- ------------------------------------------------ Year and Section ------------------------------------------------}}
         @livewire('administrator.manage-settings.year-section-property')
         <x-jet-section-border />
+        {{-- ------------------------------------------------ Student Status ------------------------------------------------}}
+        @livewire('administrator.manage-settings.user-status-property')
+        <x-jet-section-border />
 
     </div>
 </div>

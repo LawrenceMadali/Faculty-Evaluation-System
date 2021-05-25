@@ -10,7 +10,7 @@ class SubjectCode extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['subject_code', 'course_name_id'];
+    protected $fillable = ['name', 'course_name_id'];
 
     public function course()
     {

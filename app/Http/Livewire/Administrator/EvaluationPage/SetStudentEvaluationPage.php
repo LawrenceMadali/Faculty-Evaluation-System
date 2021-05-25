@@ -34,17 +34,18 @@ class SetStudentEvaluationPage extends Component
     public $subject_code = null;
     public $subjectCodes = null;
 
-    public $instructor = null;
-    public $yearAndSection = null;
-
+   
     public function updatedCourse($course_name_id)
     {
         $this->subjectCodes = SubjectCode::where('course_name_id', $course_name_id)->get();
     }
 
-    public function updatedInstructor($user_id)
+    public $yearAndSection = null;
+    public $students = null;
+
+    public function updatedYearAndSection($year_and_section_id)
     {
-        $this->yearAndSection = YearAndSection::where('user_id', $user_id)->get();
+        $this->students = User::where('year_and_section_id', $year_and_section_id)->get();
     }
 
     // Select all or select 100%
@@ -168,6 +169,7 @@ class SetStudentEvaluationPage extends Component
     public $school_year;
     public $semester;
     public $year_and_section;
+    public $instructor;
 
     public function create()
     {
@@ -208,7 +210,7 @@ class SetStudentEvaluationPage extends Component
     {
         return view('livewire.administrator.evaluation-page.set-student-evaluation-page',[
             'instructors'   => User::where('role_id', 4)->get(),
-            'students'      => User::where('role_id', 5)->get(),
+            // 'students'      => User::where('role_id', 5)->get(),
             'studentCount'  => User::where('role_id', 5)->count(),
             'courses'       => CourseName::all(),
             'sems'          => Semester::all(),

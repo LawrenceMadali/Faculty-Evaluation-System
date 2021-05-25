@@ -30,13 +30,6 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             Create
         </x-jet-button>
-
-        {{-- <div class="flex justify-center font-medium">
-            <div wire:loading>
-                Loading
-                <svg class="inline" width="32px" height="32px" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="currentColor" color="#000000"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" fill-opacity=".3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from=".5" to=".5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>
-            </div>
-        </div> --}}
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8  space-y-2">
@@ -65,19 +58,19 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->schoolYears->school_year }}</div>
+                            <div class="text-sm text-gray-900">{{ $spe->schoolYears->name }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->semesters->semester }}</div>
+                            <div class="text-sm text-gray-900">{{ $spe->semesters->name }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->courses->course }}</div>
+                            <div class="text-sm text-gray-900">{{ $spe->courses->name }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->yearSections->year_and_section }}</div>
+                            <div class="text-sm text-gray-900">{{ $spe->yearSections->name }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->subjectCodes->subject_code }}</div>
+                            <div class="text-sm text-gray-900">{{ $spe->subjectCodes->name }}</div>
                         </td>
                     </tr>
                     @endforeach
@@ -106,10 +99,6 @@
                                 <div class="mt-5 md:mt-0 md:col-span-2">
                                     <div class="shadow overflow-hidden sm:rounded-md">
                                         <div class="px-4 py-5 bg-white sm:p-6 space-y-3">
-                                            {{-- <x-jet-secondary-button wire:click="clear"> --}}
-                                                {{-- <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> --}}
-                                                {{-- Clear inputs
-                                            </x-jet-secondary-button> --}}
 
                                             <div class="grid grid-cols-6 gap-2">
                                                 <div class="col-span-6 sm:col-span-3">
@@ -118,7 +107,7 @@
                                                     <select wire:model="school_year" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="null">- Choose school year -</option>
                                                         @foreach ($schoolYears as $Sy)
-                                                        <option value="{{ $Sy->id }}">{{ $Sy->school_year }}</option>
+                                                        <option value="{{ $Sy->id }}">{{ $Sy->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -129,7 +118,7 @@
                                                 <select wire:model="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                     <option value="null">-- choose semester</option>
                                                     @foreach ($sems as $sem)
-                                                    <option value="{{ $sem->id }}">{{ $sem->semester }}</option>
+                                                    <option value="{{ $sem->id }}">{{ $sem->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 </div>
@@ -139,41 +128,41 @@
                                                 <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                     <option value="null">-- choose instructor --</option>
                                                     @foreach ($instructors as $instructor)
-                                                    <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                                                    <option value="{{ $instructor->name }}">{{ $instructor->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 </div>
+
+
+                                                {{-- @if ($yearAndSection) --}}
+                                                <div class="col-span-6 sm:col-span-3">
+                                                    <label for="year_and_section" class="block text-sm font-medium text-gray-700">Year and Section</label>
+                                                    <select wire:model="year_and_section" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <option value="null">-- choose year and section --</option>
+                                                        @foreach ($yrSecs as $yrSec)
+                                                        <option value="{{ $yrSec->id }}">{{ $yrSec->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                {{-- @endif --}}
 
                                                 <div class="col-span-6 sm:col-span-3">
                                                 <label for="course" class="block text-sm font-medium text-gray-700">Course</label>
                                                 <select wire:model="course" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                     <option value="null">-- choose course --</option>
                                                     @foreach ($courses as $course)
-                                                    <option value="{{ $course->id }}">{{ $course->course }}</option>
+                                                    <option value="{{ $course->id }}">{{ $course->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 </div>
 
-
-                                                @if ($yearAndSection)
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="year_and_section" class="block text-sm font-medium text-gray-700">Year and Section</label>
-                                                    <select wire:model="year_and_section" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                        <option>-- choose year and section --</option>
-                                                        @foreach ($yearAndSection as $yrSec)
-                                                        <option value="{{ $yrSec->id }}">{{ $yrSec->year_and_section }}</option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                @endif
-
-                                                @if ($subjectCodes)
+                                                @if (!is_null($subjectCodes))
                                                 <div class="col-span-6 sm:col-span-3">
                                                 <label for="subject_code" class="block text-sm font-medium text-gray-700">Subject Code</label>
                                                 <select wire:model="subject_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                     <option>-- choose subject code --</option>
                                                     @foreach ($subjectCodes as $sc)
-                                                    <option value="{{ $sc->id }}">{{ $sc->subject_code }}</option>
+                                                    <option value="{{ $sc->id }}">{{ $sc->name }}</option>
                                                     @endforeach
                                                 </select>
                                                 </div>
@@ -233,6 +222,7 @@
                                             </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
+                                                @if (!is_null($students))
                                                 @foreach ($students as $student)
                                                 <tr>
                                                     <td colspan="8" class="px-6 py-4 whitespace-nowrap">
@@ -247,6 +237,7 @@
                                                     </td>
                                                 </tr>
                                                 @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>

@@ -10,19 +10,19 @@ use Livewire\WithPagination;
 class SubjectCodeProperty extends Component
 {
     use WithPagination;
-    
-    public $subject_code;
+
+    public $name;
     public $course_name_id;
     public $createModal;
     public $editModal;
 
     protected $rules =[
-        'subject_code'  => 'required|unique:subject_codes',
-        'course_name_id'=> 'required'
+        'name'      => 'required|unique:subject_codes',
+        'course_name_id'    => 'required',
     ];
 
-    protected $messages = [
-        'course_name_id.required' => 'This course field is required.'
+    protected $messeges = [
+        'course_name_id.required' => 'The course field is required.'
     ];
 
     public function create()
@@ -30,7 +30,7 @@ class SubjectCodeProperty extends Component
         $this->validate();
 
         SubjectCode::create([
-            'subject_code'  => $this->subject_code,
+            'name'          => $this->name,
             'course_name_id'=> $this->course_name_id,
         ]);
         $this->reset();
@@ -51,7 +51,7 @@ class SubjectCodeProperty extends Component
     {
         $this->sc = $id;
         $sc = SubjectCode::find($this->sc);
-        $this->subject_code     = $sc->subject_code;
+        $this->name             = $sc->name;
         $this->course_name_id   = $sc->course_name_id;
         $this->resetValidation();
 
@@ -61,8 +61,8 @@ class SubjectCodeProperty extends Component
     public function update()
     {
         $scs = $this->validate([
-            'subject_code'  => 'required',
-            'course_name_id'=> 'required'
+            'name'  => 'required',
+            'course_name_id'=> 'required',
             ]);
             SubjectCode::find($this->sc)->update($scs);
             $this->reset();
@@ -74,30 +74,14 @@ class SubjectCodeProperty extends Component
     {
         $this->createModal = false;
         $this->editModal = false;
-        $this->deleteModal = false;
         $this->reset();
         $this->resetValidation();
-    }
-
-    public $deleteModal = false;
-
-    public function deleteOpenModal($id)
-    {
-        $this->sc = $id;
-        $this->deleteModal = true;
-    }
-
-    public function delete()
-    {
-        SubjectCode::destroy($this->sc);
-        $this->reset();
-        $this->emit('deleted');
     }
 
     public function render()
     {
         return view('livewire.administrator.manage-settings.subject-code-property',[
-            'scs'       => SubjectCode::latest('id')->paginate(5),
+            'scs'       => SubjectCode::paginate(5),
             'courses'   => CourseName::all(),
         ]);
     }

@@ -10,12 +10,12 @@ class SemesterProperty extends Component
 {
     use WithPagination;
 
-    public $semester;
+    public $name;
     public $createModal = false;
     public $editModal = false;
 
     protected $rules = [
-        'semester' => 'required|unique:semesters'
+        'name' => 'required|unique:semesters'
     ];
 
     public function create()
@@ -23,7 +23,7 @@ class SemesterProperty extends Component
         $this->validate();
 
         Semester::create([
-            'semester' => $this->semester
+            'name' => $this->name
         ]);
         $this->reset();
         $this->resetValidation();
@@ -43,7 +43,7 @@ class SemesterProperty extends Component
     {
         $this->sem = $id;
         $sem = Semester::find($this->sem);
-        $this->semester = $sem->semester;
+        $this->name = $sem->name;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -52,7 +52,7 @@ class SemesterProperty extends Component
     public function update()
     {
         $semester = $this->validate([
-            'semester' => 'required'
+            'name' => 'required'
         ]);
         Semester::find($this->sem)->update($semester);
         $this->reset();
@@ -64,30 +64,14 @@ class SemesterProperty extends Component
     {
         $this->editModal = false;
         $this->createModal = false;
-        $this->deleteModal = false;
         $this->reset();
         $this->resetValidation();
-    }
-
-    public $deleteModal = false;
-
-    public function deleteOpenModal($id)
-    {
-        $this->sem = $id;
-        $this->deleteModal = true;
-    }
-
-    public function delete()
-    {
-        Semester::destroy($this->sem);
-        $this->reset();
-        $this->emit('deleted');
     }
 
     public function render()
     {
         return view('livewire.administrator.manage-settings.semester-property',[
-            'sems' => Semester::latest('id')->paginate(5)
+            'sems' => Semester::paginate(5)
         ]);
     }
 }

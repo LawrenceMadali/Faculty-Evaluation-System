@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubjectCodesTable extends Migration
+class CreateUserStatusesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,8 @@ class CreateSubjectCodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('subject_codes', function (Blueprint $table) {
+        Schema::create('user_statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('course_name_id')->constrained();
             $table->string('name');
             $table->timestamps();
         });
@@ -28,6 +27,6 @@ class CreateSubjectCodesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subject_codes');
+        Schema::dropIfExists('user_statuses');
     }
 }

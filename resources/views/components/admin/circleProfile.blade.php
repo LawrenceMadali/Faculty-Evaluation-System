@@ -2,22 +2,22 @@
     <div class="ml-3 relative flex items-center">
         <div class="px-3 py-2 text-sm text-center">
             <div class="text-sm text-gray-800 block">
-                {{ Auth::user()->last_name }}, {{ Auth::user()->first_name }} {{ Auth::user()->middle_initial }}</div>
+                {{ Auth::user()->name }}</div>
                 @switch(Auth::user()->role_id)
                     @case(1)
-                        <div class="text-xs text-gray-400 block">Administrator</div>
+                        <div class="text-xs text-gray-400">Administrator</div>
                         @break
                     @case(2)
-                        <div class="text-xs text-gray-400 block">Dean</div>
+                        <div class="text-xs text-gray-400">Dean</div>
                         @break
                     @case(3)
-                        <div class="text-xs text-gray-400 block">Secretary</div>
+                        <div class="text-xs text-gray-400">Secretary</div>
                         @break
                     @case(4)
-                        <div class="text-xs text-gray-400 block">Instructor</div>
+                        <div class="text-xs text-gray-400">Instructor</div>
                         @break
                     @case(5)
-                        <div class="text-xs text-gray-400 block">Student</div>
+                        <div class="text-xs text-gray-400">Student</div>
                         @break
                     @default
                 @endswitch

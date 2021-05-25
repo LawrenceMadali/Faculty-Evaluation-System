@@ -52,6 +52,7 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> ID </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Subject Code </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course name </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
@@ -64,13 +65,13 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($scs as $sc)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->subject_code }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->course->course }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->id }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->name }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->course->name }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->created_at->ToFormattedDateString() }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->updated_at->ToFormattedDateString() }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                     <button wire:click="editOpenModal({{$sc->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
-                                    <button wire:click="deleteOpenModal({{$sc->id}})" class="text-red-600 hover:text-red-900">Delete</button>
                                     </td>
                                 </tr>
                                 @empty
@@ -105,17 +106,17 @@
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Course</label>
                             <select wire:model="course_name_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option>-- choose course</option>
+                                <option value="null">-- choose course</option>
                                 @foreach ($courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->course }}</option>
+                                <option value="{{ $course->id }}">{{ $course->name }}</option>
                                 @endforeach
                             </select>
                             <x-jet-input-error for="course_name_id"/>
                         </div>
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Subject Code</label>
-                            <input wire:model.lazy="subject_code" type="text" placeholder="e.g. (subject code) - (desciption)" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="subject_code"/>
+                            <input wire:model.lazy="name" type="text" placeholder="e.g. (subject code) - (desciption)" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="name"/>
                         </div>
                     </div>
                 </form>
@@ -145,15 +146,15 @@
                             <label class="block text-sm font-medium text-gray-700">Course</label>
                             <select wire:model="course_name_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 @foreach ($courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->course }}</option>
+                                <option value="{{ $course->id }}">{{ $course->name }}</option>
                                 @endforeach
                             </select>
                             <x-jet-input-error for="course_name_id"/>
                         </div>
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Subject Code</label>
-                            <input wire:model.lazy="subject_code" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="subject_code"/>
+                            <input wire:model.lazy="name" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="name"/>
                         </div>
                     </div>
                 </form>
@@ -169,28 +170,5 @@
                 </x-jet-button>
             </x-slot>
         </x-jet-dialog-modal>
-
-        {{-------------------------------------------------- Delete Modal --------------------------------------------------}}
-    <x-jet-dialog-modal wire:model.defer="deleteModal">
-        <x-slot name="title">
-            {{ __('Delete Subject Code') }}
-        </x-slot>
-
-        <x-slot name="content">
-            {{ __('Are you sure you want to delete selected subject code?') }}
-
-
-        </x-slot>
-
-        <x-slot name="footer">
-            <x-jet-secondary-button wire:click="$toggle('deleteModal')" wire:loading.attr="disabled">
-                {{ __('Cancel') }}
-            </x-jet-secondary-button>
-
-            <x-jet-danger-button class="ml-2" wire:click="delete" wire:loading.attr="disabled">
-                {{ __('Delete') }}
-            </x-jet-danger-button>
-        </x-slot>
-    </x-jet-dialog-modal>
     </div>
 </div>

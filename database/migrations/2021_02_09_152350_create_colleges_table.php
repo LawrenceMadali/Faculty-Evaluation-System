@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateYearAndSectionsTable extends Migration
+class CreateCollegesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateYearAndSectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('year_and_sections', function (Blueprint $table) {
+        Schema::create('colleges', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
-            $table->string('year_and_section');
+            $table->string('name');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateYearAndSectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('year_and_sections');
+        Schema::dropIfExists('colleges');
     }
 }

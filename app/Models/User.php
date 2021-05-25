@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Spe;
 use App\Models\Role;
 use App\Models\Section;
+use App\Models\UserStatus;
 use App\Models\PeerRatingForm;
 use App\Models\YearAndSection;
 use App\Models\StudentRatingForm;
@@ -33,9 +34,12 @@ class User extends Authenticatable
         'role_id',
         'id_number',
         'name',
-        'college',
         'email',
         'status',
+        'password',
+        'user_status_id',
+        'college_id',
+        'year_and_section_id',
     ];
 
     /**
@@ -74,16 +78,17 @@ class User extends Authenticatable
         ? static::query()
         : static::query()
         ->where('id_number', 'LIKE' , '%'.$search.'%')
-        ->orWhere('first_name', 'LIKE' , '%'.$search.'%')
-        ->orWhere('last_name', 'LIKE' , '%'.$search.'%')
-        ->orWhere('middle_initial', 'LIKE' , '%'.$search.'%')
+        ->orWhere('name', 'LIKE' , '%'.$search.'%')
+        ->orWhere('user_status_id', 'LIKE' , '%'.$search.'%')
+        ->orWhere('college_id', 'LIKE' , '%'.$search.'%')
+        ->orWhere('year_and_section_id', 'LIKE' , '%'.$search.'%')
         ->orWhere('email', 'LIKE' , '%'.$search.'%')
         ->orwhere('created_at', 'LIKE' , '%'.$search.'%');
     }
 
-    public function role()
+    public function roles()
     {
-        return $this->hasMany(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function peerRatingForm()
@@ -96,9 +101,14 @@ class User extends Authenticatable
         return $this->hasOne(StudentRatingForm::class);
     }
 
-    public function yrAndSec()
+    public function yearAndSections()
     {
-        return $this->hasMany(YearAndSection::class, 'year_and_section_id');
+        return $this->belongsTo(YearAndSection::class, 'year_and_section_id');
+    }
+
+    public function colleges()
+    {
+        return $this->belongsTo(College::class, 'college_id');
     }
 
     public function spes()
@@ -111,5 +121,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Sse::class, 'sse_users');
     }
 
+    public function userStatuses()
+    {
+        return $this->belongsTo(UserStatus::class, 'user_status_id');
+    }
 
 }

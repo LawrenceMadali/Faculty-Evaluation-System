@@ -3,10 +3,10 @@
 namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use Livewire\Component;
-use App\Models\SchoolYear;
+use App\Models\UserStatus;
 use Livewire\WithPagination;
 
-class SchoolYearProperty extends Component
+class UserStatusProperty extends Component
 {
     use WithPagination;
 
@@ -15,19 +15,18 @@ class SchoolYearProperty extends Component
     public $editModal = false;
 
     protected $rules = [
-        'name' => 'required|min:4|unique:school_years',
+        'name' => 'required|unique:student_statuses',
     ];
 
     public function create()
     {
-        $this->validate();
-
-        SchoolYear::create([
-            'name' => $this->name,
+        $status = $this->validate([
+            'name' => 'required'
         ]);
+
+        UserStatus::create($status);
         $this->reset();
         $this->emit('added');
-        $this->resetValidation();
     }
 
     public function createOpenModal()
@@ -37,13 +36,13 @@ class SchoolYearProperty extends Component
         $this->createModal = true;
     }
 
-    public $syId;
+    public $statusId;
 
     public function editOpenModal($id)
     {
-        $this->syId = $id;
-        $sy = SchoolYear::find($this->syId);
-        $this->name = $sy->name;
+        $this->statusId = $id;
+        $statusId = UserStatus::find($this->statusId);
+        $this->name = $statusId->name;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -51,27 +50,27 @@ class SchoolYearProperty extends Component
 
     public function update()
     {
-        $schoolYear = $this->validate([
-            'name' => 'required|min:4'
-        ]);
-        SchoolYear::find($this->syId)->update($schoolYear);
-        $this->reset();
-        $this->resetValidation();
-        $this->emit('updated');
+        $status = $this->validate([
+            'name' => 'required'
+            ]);
+            UserStatus::find($this->statusId)->update($status);
+            $this->reset();
+            $this->resetValidation();
+            $this->emit('updated');
     }
 
     public function closeModal()
     {
-        $this->editModal = false;
         $this->createModal = false;
+        $this->editModal = false;
         $this->reset();
         $this->resetValidation();
     }
 
     public function render()
     {
-        return view('livewire.administrator.manage-settings.school-year-property',[
-            'sys' => SchoolYear::paginate(5),
+        return view('livewire.administrator.manage-settings.user-status-property', [
+            'statuses' => UserStatus::paginate(5),
         ]);
     }
 }

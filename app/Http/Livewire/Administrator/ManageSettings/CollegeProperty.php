@@ -11,18 +11,18 @@ class CollegeProperty extends Component
 
     use WithPagination;
 
-    public $college;
+    public $name;
     public $createModal = false;
     public $editModal = false;
 
     protected $rules = [
-        'college' => 'required|unique:colleges',
+        'name' => 'required|unique:colleges',
     ];
 
     public function create()
     {
         $college = $this->validate([
-            'college' => 'required'
+            'name' => 'required'
         ]);
 
         College::create($college);
@@ -43,7 +43,7 @@ class CollegeProperty extends Component
     {
         $this->collegeId = $id;
         $collegeId = College::find($this->collegeId);
-        $this->college = $collegeId->college;
+        $this->name = $collegeId->name;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -52,7 +52,7 @@ class CollegeProperty extends Component
     public function update()
     {
         $college = $this->validate([
-            'college' => 'required'
+            'name' => 'required'
             ]);
             College::find($this->collegeId)->update($college);
             $this->reset();
@@ -64,30 +64,15 @@ class CollegeProperty extends Component
     {
         $this->createModal = false;
         $this->editModal = false;
-        $this->deleteModal = false;
         $this->reset();
         $this->resetValidation();
     }
 
-    public $deleteModal = false;
-
-    public function deleteOpenModal($id)
-    {
-        $this->collegeId = $id;
-        $this->deleteModal = true;
-    }
-
-    public function delete()
-    {
-        College::destroy($this->collegeId);
-        $this->reset();
-        $this->emit('deleted');
-    }
 
     public function render()
     {
         return view('livewire.administrator.manage-settings.college-property',[
-            'colleges' => College::latest('id')->paginate(5),
+            'colleges' => College::paginate(5),
         ]);
     }
 }

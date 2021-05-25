@@ -7,7 +7,7 @@
     </div>
 
     <div class="mt-8 text-2xl font-serif text-blue-700">
-        Welcome {{ auth()->user()->first_name }}!
+        Welcome {{ auth()->user()->name }}!
     </div>
 </div>
 
