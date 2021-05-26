@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use App\Models\User;
 use Livewire\Component;
+use App\Models\CourseName;
 use Livewire\WithPagination;
 use App\Models\YearAndSection;
 
@@ -12,12 +13,13 @@ class YearSectionProperty extends Component
     use WithPagination;
 
     public $name;
+    public $course_name_id;
     public $createModal = false;
     public $editModal = false;
-    public $user_id;
 
     protected $rules = [
-        'name'      => 'required',
+        'name'          => 'required',
+        'course_name_id'=> 'required',
     ];
 
     public function create()
@@ -25,7 +27,8 @@ class YearSectionProperty extends Component
         $this->validate();
 
         YearAndSection::create([
-            'name'  => $this->name,
+            'name'          => $this->name,
+            'course_name_id'=> $this->course_name_id,
         ]);
         $this->reset();
         $this->resetValidation();
@@ -45,7 +48,8 @@ class YearSectionProperty extends Component
     {
         $this->yrSec = $id;
         $yrSec = YearAndSection::find($this->yrSec);
-        $this->name = $yrSec->name;
+        $this->name             = $yrSec->name;
+        $this->course_name_id   = $yrSec->course_name_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -54,7 +58,8 @@ class YearSectionProperty extends Component
     public function update()
     {
         $yearNsection = $this->validate([
-            'name' => 'required'
+            'name'          => 'required',
+            'course_name_id'=> 'required'
         ]);
         YearAndSection::find($this->yrSec)->update($yearNsection);
         $this->reset();
@@ -74,7 +79,8 @@ class YearSectionProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.year-section-property', [
-            'yrSecs'=> YearAndSection::paginate(5),
+            'yrSecs'=> YearAndSection::with('courses')->paginate(5),
+            'courseNames' => CourseName::all()
         ]);
     }
 }

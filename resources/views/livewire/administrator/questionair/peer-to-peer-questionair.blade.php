@@ -114,9 +114,9 @@
                                     <label class="block text-sm font-medium text-gray-700 pr-2">School year</label>
                                     <div class=" flex items-center">
                                         <select wire:model="school_year" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                            <option value="">-- choose school year --</option>
+                                            <option value="null">-- choose school year --</option>
                                             @foreach ($schoolYears as $Sy)
-                                            <option value="{{ $Sy->school_year }}">{{ $Sy->school_year }}</option>
+                                            <option value="{{ $Sy->name }}">{{ $Sy->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -125,9 +125,9 @@
                                 <div class="col-span-6">
                                     <label class="block text-sm font-medium text-gray-700 pr-2">Semester</label>
                                     <select wire:model="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option value="">-- choose semester --</option>
+                                        <option value="null">-- choose semester --</option>
                                         @foreach ($sems as $sem)
-                                        <option value="{{ $sem->semester }}">{{ $sem->semester }}</option>
+                                        <option value="{{ $sem->name }}">{{ $sem->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>

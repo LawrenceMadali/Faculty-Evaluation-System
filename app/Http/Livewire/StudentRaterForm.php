@@ -38,8 +38,9 @@ class StudentRaterForm extends Component
     public $management_of_learning_5;
     public $management_of_learning_total;
 
-    public $id_number;
+    public $sse_id;
     public $total;
+    public $is_evaluated = false;
     public $srfModal = false;
 
     public function submit()
@@ -152,24 +153,21 @@ class StudentRaterForm extends Component
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
             $this->management_of_learning_5,
-
-            'id_number' => auth()->user()->id_number,
+            'sse_id' => $this->sse_id,
 
     ]);
 
 
         session()->flash('message', 'Your response will be recorded.');
-        $this->reset(); 
+        $this->reset();
     }
 
 
     public function render()
     {
         // $instructors = auth()->user();
-        // $name = $instructors->sses();
+        // $name = $instructors->sses;
         // dd($name);
-
-
         return view('livewire.student-rater-form.student-rater-form',[
             'sse'   => Sse::count(),
             'assignInstructors' => auth()->user(),

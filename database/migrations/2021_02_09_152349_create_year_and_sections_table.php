@@ -15,7 +15,7 @@ class CreateYearAndSectionsTable extends Migration
     {
         Schema::create('year_and_sections', function (Blueprint $table) {
             $table->id();
-            // $table->foreignId('user_id')->constrained();
+            $table->foreignId('course_name_id')->constrained();
             $table->string('name');
             $table->timestamps();
         });

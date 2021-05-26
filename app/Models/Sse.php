@@ -13,7 +13,7 @@ class Sse extends Model
     protected $fillable = [
         'school_year_id',
         'semester_id',
-        'user_id',
+        'name',
         'course_name_id',
         'subject_code_id',
         'year_and_section_id',
@@ -29,10 +29,10 @@ class Sse extends Model
         return $this->belongsTo(SchoolYear::class, 'school_year_id');
     }
 
-    public function instructors()
-    {
-        return $this->belongsTo(User::class, 'user_id');
-    }
+    // public function instructors()
+    // {
+    //     return $this->belongsTo(User::class, 'user_id');
+    // }
 
     public function semesters()
     {

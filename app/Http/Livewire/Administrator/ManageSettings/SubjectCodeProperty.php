@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\CourseName;
 use App\Models\SubjectCode;
 use Livewire\WithPagination;
+use App\Models\YearAndSection;
 
 class SubjectCodeProperty extends Component
 {
@@ -17,8 +18,8 @@ class SubjectCodeProperty extends Component
     public $editModal;
 
     protected $rules =[
-        'name'      => 'required|unique:subject_codes',
-        'course_name_id'    => 'required',
+        'name'          => 'required|unique:subject_codes',
+        'course_name_id'=> 'required',
     ];
 
     protected $messeges = [
@@ -61,7 +62,7 @@ class SubjectCodeProperty extends Component
     public function update()
     {
         $scs = $this->validate([
-            'name'  => 'required',
+            'name'          => 'required',
             'course_name_id'=> 'required',
             ]);
             SubjectCode::find($this->sc)->update($scs);
@@ -81,8 +82,8 @@ class SubjectCodeProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.subject-code-property',[
-            'scs'       => SubjectCode::paginate(5),
-            'courses'   => CourseName::all(),
+            'scs'           => SubjectCode::with('courses')->paginate(5),
+            'courseNames'   => CourseName::all(),
         ]);
     }
 }

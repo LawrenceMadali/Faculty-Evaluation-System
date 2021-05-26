@@ -14,6 +14,8 @@ class UserStatusSeeder extends Seeder
      */
     public function run()
     {
+        UserStatus::create(['name' => 'Regular']);
+        UserStatus::create(['name' => 'Part time']);
         UserStatus::create(['name' => 'Enrolled']);
         UserStatus::create(['name' => 'Unenrolled']);
     }

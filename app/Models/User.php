@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Spe;
 use App\Models\Role;
 use App\Models\Section;
+use App\Models\CourseName;
 use App\Models\UserStatus;
 use App\Models\PeerRatingForm;
 use App\Models\YearAndSection;
@@ -39,6 +40,7 @@ class User extends Authenticatable
         'password',
         'user_status_id',
         'college_id',
+        'course_name_id',
         'year_and_section_id',
     ];
 
@@ -124,6 +126,11 @@ class User extends Authenticatable
     public function userStatuses()
     {
         return $this->belongsTo(UserStatus::class, 'user_status_id');
+    }
+
+    public function courses()
+    {
+        return $this->belongsTo(CourseName::class, 'course_name_id');
     }
 
 }

@@ -21,12 +21,12 @@ class SubjectCodeSeeder extends Seeder
             ]);
 
         SubjectCode::create([
-            'course_name_id'=> 1,
+            'course_name_id'=> 2,
             'name' => 'IS 13 - IS Project Management'
             ]);
 
         SubjectCode::create([
-            'course_name_id'=> 1,
+            'course_name_id'=> 3,
             'name' => 'IS 14 - Enterprise Architecture'
             ]);
 
@@ -36,22 +36,13 @@ class SubjectCodeSeeder extends Seeder
             ]);
 
         SubjectCode::create([
-            'course_name_id'=> 1,
+            'course_name_id'=> 2,
             'name' => 'IS 16 - Business Process Management'
             ]);
 
         SubjectCode::create([
-            'course_name_id'=> 1,
+            'course_name_id'=> 3,
             'name'=>'IS 17 - E-Commerce'
             ]);
-
-
-
-
-
-
-
-
-
     }
 }
