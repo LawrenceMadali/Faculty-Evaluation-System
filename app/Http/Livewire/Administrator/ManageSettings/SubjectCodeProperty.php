@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use Livewire\Component;
-use App\Models\CourseName;
 use App\Models\SubjectCode;
 use Livewire\WithPagination;
 use App\Models\YearAndSection;
@@ -13,17 +12,17 @@ class SubjectCodeProperty extends Component
     use WithPagination;
 
     public $name;
-    public $course_name_id;
+    public $year_and_section_id;
     public $createModal;
     public $editModal;
 
     protected $rules =[
-        'name'          => 'required|unique:subject_codes',
-        'course_name_id'=> 'required',
+        'name'                  => 'required|unique:subject_codes',
+        'year_and_section_id'   => 'required',
     ];
 
     protected $messeges = [
-        'course_name_id.required' => 'The course field is required.'
+        'year_and_section_id.required' => 'This year and section field is required.'
     ];
 
     public function create()
@@ -31,8 +30,8 @@ class SubjectCodeProperty extends Component
         $this->validate();
 
         SubjectCode::create([
-            'name'          => $this->name,
-            'course_name_id'=> $this->course_name_id,
+            'name'                  => $this->name,
+            'year_and_section_id'   => $this->year_and_section_id,
         ]);
         $this->reset();
         $this->resetValidation();
@@ -52,8 +51,8 @@ class SubjectCodeProperty extends Component
     {
         $this->sc = $id;
         $sc = SubjectCode::find($this->sc);
-        $this->name             = $sc->name;
-        $this->course_name_id   = $sc->course_name_id;
+        $this->name                 = $sc->name;
+        $this->year_and_section_id  = $sc->year_and_section_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -62,8 +61,8 @@ class SubjectCodeProperty extends Component
     public function update()
     {
         $scs = $this->validate([
-            'name'          => 'required',
-            'course_name_id'=> 'required',
+            'name'                  => 'required',
+            'year_and_section_id'   => 'required',
             ]);
             SubjectCode::find($this->sc)->update($scs);
             $this->reset();
@@ -82,8 +81,8 @@ class SubjectCodeProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.subject-code-property',[
-            'scs'           => SubjectCode::with('courses')->paginate(5),
-            'courseNames'   => CourseName::all(),
+            'scs'               => SubjectCode::with('yearAndSections')->paginate(5),
+            'yearAndSections'   => YearAndSection::all(),
         ]);
     }
 }

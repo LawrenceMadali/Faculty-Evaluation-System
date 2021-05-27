@@ -8,12 +8,13 @@ use App\Models\User;
 use App\Models\SpeUser;
 use Livewire\Component;
 use App\Models\Semester;
-use App\Models\CourseName;
+use App\Models\Course;
 use App\Models\SchoolYear;
 use App\Models\SubjectCode;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
+use Illuminate\Support\Facades\Auth;
 
 class SetStudentEvaluationPage extends Component
 {
@@ -34,10 +35,10 @@ class SetStudentEvaluationPage extends Component
     public $yearAndSection = null;
 
 
-    public function updatedCourse($course_name_id)
+    public function updatedCourse($course_id)
     {
-        $this->yearAndSection = YearAndSection::where('course_name_id', $course_name_id)->get();
-        $this->subjectCodes = SubjectCode::where('course_name_id', $course_name_id)->get();
+        $this->yearAndSection = YearAndSection::where('course_id', $course_id)->get();
+        $this->subjectCodes = SubjectCode::where('course_id', $course_id)->get();
     }
 
     public $students = null;
@@ -255,7 +256,7 @@ class SetStudentEvaluationPage extends Component
             'school_year_id'    => $this->school_year,
             'semester_id'       => $this->semester,
             'name'              => $this->name,
-            'course_name_id'    => $this->course,
+            'course_id'    => $this->course,
             'subject_code_id'   => $this->subject_code,
             'year_and_section_id' => $this->year_and_section,
         ]);
@@ -274,15 +275,15 @@ class SetStudentEvaluationPage extends Component
 
     public function render()
     {
-        // if ($this->year_and_section) {
-        // }
+        // $users = Auth::user() == User::all();
+        // dd($users);
         $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
 
         return view('livewire.administrator.evaluation-page.set-student-evaluation-page',
         [
             'instructors'   => User::where('role_id', 4)->get(),
             'studentCount'  => User::where('year_and_section_id', $this->year_and_section)->count(),
-            'courses'       => CourseName::all(),
+            'courses'       => Course::all(),
             'sems'          => Semester::all(),
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),

@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\SpeUser;
 use Livewire\Component;
 use App\Models\Semester;
-use App\Models\CourseName;
+use App\Models\Course;
 use App\Models\SchoolYear;
 use App\Models\SubjectCode;
 use Livewire\WithPagination;
@@ -38,9 +38,9 @@ class SetPeerEvaluationPage extends Component
     public $instructor = null;
     public $yearAndSection = null;
 
-    public function updatedCourse($course_name_id)
+    public function updatedCourse($course_id)
     {
-        $this->subjectCodes = SubjectCode::where('course_name_id', $course_name_id)->get();
+        $this->subjectCodes = SubjectCode::where('course_id', $course_id)->get();
     }
 
     public function updatedInstructor($user_id)
@@ -189,7 +189,7 @@ class SetPeerEvaluationPage extends Component
             'school_year_id'    => $this->school_year,
             'semester_id'       => $this->semester,
             'user_id'           => $this->instructor,
-            'course_name_id'    => $this->course,
+            'course_id'    => $this->course,
             'subject_code_id'   => $this->subject_code,
             'year_and_section_id' => $this->year_and_section,
         ]);
@@ -211,7 +211,7 @@ class SetPeerEvaluationPage extends Component
         return view('livewire.administrator.evaluation-page.set-peer-evaluation-page',[
             'instructors'   => User::where('role_id', 4)->get(),
             'studentCount'  => User::where('role_id', 4)->count(),
-            'courses'       => CourseName::all(),
+            'courses'       => Course::all(),
             'sems'          => Semester::all(),
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),

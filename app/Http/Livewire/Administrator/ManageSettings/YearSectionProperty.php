@@ -4,7 +4,7 @@ namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use App\Models\User;
 use Livewire\Component;
-use App\Models\CourseName;
+use App\Models\Course;
 use Livewire\WithPagination;
 use App\Models\YearAndSection;
 
@@ -13,13 +13,13 @@ class YearSectionProperty extends Component
     use WithPagination;
 
     public $name;
-    public $course_name_id;
+    public $course_id;
     public $createModal = false;
     public $editModal = false;
 
     protected $rules = [
         'name'          => 'required',
-        'course_name_id'=> 'required',
+        'course_id'=> 'required',
     ];
 
     public function create()
@@ -28,7 +28,7 @@ class YearSectionProperty extends Component
 
         YearAndSection::create([
             'name'          => $this->name,
-            'course_name_id'=> $this->course_name_id,
+            'course_id'=> $this->course_id,
         ]);
         $this->reset();
         $this->resetValidation();
@@ -49,7 +49,7 @@ class YearSectionProperty extends Component
         $this->yrSec = $id;
         $yrSec = YearAndSection::find($this->yrSec);
         $this->name             = $yrSec->name;
-        $this->course_name_id   = $yrSec->course_name_id;
+        $this->course_id   = $yrSec->course_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -59,7 +59,7 @@ class YearSectionProperty extends Component
     {
         $yearNsection = $this->validate([
             'name'          => 'required',
-            'course_name_id'=> 'required'
+            'course_id'=> 'required'
         ]);
         YearAndSection::find($this->yrSec)->update($yearNsection);
         $this->reset();
@@ -80,7 +80,7 @@ class YearSectionProperty extends Component
     {
         return view('livewire.administrator.manage-settings.year-section-property', [
             'yrSecs'=> YearAndSection::with('courses')->paginate(5),
-            'courseNames' => CourseName::all()
+            'Courses' => Course::all()
         ]);
     }
 }

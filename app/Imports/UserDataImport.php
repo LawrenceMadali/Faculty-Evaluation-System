@@ -40,10 +40,9 @@ SkipsOnFailure
         return new User([
             'id_number'             => $row['id_number'],
             'name'                  => $row['name'],
-            'year_and_section_id'   => $row['year_and_section_id'] ?? null,
             'college_id'            => $row['college_id'] ?? null,
-            'course_name_id'        => $row['course_name_id'] ?? null,
-            'user_status_id'        => $row['user_status_id']       == $row['user_status_id']       ? $row['user_status_id']        : null,
+            'course_id'        => $row['course_id'] ?? null,
+            'user_status_id'        => $row['user_status_id'] == $row['user_status_id'] ? $row['user_status_id'] : null,
             'role_id'               => $row['role_id'],
             'email'                 => $row['email'],
             'password'              => Hash::make($row['password']),

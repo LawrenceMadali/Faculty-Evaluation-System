@@ -89,11 +89,11 @@
 
             <x-slot name="content">
                 <form wire:submit.prevent="create">
-                <div class="col-span-6">
-                    <label class="block text-sm font-medium text-gray-700">Semester</label>
-                    <input wire:model.lazy="name" type="text" placeholder="e.g. 1st semester etc." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    <x-jet-input-error for="name"/>
-                </div>
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium text-gray-700">Semester</label>
+                        <input wire:model.lazy="name" type="text" placeholder="e.g. 1st semester etc." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <x-jet-input-error for="name"/>
+                    </div>
                 </form>
             </x-slot>
 
@@ -116,11 +116,11 @@
 
             <x-slot name="content">
                 <form wire:submit.prevent="update">
-                <div class="col-span-6">
-                    <label class="block text-sm font-medium text-gray-700">Semester</label>
-                    <input wire:model.lazy="name" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    <x-jet-input-error for="name"/>
-                </div>
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium text-gray-700">Semester</label>
+                        <input wire:model.lazy="name" type="text" placeholder="e.g. 1st semester etc." class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                        <x-jet-input-error for="name"/>
+                    </div>
                 </form>
             </x-slot>
 

@@ -165,9 +165,6 @@ class StudentRaterForm extends Component
 
     public function render()
     {
-        // $instructors = auth()->user();
-        // $name = $instructors->sses;
-        // dd($name);
         return view('livewire.student-rater-form.student-rater-form',[
             'sse'   => Sse::count(),
             'assignInstructors' => auth()->user(),

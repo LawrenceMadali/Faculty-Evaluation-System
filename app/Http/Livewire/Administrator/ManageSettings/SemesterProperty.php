@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use Livewire\Component;
 use App\Models\Semester;
+use App\Models\SchoolYear;
 use Livewire\WithPagination;
 
 class SemesterProperty extends Component
@@ -71,7 +72,7 @@ class SemesterProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.semester-property',[
-            'sems' => Semester::paginate(5)
+            'sems'  => Semester::paginate(5),
         ]);
     }
 }

@@ -6,10 +6,9 @@ use App\Models\SubjectCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CourseName extends Model
+class Course extends Model
 {
     use HasFactory;
-    // public $table = 'courses';
 
     protected $fillable = ['name'];
 

@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Administrator\ManageUsers;
 use App\Models\User;
 use App\Models\College;
 use Livewire\Component;
-use App\Models\CourseName;
+use App\Models\Course;
 use App\Models\UserStatus;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -32,7 +32,7 @@ class ManageUsers extends Component
     public $name;
     public $email;
     public $college_id;
-    public $course_name_id;
+    public $course_id;
     public $year_and_section_id;
     public $user_status_id;
 
@@ -54,7 +54,7 @@ class ManageUsers extends Component
         $users = $this->validate();
 
         User::create($users + [
-            'course_name_id'        => $this->course_name_id,
+            'course_id'        => $this->course_id,
             'college_id'            => $this->college_id,
             'year_and_section_id'   => $this->year_and_section_id,
             'password'              => bcrypt('urspassword'),
@@ -83,7 +83,7 @@ class ManageUsers extends Component
         $this->name                 = $deanId->name;
         $this->email                = $deanId->email;
         $this->college_id           = $deanId->college_id;
-        $this->course_name_id       = $deanId->course_name_id;
+        $this->course_id       = $deanId->course_id;
         $this->year_and_section_id  = $deanId->year_and_section_id   ;
         $this->user_status_id       = $deanId->user_status_id;
         $this->resetValidation();
@@ -101,7 +101,7 @@ class ManageUsers extends Component
             'user_status_id'    => 'required',
             ]);
             User::find($this->deanId)->update($users + [
-                'course_name_id'        => $this->course_name_id,
+                'course_id'        => $this->course_id,
                 'college_id'            => $this->college_id,
                 'user_status_id'        => $this->college_id,
                 'year_and_section_id'   => $this->year_and_section_id,
@@ -147,7 +147,7 @@ class ManageUsers extends Component
     {
         return view('livewire.administrator.manage-users.manage-users', [
             'colleges'          => College::all(),
-            'courses'           => CourseName::all(),
+            'courses'           => Course::all(),
             'yearAndSections'   => YearAndSection::all(),
             'studentStatuses'   => UserStatus::all(),
             'users'             => User::with('yearAndSections', 'colleges', 'roles', 'userStatuses', 'courses'),

@@ -6,7 +6,7 @@ namespace App\Http\Livewire\Administrator\ManageSettings;
 
 
 use Livewire\Component;
-use App\Models\CourseName;
+use App\Models\Course;
 use Livewire\WithPagination;
 
 class CourseProperty extends Component
@@ -25,7 +25,7 @@ class CourseProperty extends Component
     {
         $this->validate();
 
-        CourseName::create([
+        Course::create([
             'name' => $this->name,
         ]);
         $this->reset();
@@ -45,7 +45,7 @@ class CourseProperty extends Component
     public function editOpenModal($id)
     {
         $this->crs = $id;
-        $crs = CourseName::find($this->crs);
+        $crs = Course::find($this->crs);
         $this->name = $crs->name;
         $this->resetValidation();
 
@@ -58,7 +58,7 @@ class CourseProperty extends Component
         $course = $this->validate([
             'name' => 'required'
             ]);
-            CourseName::find($this->crs)->update($course);
+            Course::find($this->crs)->update($course);
             $this->reset();
             $this->resetValidation();
             $this->emit('updated');
@@ -75,7 +75,7 @@ class CourseProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.course-property',[
-            'courses' => CourseName::paginate(5),
+            'courses' => Course::paginate(5),
         ]);
     }
 }

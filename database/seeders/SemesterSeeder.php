@@ -14,8 +14,8 @@ class SemesterSeeder extends Seeder
      */
     public function run()
     {
-        Semester::create(['name'=>'1st Semester']);
-        Semester::create(['name'=>'2nd Semester']);
-        Semester::create(['name'=>'Summer']);
+        Semester::create(['name' => '1st Semester']);
+        Semester::create(['name' => '2nd Semester']);
+        Semester::create(['name' => 'Summer']);
     }
 }

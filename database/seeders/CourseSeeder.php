@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\CourseName;
+use App\Models\Course;
 use Illuminate\Database\Seeder;
 
 class CourseSeeder extends Seeder
@@ -14,10 +14,10 @@ class CourseSeeder extends Seeder
      */
     public function run()
     {
-        CourseName::create(['name'=>'Bachelor of Science in Information System']);
-        CourseName::create(['name'=>'Bachelor of Science in Information Technology']);
-        CourseName::create(['name'=>'Bachelor of Science in Accountancy']);
-        CourseName::create(['name'=>'Bachelor of Science in Business Administration']);
-        CourseName::create(['name'=>'Bachelor of Science in Office Administration']);
+        Course::create(['name'=>'Bachelor of Science in Information System']);
+        Course::create(['name'=>'Bachelor of Science in Information Technology']);
+        Course::create(['name'=>'Bachelor of Science in Accountancy']);
+        Course::create(['name'=>'Bachelor of Science in Business Administration']);
+        Course::create(['name'=>'Bachelor of Science in Office Administration']);
     }
 }

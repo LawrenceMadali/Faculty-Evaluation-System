@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
-use App\Models\CourseName;
+use App\Models\Course;
 use App\Models\SchoolYear;
 use App\Models\SubjectCode;
 use App\Models\YearAndSection;
@@ -18,7 +18,7 @@ class Spe extends Model
         'school_year_id',
         'semester_id',
         'user_id',
-        'course_name_id',
+        'course_id',
         'subject_code_id',
         'year_and_section_id',
     ];
@@ -45,7 +45,7 @@ class Spe extends Model
 
     public function courses()
     {
-        return $this->belongsTo(CourseName::class, 'course_name_id');
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     public function yearSections()

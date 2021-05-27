@@ -54,7 +54,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> ID </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Subject Code </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Year and Section </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated at </th>
                                 <th scope="col" class="relative px-6 py-3">
@@ -67,7 +67,7 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->id }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->courses->name }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->yearAndSections->name }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->created_at->ToFormattedDateString() }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sc->updated_at->ToFormattedDateString() }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
@@ -103,21 +103,24 @@
             <x-slot name="content">
                 <form wire:submit.prevent="create">
                     <div class="space-y-4">
+                        
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_name_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <label class="block text-sm font-medium text-gray-700">Year and Section</label>
+                            <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="null">-- choose year and section</option>
-                                @foreach ($courseNames as $course)
-                                <option value="{{ $course->id }}">{{ $course->name }}</option>
+                                @foreach ($yearAndSections as $yearAndSection)
+                                <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="course_name_id"/>
+                            <x-jet-input-error for="year_and_section_id"/>
                         </div>
+                        {{-- @if (!empty($course_id) && $course_id != 'null') --}}
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Subject Code</label>
                             <input wire:model.lazy="name" type="text" placeholder="e.g. (subject code) - (desciption)" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-jet-input-error for="name"/>
                         </div>
+                        {{-- @endif --}}
                     </div>
                 </form>
             </x-slot>
@@ -144,12 +147,12 @@
                     <div class="space-y-4">
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_name_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                @foreach ($courseNames as $course)
-                                <option value="{{ $course->id }}">{{ $course->name }}</option>
+                            <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                @foreach ($yearAndSections as $yearAndSection)
+                                <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="course_name_id"/>
+                            <x-jet-input-error for="year_and_section_id"/>
                         </div>
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Subject Code</label>

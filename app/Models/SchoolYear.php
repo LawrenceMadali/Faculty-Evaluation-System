@@ -22,4 +22,5 @@ class SchoolYear extends Model
     {
         return $this->hasMany(Spe::class);
     }
+
 }

@@ -10,10 +10,10 @@ class SubjectCode extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'course_name_id'];
+    protected $fillable = ['name', 'year_and_section_id'];
 
-    public function courses()
+    public function yearAndSections()
     {
-        return $this->belongsTo(CourseName::class, 'course_name_id');
+        return $this->belongsTo(YearAndSection::class);
     }
 }

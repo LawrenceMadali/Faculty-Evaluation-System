@@ -12,5 +12,10 @@ class Semester extends Model
     protected $fillable =[
         'name',
     ];
+    
+    public function schoolYears()
+    {
+        return $this->belongsTo(SchoolYear::class);
+    }
 
 }

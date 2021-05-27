@@ -122,7 +122,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->college_id === null ? '-' : $user->colleges->name }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->course_name_id === null ? '-' : $user->courses->name }} </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->course_id === null ? '-' : $user->courses->name }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->year_and_section_id === null ? '-' : $user->yearAndSections->name  }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->user_status_id == null ? '-' : $user->userStatuses->name }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> {{ $user->roles->name }} </td>
@@ -225,13 +225,13 @@
                         </div>
                         <div x-show="role_id == 5" class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_name_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="null">-- choose course --</option>
                                 @foreach ($courses as $course)
                                 <option value="{{ $course->id }}">{{ $course->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="course_name_id"/>
+                            <x-jet-input-error for="course_id"/>
                         </div>
                         <div x-show="role_id == 5" class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Year and Section</label>
@@ -321,13 +321,13 @@
                         </div>
                         <div x-show="role_id == 5" class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_name_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="null">-- choose course --</option>
                                 @foreach ($courses as $course)
                                 <option value="{{ $course->id }}">{{ $course->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="course_name_id"/>
+                            <x-jet-input-error for="course_id"/>
                         </div>
                         @endif
                     </div>

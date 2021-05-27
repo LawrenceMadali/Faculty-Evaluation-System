@@ -14,7 +14,7 @@ class Sse extends Model
         'school_year_id',
         'semester_id',
         'name',
-        'course_name_id',
+        'course_id',
         'subject_code_id',
         'year_and_section_id',
     ];
@@ -41,7 +41,7 @@ class Sse extends Model
 
     public function courses()
     {
-        return $this->belongsTo(CourseName::class, 'course_name_id');
+        return $this->belongsTo(Course::class, 'course_id');
     }
 
     public function yearSections()
