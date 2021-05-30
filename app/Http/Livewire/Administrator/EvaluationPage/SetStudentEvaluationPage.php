@@ -29,16 +29,15 @@ class SetStudentEvaluationPage extends Component
         $this->resetValidation();
     }
 
-    public $course = null;
     public $subject_code = null;
     public $subjectCodes = null;
+    public $course = null;
     public $yearAndSection = null;
 
 
     public function updatedCourse($course_id)
     {
         $this->yearAndSection = YearAndSection::where('course_id', $course_id)->get();
-        $this->subjectCodes = SubjectCode::where('course_id', $course_id)->get();
     }
 
     public $students = null;

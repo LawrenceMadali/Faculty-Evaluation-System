@@ -14,10 +14,20 @@ class CourseSeeder extends Seeder
      */
     public function run()
     {
-        Course::create(['name'=>'Bachelor of Science in Information System']);
-        Course::create(['name'=>'Bachelor of Science in Information Technology']);
-        Course::create(['name'=>'Bachelor of Science in Accountancy']);
-        Course::create(['name'=>'Bachelor of Science in Business Administration']);
-        Course::create(['name'=>'Bachelor of Science in Office Administration']);
+        Course::create([
+            'college_id' => 1,
+            'name'=>'Bachelor of Science in Information System']);
+        Course::create([
+            'college_id' => 1,
+            'name'=>'Bachelor of Science in Information Technology']);
+        Course::create([
+            'college_id' => 2,
+            'name'=>'Bachelor of Science in Accountancy']);
+        Course::create([
+            'college_id' => 3,
+            'name'=>'Bachelor of Science in Business Administration']);
+        Course::create([
+            'college_id' => 3,
+            'name'=>'Bachelor of Science in Office Administration']);
     }
 }

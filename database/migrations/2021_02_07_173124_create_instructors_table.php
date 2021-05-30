@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSubjectCodesTable extends Migration
+class CreateInstructorsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class CreateSubjectCodesTable extends Migration
      */
     public function up()
     {
-        Schema::create('subject_codes', function (Blueprint $table) {
+        Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('year_and_section_id')->constrained();
-            $table->string('name');
+            $table->foreignId('user_id')->constrained();
+            $table->bigInteger('id_number');
+            $table->foreignId('subject_code_id')->constrained();
+            $table->boolean('is_regular')->default(true);
             $table->timestamps();
         });
     }
@@ -28,6 +30,6 @@ class CreateSubjectCodesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('subject_codes');
+        Schema::dropIfExists('instructors');
     }
 }

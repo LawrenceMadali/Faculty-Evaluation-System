@@ -13,16 +13,16 @@ class YearAndSection extends Model
 
     protected $fillable = [
         'name',
-        'course_id',
+        'user_id',
     ];
 
     public function users()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function courses()
-    {
-        return $this->belongsTo(Course::class, 'course_id');
-    }
+    // public function users()
+    // {
+    //     return $this->belongsTo(Course::class, 'course_id');
+    // }
 }

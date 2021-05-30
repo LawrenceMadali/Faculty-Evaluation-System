@@ -11,10 +11,8 @@
                 {{ session('status') }}
             </div>
         @endif
-
         <form method="POST" action="{{ route('login') }}">
             @csrf
-
             <div>
                 <x-jet-label for="id_number" value="{{ __('Id number') }}" />
                 <x-jet-input id="id_number" class="block mt-1 w-full" type="number" name="id_number" :value="old('id_number')" required autofocus />
@@ -38,7 +36,6 @@
                         {{ __('Forgot your password?') }}
                     </a>
                 @endif
-
                 <x-jet-button class="ml-4">
                     {{ __('Login') }}
                 </x-jet-button>

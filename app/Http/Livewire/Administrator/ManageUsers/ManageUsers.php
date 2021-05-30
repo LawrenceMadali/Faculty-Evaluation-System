@@ -49,6 +49,14 @@ class ManageUsers extends Component
         'role_id.required' => 'This role field is required',
     ];
 
+    public $college = null;
+    public $courses = null;
+
+    public function updatedCollege($college_id)
+    {
+        $this->courses = Course::where('college_id', $college_id)->get();
+    }
+
     public function create()
     {
         $users = $this->validate();
@@ -149,7 +157,7 @@ class ManageUsers extends Component
             'colleges'          => College::all(),
             'courses'           => Course::all(),
             'yearAndSections'   => YearAndSection::all(),
-            'studentStatuses'   => UserStatus::all(),
+            'userStatuses'   => UserStatus::all(),
             'users'             => User::with('yearAndSections', 'colleges', 'roles', 'userStatuses', 'courses'),
             'users'             => User::search($this->search)
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')

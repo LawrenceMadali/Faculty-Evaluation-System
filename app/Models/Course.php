@@ -10,10 +10,10 @@ class Course extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'college_id'];
 
-    public function subjectCode()
+    public function colleges()
     {
-        return $this->hasMany(SubjectCode::class);
+        return $this->belongsTo(College::class, 'college_id');
     }
 }

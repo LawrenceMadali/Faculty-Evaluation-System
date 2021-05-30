@@ -13,13 +13,17 @@ class YearSectionProperty extends Component
     use WithPagination;
 
     public $name;
-    public $course_id;
+    public $user_id;
     public $createModal = false;
     public $editModal = false;
 
     protected $rules = [
-        'name'          => 'required',
-        'course_id'=> 'required',
+        'name'      => 'required',
+        'user_id'   => 'required',
+    ];
+
+    protected $messages = [
+        'user_id.required' => 'The instructor field is required',
     ];
 
     public function create()
@@ -27,8 +31,8 @@ class YearSectionProperty extends Component
         $this->validate();
 
         YearAndSection::create([
-            'name'          => $this->name,
-            'course_id'=> $this->course_id,
+            'name'      => $this->name,
+            'user_id'   => $this->user_id,
         ]);
         $this->reset();
         $this->resetValidation();
@@ -42,14 +46,14 @@ class YearSectionProperty extends Component
         $this->createModal = true;
     }
 
-    public $yrSec;
+    public $yearAndSectionId;
 
     public function editOpenModal($id)
     {
-        $this->yrSec = $id;
-        $yrSec = YearAndSection::find($this->yrSec);
-        $this->name             = $yrSec->name;
-        $this->course_id   = $yrSec->course_id;
+        $this->yearAndSectionId = $id;
+        $yearAndSectionId       = YearAndSection::find($this->yearAndSectionId);
+        $this->name             = $yearAndSectionId->name;
+        $this->user_id          = $yearAndSectionId->user_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -59,9 +63,9 @@ class YearSectionProperty extends Component
     {
         $yearNsection = $this->validate([
             'name'          => 'required',
-            'course_id'=> 'required'
+            'user_id'=> 'required'
         ]);
-        YearAndSection::find($this->yrSec)->update($yearNsection);
+        YearAndSection::find($this->yearAndSectionId)->update($yearNsection);
         $this->reset();
         $this->resetValidation();
         $this->emit('updated');
@@ -79,8 +83,8 @@ class YearSectionProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.year-section-property', [
-            'yrSecs'=> YearAndSection::with('courses')->paginate(5),
-            'Courses' => Course::all()
+            'yrSecs'=> YearAndSection::with('users')->paginate(5),
+            'instructors' => User::where('role_id', 4)->get(),
         ]);
     }
 }

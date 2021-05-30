@@ -42,10 +42,13 @@
         {{-------------------------------------------------- Add button for dean --------------------------------------------------}}
         <div class="flex justify-between items-center">
             <div class="flex justify-start items-center space-x-2">
-                <x-jet-button wire:click.prevent="createOpenModal">
+
+                @livewire('administrator.manage-users.create-modal')
+                {{-- <x-jet-button wire:click.prevent="createOpenModal">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     Create New User
-                </x-jet-button>
+                </x-jet-button> --}}
+
                 <x-jet-input wire:model="search" type="text" placeholder="Search..."/>
 
                 <x-jet-secondary-button wire:click="$toggle('importModal')">
@@ -94,8 +97,8 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> id number </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> name </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> college </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> year & section </th>
+                                {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> year & section </th> --}}
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> status </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Role </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> created at </th>
@@ -122,22 +125,23 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->college_id === null ? '-' : $user->colleges->name }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->course_id === null ? '-' : $user->courses->name }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->year_and_section_id === null ? '-' : $user->yearAndSections->name  }} </td>
+                                    {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->course_id === null ? '-' : $user->courses->name }} </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->year_and_section_id === null ? '-' : $user->yearAndSections->name  }} </td> --}}
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->user_status_id == null ? '-' : $user->userStatuses->name }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> {{ $user->roles->name }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div> </td>
                                     <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div> </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    @if (!in_array(auth()->user()->role_id, [1]))
-                                        @if (in_array($user->role_id, [1]))
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                        <button wire:click.prevent="editOpenModal({{$user->id}})" class="text-indigo-600 hover:text-indigo-900">View</button>
+                                        @if (!in_array(auth()->user()->role_id, [1]))
+                                            @if (in_array($user->role_id, [1]))
+                                            @else
+                                                <button wire:click.prevent="editOpenModal({{$user->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
+                                            @endif
                                         @else
                                             <button wire:click.prevent="editOpenModal({{$user->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
                                         @endif
-                                    @else
-                                        <button wire:click.prevent="editOpenModal({{$user->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
-                                    @endif
-                                </td>
+                                    </td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -167,96 +171,7 @@
 
 
         {{-------------------------------------------------- Create Modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="createModal">
-            <x-slot name="title">
-                {{ __('Create New User') }}
-            </x-slot>
 
-            <x-slot name="content">
-                <form wire:submit.prevent="create" x-data="{role_id: 1}">
-                    <div class="space-y-4">
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Role</label>
-                            <select x-model="role_id" wire:model="role_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose role --</option>
-                                <option value="2">Dean</option>
-                                <option value="3">Secretary</option>
-                                <option value="4">Instructor</option>
-                                <option value="5">Student</option>
-                                <option value="6">HR</option>
-                            </select>
-                            <x-jet-input-error for="role_id"/>
-                        </div>
-
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Name</label>
-                            <input wire:model.lazy="name" placeholder="e.g. Lastname, Firstname Mi." type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="name"/>
-                        </div>
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Id number</label>
-                            <input wire:model.lazy="id_number" placeholder="e.g. 0123456789" type="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="id_number"/>
-                        </div>
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Email</label>
-                            <input wire:model.lazy="email" placeholder="e.g. JohnDoe@example.com" type="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="email"/>
-                        </div>
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Status</label>
-                            <select wire:model="user_status_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose status --</option>
-                                @foreach ($studentStatuses as $Ss)
-                                <option value="{{ $Ss->id }}">{{ $Ss->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="user_status_id"/>
-                        </div>
-                        <div x-show="role_id == 2 || role_id == 4 || role_id == 5" class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">College</label>
-                            <select wire:model="college_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose college --</option>
-                                @foreach ($colleges as $college)
-                                <option value="{{ $college->id }}">{{ $college->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="college_id"/>
-                        </div>
-                        <div x-show="role_id == 5" class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose course --</option>
-                                @foreach ($courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="course_id"/>
-                        </div>
-                        <div x-show="role_id == 5" class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Year and Section</label>
-                            <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose college --</option>
-                                @foreach ($yearAndSections as $yearAndSection)
-                                <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="year_and_section_id"/>
-                        </div>
-                    </div>
-                </form>
-            </x-slot>
-
-            <x-slot name="footer">
-                <x-jet-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
-                </x-jet-secondary-button>
-
-                <x-jet-button class="ml-2" wire:click="create" wire:loading.attr="disabled">
-                    {{ __('Create') }}
-                </x-jet-button>
-            </x-slot>
-        </x-jet-dialog-modal>
 
         {{-------------------------------------------------- Edit Modal --------------------------------------------------}}
         <x-jet-dialog-modal wire:model.defer="editModal">
@@ -302,9 +217,9 @@
                             <label class="block text-sm font-medium text-gray-700">Status</label>
                             <select wire:model="user_status_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="null">-- choose status --</option>
-                                @foreach ($studentStatuses as $Ss)
-                                <option value="{{ $Ss->id }}">{{ $Ss->name }}</option>
-                                @endforeach
+                                {{-- @foreach ($userStatuses as $us)
+                                <option value="{{ $us->id }}">{{ $us->name }}</option>
+                                @endforeach --}}
                             </select>
                             <x-jet-input-error for="user_status_id"/>
                         </div>
@@ -323,9 +238,9 @@
                             <label class="block text-sm font-medium text-gray-700">Course</label>
                             <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="null">-- choose course --</option>
-                                @foreach ($courses as $course)
+                                {{-- @foreach ($courses as $course)
                                 <option value="{{ $course->id }}">{{ $course->name }}</option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                             <x-jet-input-error for="course_id"/>
                         </div>

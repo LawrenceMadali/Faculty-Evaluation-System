@@ -12,23 +12,25 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\EvaluatorController;
 use App\Http\Controllers\Admin\ManagePeerRaterForm;
 use App\Http\Controllers\Admin\ManageUserController;
+
+use App\Http\Controllers\Student\Auth\LoginController;
+
 use App\Http\Controllers\Admin\SummaryResultController;
-
 use App\Http\Controllers\Admin\Questionair\QuestionairController;
-use App\Http\Controllers\Admin\Questionair\StudentQuestionairController;
-use App\Http\Controllers\Admin\Questionair\PeerToPeerQuestionairController;
-
 use App\Http\Controllers\Admin\SectionProperties\CourseController;
-use App\Http\Controllers\Admin\SectionProperties\CollegeController;
 
 use App\Http\Controllers\Admin\SummaryResult\PeerToPeerController;
-use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
+use App\Http\Controllers\Admin\SectionProperties\CollegeController;
 
-use App\Http\Controllers\Admin\EvaluationPage\SetPeerEvaluationController;
-use App\Http\Controllers\Admin\EvaluationPage\SetStudentEvaluationController;
-
-use App\Http\Controllers\Admin\SectionProperties\SectionPropertiesController;
 use App\Http\Controllers\Admin\ManageSettings\ManageSettingsController;
+use App\Http\Controllers\Admin\Questionair\StudentQuestionairController;
+
+use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
+use App\Http\Controllers\Admin\EvaluationPage\SetPeerEvaluationController;
+
+use App\Http\Controllers\Admin\Questionair\PeerToPeerQuestionairController;
+use App\Http\Controllers\Admin\EvaluationPage\SetStudentEvaluationController;
+use App\Http\Controllers\Admin\SectionProperties\SectionPropertiesController;
 
 Route::group(['middleware' => 'auth'], function()
 {
@@ -41,8 +43,6 @@ Route::group(['middleware' => 'auth'], function()
         // definitely dashboard
         Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
         // sidebar menu
-        // Route::get('settings', [SettingController::class, 'index'])->name('settings');
-        // Route::get('evaluator', [EvaluatorController::class, 'index'])->name('evaluator');
         Route::get('section', [SectionController::class, 'index'])->name('section');
         // Evaluation Page
         Route::get('set.peer.evaluation', [SetPeerEvaluationController::class, 'index'])->name('set-peer-evaluation');
@@ -56,7 +56,7 @@ Route::group(['middleware' => 'auth'], function()
         // create, edit, update peer rating form
         Route::get('settings/peer.rater.form',[ManagePeerRaterForm::class, 'index'])->name('manage-peer-rater-form');
         // manage questionair
-        Route::prefix('questionair')->group(function () {
+        Route::prefix('questionairs')->group(function () {
             Route::get('/', [QuestionairController::class, 'index'])->name('questionair');
             Route::get('peer.to.peer.questionair', [PeerToPeerQuestionairController::class, 'index'])->name('prf-questionair');
             Route::get('student.questionair', [StudentQuestionairController::class, 'index'])->name('srf-questionair');
@@ -65,23 +65,26 @@ Route::group(['middleware' => 'auth'], function()
         Route::prefix('manage-settings')->group(function () {
             Route::get('/', [ManageSettingsController::class, 'index'])->name('manage-settings');
         });
-        // importing student data
-        Route::get('import.student.data', [ImportStudentData::class, 'index'])->name('import-student-data');
     });
 
     // middleware for secretary
-    Route::group(['middleware' => 'secretaryMiddleware'], function () {
+    Route::group(['middleware' => 'secretaryMiddleware', 'prefix' => 'dashboard'], function () {
         Route::get('manage.users', [ManageUserController::class, 'index'])->name('manage-users');
     });
-    // middleware for instructor
-    Route::group(['middleware' => 'instructorMiddleware' ], function () {
-        Route::get('peer.rater.form', [PeerRaterForm::class, 'index'])->name('peerRaterForm');
-    });
-    // middleware for student
-    Route::group(['middleware' => 'studentMiddleware'], function () {
-        Route::get('student.rater.form',  [StudentRaterForm::class, 'index'])->name('studentRaterForm');
+    Route::prefix('evaluation')->group(function () {
+        // middleware for instructor
+        Route::group(['middleware' => 'instructorMiddleware' ], function () {
+            Route::get('peer.rater.form', [PeerRaterForm::class, 'index'])->name('peerRaterForm');
+        });
+        // middleware for student
+        Route::group(['middleware' => 'studentMiddleware'], function () {
+            Route::get('student.rater.form',  [StudentRaterForm::class, 'index'])->name('studentRaterForm');
+        });
     });
 });
+Route::get('student.login',  [LoginController::class, 'index'])->name('student-login');
+Route::post('student.login',  [LoginController::class, 'store']);
+
 Route::get('/', function () {
     return view('welcome');
 });

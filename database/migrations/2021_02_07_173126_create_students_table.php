@@ -15,17 +15,12 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->string('password');
+            $table->foreignId('user_id')->constrained();
             $table->bigInteger('id_number');
-            $table->foreignId('role_id')->constrained();
-            $table->foreignId('college_id')->nullable()->constrained();
-            $table->foreignId('course_id')->nullable()->constrained();
-            $table->foreignId('user_status_id')->nullable()->constrained();
-            $table->foreignId('year_and_section_id')->nullable()->constrained();
-            $table->rememberToken();
-            $table->text('profile_photo_path')->nullable();
+            $table->foreignId('college_id')->constrained();
+            $table->foreignId('course_id')->constrained();
+            $table->foreignId('year_and_section_id')->constrained();
+            $table->boolean('is_enrolled')->default(true);
             $table->timestamps();
         });
     }

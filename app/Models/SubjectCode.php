@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\YearAndSection;
+use App\Models\Course;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -10,10 +10,10 @@ class SubjectCode extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'year_and_section_id'];
+    protected $fillable = ['name', 'course_id'];
 
-    public function yearAndSections()
+    public function courses()
     {
-        return $this->belongsTo(YearAndSection::class);
+        return $this->belongsTo(Course::class, 'course_id');
     }
 }

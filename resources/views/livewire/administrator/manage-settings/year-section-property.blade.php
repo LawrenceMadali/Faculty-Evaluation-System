@@ -42,7 +42,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Id </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Year & Section </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Instructor </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated at </th>
                                 <th scope="col" class="relative px-6 py-3">
@@ -55,7 +55,7 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->id }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->courses->name }}</div></td>
+                                    {{-- <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->users->name }}</div></td> --}}
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->created_at->ToFormattedDateString() }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->updated_at->ToFormattedDateString() }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
@@ -64,7 +64,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="5">
+                                    <td colspan="6">
                                         <div class="flex justify-center items-center space-x-2">
                                             <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                             <span class="text-xl text-gray-400 font-medium py-8">No results yet...</span>
@@ -93,14 +93,14 @@
                 <form wire:submit.prevent="create">
                     <div class="space-y-4">
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose course</option>
-                                @foreach ($Courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->name }}</option>
+                            <label class="block text-sm font-medium text-gray-700">Instructor</label>
+                            <select wire:model="user_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose instructor</option>
+                                @foreach ($instructors as $instructor)
+                                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="course_id"/>
+                            <x-jet-input-error for="user_id"/>
                         </div>
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Year and Section</label>
@@ -132,14 +132,14 @@
                 <form wire:submit.prevent="update">
                     <div class="space-y-4">
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose course</option>
-                                @foreach ($Courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->name }}</option>
+                            <label class="block text-sm font-medium text-gray-700">Instructor</label>
+                            <select wire:model="user_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose instructor</option>
+                                @foreach ($instructors as $instructor)
+                                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="course_id"/>
+                            <x-jet-input-error for="user_id"/>
                         </div>
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Year and Section</label>
