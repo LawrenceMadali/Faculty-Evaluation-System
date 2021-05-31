@@ -1,16 +1,22 @@
 @extends('layouts.administrator')
 
 @section('adminContent')
-    <x-admin.head-title adminHeader="Questionair"/>
+    <x-admin.head-title adminHeader="Questionairs"/>
     <section class="text-gray-600 body-font">
-        <div class="container px-5 py-10 mx-auto">
-            <div class="flex flex-wrap -m-4 space-x-4">
-                <div class="bg-white rounded-md p-4 lg:w-1/5 sm:w-1/2 w-full">
-                    <h2 class="font-bold title-font tracking-widest mb-2 text-center ">Questionair Forms</h2>
-                    <hr>
-                    <nav class="flex flex-col sm:items-start sm:text-left text-center items-center">
-                        <a href="{{ route('prf-questionair') }}" class="mt-2 p-2 w-full rounded-md hover:bg-gray-200 hover:text-gray-700"> Peer Rater Form </a>
-                        <a href="{{ route('srf-questionair') }}" class="p-2 w-full rounded-md hover:bg-gray-200 hover:text-gray-700"> Student Rater Form </a>
+        <div class="container px-5 py-5 mx-auto">
+            <div class="flex flex-wrap -m-4">
+                <div class="p-4 lg:w-1/3 sm:w-1/2 w-full">
+                    <nav class="flex flex-col sm:items-start sm:text-left -mb-1 space-y-2.5">
+                        <a href="{{ route('prf-questionair') }}" class="hover:underline hover:text-blue-500">
+                            <span class="bg-indigo-100 text-blue-700 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+                            </span>Peer rater form questionair
+                        </a>
+                        <a href="" class="hover:underline hover:text-blue-500">
+                            <span class="bg-indigo-100 text-blue-700 w-4 h-4 mr-2 rounded-full inline-flex items-center justify-center">
+                                <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" class="w-3 h-3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"></path></svg>
+                            </span>Student rater form questionair
+                        </a>
                     </nav>
                 </div>
             </div>

@@ -28,6 +28,7 @@ class AdminSeeder extends Seeder
             'email'     => 'Dean@example.com',
             'password'  => bcrypt('password'),
             'role_id'   => 2,
+            'college_id'=> 1,
         ]);
 
         User::create([
@@ -44,6 +45,7 @@ class AdminSeeder extends Seeder
             'email'     => 'Example1@email.com',
             'password'  => bcrypt('password'),
             'role_id'   => 4,
+            'college_id'=> 1,
         ]);
 
         User::create([
@@ -52,6 +54,7 @@ class AdminSeeder extends Seeder
             'email'     => 'Example2@email.com',
             'password'  => bcrypt('password'),
             'role_id'   => 4,
+            'college_id'=> 1,
         ]);
 
         User::create([
@@ -60,6 +63,7 @@ class AdminSeeder extends Seeder
             'email'     => 'Example3@email.com',
             'password'  => bcrypt('password'),
             'role_id'   => 4,
+            'college_id'=> 1,
         ]);
 
         User::create([
@@ -68,6 +72,7 @@ class AdminSeeder extends Seeder
             'email'     => 'Example4@email.com',
             'password'  => bcrypt('password'),
             'role_id'   => 4,
+            'college_id'=> 1,
         ]);
 
         User::create([
@@ -75,7 +80,8 @@ class AdminSeeder extends Seeder
             'id_number' => 1011800386,
             'email'     => 'lawrencemadali@example.com',
             'password'  => bcrypt('password'),
-            'role_id'   => 4,
+            'role_id'   => 5,
+            'college_id'=> 1,
         ]);
     }
 }

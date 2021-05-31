@@ -1,6 +1,6 @@
 <div>
     <div class="space-y-2">
-        <section class="flex justify-center items-center mt-2">
+        <section class="flex justify-center items-center">
             {{-------------------------------------------------- Success message for Create --------------------------------------------------}}
             <x-jet-action-message on="created" class="w-full text-white bg-green-500 rounded-lg ">
                 <div class="container flex items-center justify-between px-6 py-4 mx-auto">
@@ -39,15 +39,14 @@
             </x-jet-action-message>
         </section>
 
-        {{-------------------------------------------------- Add button for dean --------------------------------------------------}}
+        {{-------------------------------------------------- Add button --------------------------------------------------}}
         <div class="flex justify-between items-center">
             <div class="flex justify-start items-center space-x-2">
 
-                @livewire('administrator.manage-users.create-modal')
-                {{-- <x-jet-button wire:click.prevent="createOpenModal">
+                <x-jet-button wire:click.prevent="createOpenModal">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                     Create New User
-                </x-jet-button> --}}
+                </x-jet-button>
 
                 <x-jet-input wire:model="search" type="text" placeholder="Search..."/>
 
@@ -62,10 +61,8 @@
                     <select wire:model="sortField" class="text-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                         <option value="created_at">Created at</option>
                         <option value="id_number">Id number</option>
-                        <option value="year_and_section_id">Year and Section</option>
                         <option value="name">Name</option>
                         <option value="role_id">Role</option>
-                        <option value="user_status_id">Status</option>
                     </select>
                 </div>
                 <div class="relative inline-flex">
@@ -124,10 +121,17 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->college_id === null ? '-' : $user->colleges->name }} </td>
-                                    {{-- <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->course_id === null ? '-' : $user->courses->name }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->year_and_section_id === null ? '-' : $user->yearAndSections->name  }} </td> --}}
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->user_status_id == null ? '-' : $user->userStatuses->name }} </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-center"> {{ $user->college_id === null ? '-' : $user->colleges->name }} </td>
+
+                                    @if (in_array($user->role_id, [1, 2, 6]))
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->status === 0 ? '-' : 'Regular' }} </td>
+                                    @elseif ($user->role_id === 3)
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->status === 0 ? '-' : 'Staff' }} </td>
+                                    @elseif ($user->role_id === 4)
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->status === 0 ? 'Part time' : 'Regular' }} </td>
+                                    @elseif ($user->role_id === 5)
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500"> {{ $user->status === 0 ? 'Pending' : 'Enrolled' }} </td>
+                                    @endif
                                     <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> {{ $user->roles->name }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div> </td>
                                     <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div> </td>
@@ -171,23 +175,18 @@
 
 
         {{-------------------------------------------------- Create Modal --------------------------------------------------}}
-
-
-        {{-------------------------------------------------- Edit Modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="editModal">
+        <x-jet-dialog-modal wire:model.defer="createModal">
             <x-slot name="title">
-                {{ __('Edit user') }}
+                {{ __('Create New User') }}
             </x-slot>
 
             <x-slot name="content">
-                <form wire:submit.prevent="update" x-data="{role: 1}">
+                <form wire:submit.prevent="create">
                     <div class="space-y-4">
-                        @if ($role_id == 1)
-                        @else
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Role</label>
-                            <select wire:model="role_id" x-model="role_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option>-- choose role --</option>
+                            <select wire:model="role_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="">-- choose role --</option>
                                 <option value="2">Dean</option>
                                 <option value="3">Secretary</option>
                                 <option value="4">Instructor</option>
@@ -196,53 +195,98 @@
                             </select>
                             <x-jet-input-error for="role_id"/>
                         </div>
-                        @endif
 
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Name</label>
-                            <input wire:model.lazy="name" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input wire:model.lazy="name" placeholder="e.g. Lastname, Firstname Mi." type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-jet-input-error for="name"/>
                         </div>
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Id number</label>
-                            <input wire:model.lazy="id_number" type="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input wire:model.lazy="id_number" placeholder="e.g. 0123456789" type="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-jet-input-error for="id_number"/>
                         </div>
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Email</label>
-                            <input wire:model.lazy="email" type="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <input wire:model.lazy="email" placeholder="e.g. JohnDoe@example.com" type="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-jet-input-error for="email"/>
                         </div>
+
+                        @if (in_array($role_id,[2,4,5]))
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Status</label>
-                            <select wire:model="user_status_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose status --</option>
-                                {{-- @foreach ($userStatuses as $us)
-                                <option value="{{ $us->id }}">{{ $us->name }}</option>
-                                @endforeach --}}
-                            </select>
-                            <x-jet-input-error for="user_status_id"/>
-                        </div>
-                        @if (!in_array($role_id ,[1,3]))
-                        <div class="col-span-6" x-show="role_id == 2 || role_id == 4 || role_id == 5" >
                             <label class="block text-sm font-medium text-gray-700">College</label>
                             <select wire:model="college_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose college --</option>
+                                <option value="">-- choose college --</option>
                                 @foreach ($colleges as $college)
                                 <option value="{{ $college->id }}">{{ $college->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="college"/>
+                            <x-jet-input-error for="college_id"/>
                         </div>
-                        <div x-show="role_id == 5" class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose course --</option>
-                                {{-- @foreach ($courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->name }}</option>
-                                @endforeach --}}
+                        @endif
+                    </div>
+                </form>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-jet-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                    {{ __('Cancel') }}
+                </x-jet-secondary-button>
+
+                <x-jet-button class="ml-2" wire:click="create" wire:loading.attr="disabled">
+                    {{ __('Create') }}
+                </x-jet-button>
+            </x-slot>
+        </x-jet-dialog-modal>
+
+        {{-------------------------------------------------- Edit Modal --------------------------------------------------}}
+        <x-jet-dialog-modal wire:model.defer="editModal">
+            <x-slot name="title">
+                {{ __('Edit user') }}
+            </x-slot>
+
+            <x-slot name="content">
+                <form wire:submit.prevent="update">
+                    <div class="space-y-4">
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Role</label>
+                            <select wire:model="role_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="">-- choose role --</option>
+                                <option value="2">Dean</option>
+                                <option value="3">Secretary</option>
+                                <option value="4">Instructor</option>
+                                <option value="5">Student</option>
+                                <option value="6">HR</option>
                             </select>
-                            <x-jet-input-error for="course_id"/>
+                            <x-jet-input-error for="role_id"/>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Name</label>
+                            <input wire:model.lazy="name" placeholder="e.g. Lastname, Firstname Mi." type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="name"/>
+                        </div>
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Id number</label>
+                            <input wire:model.lazy="id_number" placeholder="e.g. 0123456789" type="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="id_number"/>
+                        </div>
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Email</label>
+                            <input wire:model.lazy="email" placeholder="e.g. JohnDoe@example.com" type="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="email"/>
+                        </div>
+
+                        @if (in_array($role_id,[2,4,5]))
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">College</label>
+                            <select wire:model="college_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="">-- choose college --</option>
+                                @foreach ($colleges as $college)
+                                <option value="{{ $college->id }}">{{ $college->name }}</option>
+                                @endforeach
+                            </select>
+                            <x-jet-input-error for="college_id"/>
                         </div>
                         @endif
                     </div>

@@ -37,10 +37,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'user_status_id',
+        'status',
         'college_id',
-        'course_id',
-        'year_and_section_id',
     ];
 
     /**
@@ -80,9 +78,7 @@ class User extends Authenticatable
         : static::query()
         ->where('id_number', 'LIKE' , '%'.$search.'%')
         ->orWhere('name', 'LIKE' , '%'.$search.'%')
-        ->orWhere('user_status_id', 'LIKE' , '%'.$search.'%')
         ->orWhere('college_id', 'LIKE' , '%'.$search.'%')
-        ->orWhere('year_and_section_id', 'LIKE' , '%'.$search.'%')
         ->orWhere('email', 'LIKE' , '%'.$search.'%')
         ->orwhere('created_at', 'LIKE' , '%'.$search.'%');
     }

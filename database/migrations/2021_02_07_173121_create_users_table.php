@@ -18,7 +18,9 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
+            $table->boolean('status')->default(true);
             $table->foreignId('role_id')->constrained();
+            $table->foreignId('college_id')->nullable()->constrained();
             $table->bigInteger('id_number');
             $table->rememberToken();
             $table->text('profile_photo_path')->nullable();

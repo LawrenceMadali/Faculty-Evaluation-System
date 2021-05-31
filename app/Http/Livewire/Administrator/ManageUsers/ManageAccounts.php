@@ -13,7 +13,7 @@ use App\Models\YearAndSection;
 use App\Imports\UserDataImport;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ManageUsers extends Component
+class ManageAccounts extends Component
 {
     use WithPagination;
     use WithFileUploads;
@@ -36,13 +36,13 @@ class ManageUsers extends Component
     public $year_and_section_id;
     public $user_status_id;
 
-    protected $rules = [
-        'role_id'       => 'required',
-        'id_number'     => 'required|unique:users',
-        'name'          => 'required',
-        'email'         => 'required|email',
-        'user_status_id'=> 'required',
-    ];
+    // protected $rules = [
+    //     'role_id'       => 'required',
+    //     'id_number'     => 'required|unique:users|min:10',
+    //     'name'          => 'required',
+    //     'email'         => 'required|email',
+    //     'college_id'    => 'required',
+    // ];
 
     protected $messages = [
         'user_status_id.required' => 'This user status field is required',
@@ -59,13 +59,30 @@ class ManageUsers extends Component
 
     public function create()
     {
-        $users = $this->validate();
+        if (!in_array($this->role_id, [3,6] )) {
+            $this->validate([
+                'role_id'       => 'required',
+                'id_number'     => 'required|unique:users|min:10',
+                'name'          => 'required',
+                'email'         => 'required|email',
+                'college_id'    => 'required',
+            ]);
+        } else {
+            $this->validate([
+                'role_id'       => 'required',
+                'id_number'     => 'required|unique:users|min:10',
+                'name'          => 'required',
+                'email'         => 'required|email',
+            ]);
+        }
 
-        User::create($users + [
-            'course_id'        => $this->course_id,
-            'college_id'            => $this->college_id,
-            'year_and_section_id'   => $this->year_and_section_id,
-            'password'              => bcrypt('urspassword'),
+        User::create([
+            'role_id'       => $this->role_id,
+            'id_number'     => $this->id_number,
+            'name'          => $this->name,
+            'email'         => $this->email,
+            'college_id'    => $this->college_id,
+            'password'      => bcrypt('urspassword'),
         ]);
         $this->reset();
         $this->resetValidation();
@@ -80,20 +97,17 @@ class ManageUsers extends Component
         $this->createModal = true;
     }
 
-    public $deanId;
+    public $accId;
 
     public function editOpenModal($id)
     {
-        $this->deanId = $id;
-        $deanId                     = User::find($this->deanId);
-        $this->role_id              = $deanId->role_id;
-        $this->id_number            = $deanId->id_number;
-        $this->name                 = $deanId->name;
-        $this->email                = $deanId->email;
-        $this->college_id           = $deanId->college_id;
-        $this->course_id       = $deanId->course_id;
-        $this->year_and_section_id  = $deanId->year_and_section_id   ;
-        $this->user_status_id       = $deanId->user_status_id;
+        $this->accId = $id;
+        $accId                     = User::find($this->accId);
+        $this->role_id              = $accId->role_id;
+        $this->id_number            = $accId->id_number;
+        $this->name                 = $accId->name;
+        $this->email                = $accId->email;
+        $this->college_id           = $accId->college_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -101,18 +115,28 @@ class ManageUsers extends Component
 
     public function update()
     {
-        $users = $this->validate([
-            'role_id'           => 'required',
-            'id_number'         => 'required',
-            'name'              => 'required',
-            'email'             => 'required|email',
-            'user_status_id'    => 'required',
+        if (!in_array($this->role_id, [3,6] )) {
+            $this->validate([
+                'role_id'       => 'required',
+                'id_number'     => 'required',
+                'name'          => 'required',
+                'email'         => 'required|email',
+                'college_id'    => 'required',
             ]);
-            User::find($this->deanId)->update($users + [
-                'course_id'        => $this->course_id,
-                'college_id'            => $this->college_id,
-                'user_status_id'        => $this->college_id,
-                'year_and_section_id'   => $this->year_and_section_id,
+        } else {
+            $this->validate([
+                'role_id'       => 'required',
+                'id_number'     => 'required',
+                'name'          => 'required',
+                'email'         => 'required|email',
+            ]);
+        }
+            User::find($this->accId)->update([
+                'role_id'       => $this->role_id,
+                'id_number'     => $this->id_number,
+                'name'          => $this->name,
+                'email'         => $this->email,
+                'college_id'    => $this->college_id,
             ]);
             $this->reset();
             $this->resetValidation();
@@ -153,7 +177,7 @@ class ManageUsers extends Component
 
     public function render()
     {
-        return view('livewire.administrator.manage-users.manage-users', [
+        return view('livewire.administrator.manage-users.manage-accounts', [
             'colleges'          => College::all(),
             'courses'           => Course::all(),
             'yearAndSections'   => YearAndSection::all(),
