@@ -25,8 +25,8 @@
         <x-jet-section-border />
 
         {{-- ------------------------------------------------ Student Status ------------------------------------------------}}
-        @livewire('administrator.manage-settings.user-status-property')
-        <x-jet-section-border />
+        {{-- @livewire('administrator.manage-settings.user-status-property')
+        <x-jet-section-border /> --}}
 
     </div>
 </div>

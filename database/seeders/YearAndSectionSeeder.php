@@ -14,39 +14,15 @@ class YearAndSectionSeeder extends Seeder
      */
     public function run()
     {
-        YearAndSection::create([
-            'instructor_id' => 1,
-            'subject_code'  => 4,
-            'name'=>'1-1']);
-        YearAndSection::create([
-            'instructor_id' => 1,
-            'subject_code'  => 4,
-            'name'=>'1-2']);
-        YearAndSection::create([
-            'instructor_id' => 1,
-            'subject_code'  => 4,
-            'name'=>'1-3']);
-        YearAndSection::create([
-            'instructor_id' => 1,
-            'subject_code'  => 4,
-            'name'=>'1-4']);
+        YearAndSection::create(['instructor_id' => 1,'name'=>'1-1']);
+        YearAndSection::create(['instructor_id' => 1,'name'=>'1-2']);
+        YearAndSection::create(['instructor_id' => 1,'name'=>'1-3']);
+        YearAndSection::create(['instructor_id' => 1,'name'=>'1-4']);
 
-        YearAndSection::create([
-            'instructor_id' => 2,
-            'subject_code'  => 2,
-            'name'=>'1-1']);
-        YearAndSection::create([
-            'instructor_id' => 2,
-            'subject_code'  => 2,
-            'name'=>'1-2']);
-        YearAndSection::create([
-            'instructor_id' => 2,
-            'subject_code'  => 2,
-            'name'=>'1-3']);
-        YearAndSection::create([
-            'instructor_id' => 2,
-            'subject_code'  => 2,
-            'name'=>'1-4']);
+        YearAndSection::create(['instructor_id' => 2,'name'=>'1-1']);
+        YearAndSection::create(['instructor_id' => 2,'name'=>'1-2']);
+        YearAndSection::create(['instructor_id' => 2,'name'=>'1-3']);
+        YearAndSection::create(['instructor_id' => 2,'name'=>'1-4']);
 
         YearAndSection::create(['instructor_id' => 2, 'name'=>'2-1']);
         YearAndSection::create(['instructor_id' => 2, 'name'=>'2-2']);

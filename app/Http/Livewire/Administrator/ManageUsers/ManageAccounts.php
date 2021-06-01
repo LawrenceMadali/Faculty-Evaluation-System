@@ -3,10 +3,11 @@
 namespace App\Http\Livewire\Administrator\ManageUsers;
 
 use App\Models\User;
+use App\Models\Course;
 use App\Models\College;
 use Livewire\Component;
-use App\Models\Course;
 use App\Models\UserStatus;
+use App\Models\SubjectCode;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
@@ -26,26 +27,19 @@ class ManageAccounts extends Component
     public $createModal = false;
     public $editModal = false;
     public $importModal = false;
+    public $viewModal = false;
 
     public $role_id;
+    public $user_id;
     public $id_number;
     public $name;
     public $email;
     public $college_id;
     public $course_id;
     public $year_and_section_id;
-    public $user_status_id;
-
-    // protected $rules = [
-    //     'role_id'       => 'required',
-    //     'id_number'     => 'required|unique:users|min:10',
-    //     'name'          => 'required',
-    //     'email'         => 'required|email',
-    //     'college_id'    => 'required',
-    // ];
+    public $status = true;
 
     protected $messages = [
-        'user_status_id.required' => 'This user status field is required',
         'role_id.required' => 'This role field is required',
     ];
 
@@ -98,6 +92,7 @@ class ManageAccounts extends Component
     }
 
     public $accId;
+    public $user;
 
     public function editOpenModal($id)
     {
@@ -107,20 +102,24 @@ class ManageAccounts extends Component
         $this->id_number            = $accId->id_number;
         $this->name                 = $accId->name;
         $this->email                = $accId->email;
+        $this->status               = $accId->status;
+        $this->user_id              = $accId->user_id;
         $this->college_id           = $accId->college_id;
         $this->resetValidation();
 
         $this->editModal = true;
+        $this->user = $accId;
     }
+
 
     public function update()
     {
         if (!in_array($this->role_id, [3,6] )) {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required',
+                'id_number'     => 'required|unique:users,id_number,'.$this->user->id,
                 'name'          => 'required',
-                'email'         => 'required|email',
+                'email'         => 'required|email|unique:users,email,'.$this->user->id,
                 'college_id'    => 'required',
             ]);
         } else {
@@ -128,7 +127,7 @@ class ManageAccounts extends Component
                 'role_id'       => 'required',
                 'id_number'     => 'required',
                 'name'          => 'required',
-                'email'         => 'required|email',
+                'email'         => 'required|email|unique:users',
             ]);
         }
             User::find($this->accId)->update([
@@ -136,11 +135,15 @@ class ManageAccounts extends Component
                 'id_number'     => $this->id_number,
                 'name'          => $this->name,
                 'email'         => $this->email,
+                'status'        => $this->status,
                 'college_id'    => $this->college_id,
             ]);
-            $this->reset();
             $this->resetValidation();
             $this->emit('updated');
+    }
+
+    public function createEvaluationDetails()
+    {
     }
 
     public function closeModal()
@@ -180,9 +183,10 @@ class ManageAccounts extends Component
         return view('livewire.administrator.manage-users.manage-accounts', [
             'colleges'          => College::all(),
             'courses'           => Course::all(),
+            'subjectCodes'      => SubjectCode::all(),
             'yearAndSections'   => YearAndSection::all(),
-            'userStatuses'   => UserStatus::all(),
-            'users'             => User::with('yearAndSections', 'colleges', 'roles', 'userStatuses', 'courses'),
+            'users'             => User::with('yearAndSections', 'colleges', 'roles', 'courses')
+            ->where('role_id', 5),
             'users'             => User::search($this->search)
             ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
             ->paginate($this->perPage),
