@@ -65,7 +65,7 @@
                             <div class="text-sm text-gray-900">{{ $sse->yearSections->name }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $sse->subjectCodes->name }}</div>
+                            <div class="text-sm text-gray-900">{{ $sse->CourseCodes->name }}</div>
                         </td>
                     </tr>
                     @empty
@@ -160,12 +160,12 @@
                                                 @endif
 
 
-                                                @if (!is_null($subjectCodes))
+                                                @if (!is_null($CourseCodes))
                                                 <div class="col-span-6 sm:col-span-3">
-                                                <label for="subject_code" class="block text-sm font-medium text-gray-700">Subject Code</label>
-                                                <select wire:model="subject_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                <label for="course_code" class="block text-sm font-medium text-gray-700">Subject Code</label>
+                                                <select wire:model="course_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                     <option>-- choose subject code --</option>
-                                                    @foreach ($subjectCodes as $sc)
+                                                    @foreach ($CourseCodes as $sc)
                                                     <option value="{{ $sc->id }}">{{ $sc->name }}</option>
                                                     @endforeach
                                                 </select>

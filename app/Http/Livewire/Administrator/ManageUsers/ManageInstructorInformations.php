@@ -5,7 +5,7 @@ namespace App\Http\Livewire\Administrator\ManageUsers;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\Instructor;
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 
 class ManageInstructorInformations extends Component
 {
@@ -15,7 +15,7 @@ class ManageInstructorInformations extends Component
 
     public $user_id;
     public $id_number;
-    public $subject_code_id;
+    public $course_code_id;
     public $is_regular = true;
 
     public function create()
@@ -23,13 +23,13 @@ class ManageInstructorInformations extends Component
         $this->validate([
             'user_id' => 'required',
             'id_number' => 'required',
-            'subject_code_id' => 'required',
+            'course_code_id' => 'required',
         ]);
 
         Instructor::create([
             'user_id' => $this->user_id,
             'id_number' => $this->id_number,
-            'subject_code_id' => $this->subject_code_id,
+            'course_code_id' => $this->course_code_id,
         ]);
 
         $this->reset();
@@ -55,9 +55,9 @@ class ManageInstructorInformations extends Component
     public function render()
     {
         return view('livewire.administrator.manage-users.manage-instructor-informations',[
-            'instructors' => Instructor::with('users', 'subjectCodes')->get(),
+            'instructors' => Instructor::with('users', 'CourseCodes')->get(),
             'users' => User::where('role_id', 4)->get(),
-            'subjectCodes' => SubjectCode::all(),
+            'CourseCodes' => CourseCode::all(),
         ]);
     }
 }

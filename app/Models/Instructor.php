@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -11,9 +11,10 @@ class Instructor extends Model
     use HasFactory;
 
     protected $fillable = [
+        'name',
         'user_id',
         'id_number',
-        'subject_code_id',
+        'course_code_id',
         'is_regular',
     ];
 
@@ -22,8 +23,8 @@ class Instructor extends Model
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    public function subjectCodes()
+    public function CourseCodes()
     {
-        return $this->belongsTo(SubjectCode::class, 'subject_code_id');
+        return $this->belongsTo(CourseCode::class, 'course_code_id');
     }
 }

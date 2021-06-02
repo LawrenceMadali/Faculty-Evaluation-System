@@ -10,7 +10,7 @@ use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Course;
 use App\Models\SchoolYear;
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
@@ -29,8 +29,8 @@ class SetStudentEvaluationPage extends Component
         $this->resetValidation();
     }
 
-    public $subject_code = null;
-    public $subjectCodes = null;
+    public $course_code = null;
+    public $CourseCodes = null;
     public $course = null;
     public $yearAndSection = null;
 
@@ -244,7 +244,7 @@ class SetStudentEvaluationPage extends Component
             'semester' => 'required',
             'name' => 'required',
             'course' => 'required',
-            'subject_code' => 'required',
+            'course_code' => 'required',
             'year_and_section' => 'required',
             'selectedStudents' => 'required',
         ],[
@@ -256,7 +256,7 @@ class SetStudentEvaluationPage extends Component
             'semester_id'       => $this->semester,
             'name'              => $this->name,
             'course_id'    => $this->course,
-            'subject_code_id'   => $this->subject_code,
+            'course_code_id'   => $this->course_code,
             'year_and_section_id' => $this->year_and_section,
         ]);
         $this->emit('created');
@@ -266,7 +266,7 @@ class SetStudentEvaluationPage extends Component
         $this->semester = "";
         $this->name = "";
         $this->course = "";
-        $this->subject_code = "";
+        $this->course_code = "";
         $this->year_and_section = "";
         $this->reset('selectedStudents', 'select100', 'select80', 'select60', 'select40', 'select20', 'select10');
 
@@ -286,10 +286,10 @@ class SetStudentEvaluationPage extends Component
             'sems'          => Semester::all(),
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),
-            'scs'           => SubjectCode::all(),
+            'scs'           => CourseCode::all(),
             'counts'        => Sse::count(),
             'sses'          => Sse::with('schoolYears', 'semesters',
-                                         'courses', 'yearSections', 'subjectCodes')
+                                         'courses', 'yearSections', 'CourseCodes')
             ->latest('id')
             ->paginate(5),
 

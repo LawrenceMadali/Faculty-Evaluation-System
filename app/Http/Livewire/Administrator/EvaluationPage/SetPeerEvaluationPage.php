@@ -9,7 +9,7 @@ use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Course;
 use App\Models\SchoolYear;
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
@@ -32,15 +32,15 @@ class SetPeerEvaluationPage extends Component
 
 
     public $course       = null;
-    public $subject_code = null;
-    public $subjectCodes = null;
+    public $course_code = null;
+    public $CourseCodes = null;
 
     public $instructor = null;
     public $yearAndSection = null;
 
     public function updatedCourse($course_id)
     {
-        $this->subjectCodes = SubjectCode::where('course_id', $course_id)->get();
+        $this->CourseCodes = CourseCode::where('course_id', $course_id)->get();
     }
 
     public function updatedInstructor($user_id)
@@ -167,7 +167,7 @@ class SetPeerEvaluationPage extends Component
     public $school_year;
     public $semester;
     public $year_and_section;
-    // public $subject_code;
+    // public $course_code;
     // public $instructor;
     // public $course;
 
@@ -178,7 +178,7 @@ class SetPeerEvaluationPage extends Component
             'semester' => 'required',
             'instructor' => 'required',
             'course' => 'required',
-            'subject_code' => 'required',
+            'course_code' => 'required',
             'year_and_section' => 'required',
             'selectedStudents' => 'required',
         ],[
@@ -190,7 +190,7 @@ class SetPeerEvaluationPage extends Component
             'semester_id'       => $this->semester,
             'user_id'           => $this->instructor,
             'course_id'    => $this->course,
-            'subject_code_id'   => $this->subject_code,
+            'course_code_id'   => $this->course_code,
             'year_and_section_id' => $this->year_and_section,
         ]);
         $this->emit('created');
@@ -200,7 +200,7 @@ class SetPeerEvaluationPage extends Component
         $this->semester = "";
         $this->instructor = "";
         $this->course = "";
-        $this->subject_code = "";
+        $this->course_code = "";
         $this->year_and_section = "";
         $this->reset('selectedStudents', 'select100', 'select80', 'select60', 'select40', 'select20', 'select10');
 
@@ -215,11 +215,11 @@ class SetPeerEvaluationPage extends Component
             'sems'          => Semester::all(),
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),
-            'scs'           => SubjectCode::all(),
+            'scs'           => CourseCode::all(),
             'studentEvaluator'=> Spe::with('users')->first(),
             'peerCounts'    => Spe::count(),
             'spes'          => Spe::with('schoolYears', 'instructors', 'semesters',
-                                         'courses', 'yearSections', 'subjectCodes')
+                                         'courses', 'yearSections', 'CourseCodes')
             ->latest('id')
             ->paginate(5),
 

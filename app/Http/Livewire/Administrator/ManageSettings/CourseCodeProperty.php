@@ -4,11 +4,11 @@ namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use App\Models\Course;
 use Livewire\Component;
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 use Livewire\WithPagination;
 use App\Models\YearAndSection;
 
-class SubjectCodeProperty extends Component
+class CourseCodeProperty extends Component
 {
     use WithPagination;
 
@@ -18,7 +18,7 @@ class SubjectCodeProperty extends Component
     public $editModal;
 
     protected $rules = [
-        'name'      => 'required|unique:subject_codes',
+        'name'      => 'required|unique:course_codes',
         'course_id' => 'required',
     ];
 
@@ -30,7 +30,7 @@ class SubjectCodeProperty extends Component
     {
         $this->validate();
 
-        SubjectCode::create([
+        CourseCode::create([
             'name'      => $this->name,
             'course_id' => $this->course_id,
         ]);
@@ -46,14 +46,14 @@ class SubjectCodeProperty extends Component
         $this->createModal = true;
     }
 
-    public $subjectCodeId;
+    public $CourseCodeId;
 
     public function editOpenModal($id)
     {
-        $this->subjectCodeId = $id;
-        $subjectCodeId  = SubjectCode::find($this->subjectCodeId);
-        $this->name     = $subjectCodeId->name;
-        $this->course_id= $subjectCodeId->course_id;
+        $this->CourseCodeId = $id;
+        $CourseCodeId  = CourseCode::find($this->CourseCodeId);
+        $this->name     = $CourseCodeId->name;
+        $this->course_id= $CourseCodeId->course_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -65,7 +65,7 @@ class SubjectCodeProperty extends Component
             'name'      => 'required',
             'course_id' => 'required',
             ]);
-            SubjectCode::find($this->subjectCodeId)->update($validated);
+            CourseCode::find($this->CourseCodeId)->update($validated);
             $this->reset();
             $this->resetValidation();
             $this->emit('updated');
@@ -81,8 +81,8 @@ class SubjectCodeProperty extends Component
 
     public function render()
     {
-        return view('livewire.administrator.manage-settings.subject-code-property',[
-            'scs'       => SubjectCode::with('courses')->paginate(5),
+        return view('livewire.administrator.manage-settings.course-code-property',[
+            'scs'       => CourseCode::with('courses')->paginate(5),
             'courses'   => Course::all(),
         ]);
     }

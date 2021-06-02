@@ -8,18 +8,18 @@ use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Course;
 use App\Models\SchoolYear;
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 use App\Models\YearAndSection;
 
 class Evaluator extends Component
 {
     public $course       = null;
-    public $subject_code = null;
-    public $subjectCodes = null;
+    public $course_code = null;
+    public $CourseCodes = null;
 
     public function updatedCourse($course_id)
     {
-        $this->subjectCodes = SubjectCode::where('course_id', $course_id)->get();
+        $this->CourseCodes = CourseCode::where('course_id', $course_id)->get();
     }
 
     public $instructor = null;
@@ -84,7 +84,7 @@ class Evaluator extends Component
             'sems'          => Semester::all(),
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),
-            'scs'           => SubjectCode::all(),
+            'scs'           => CourseCode::all(),
         ]);
     }
 }

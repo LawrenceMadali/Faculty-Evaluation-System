@@ -9,7 +9,7 @@ use App\Models\Semester;
 use App\Models\YearLevel;
 use App\Models\Course;
 use App\Models\SchoolYear;
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
 use App\Imports\SectionsImport;
@@ -66,12 +66,12 @@ class Section extends Component
     }
 
     public $course       = null;
-    public $subject_code = null;
-    public $subjectCodes = null;
+    public $course_code = null;
+    public $CourseCodes = null;
 
     public function updatedCourse($course_id)
     {
-        $this->subjectCodes = SubjectCode::where('course_id', $course_id)->get();
+        $this->CourseCodes = CourseCode::where('course_id', $course_id)->get();
     }
 
     public $instructor = null;
@@ -109,7 +109,7 @@ class Section extends Component
             'sems'          => Semester::all(),
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),
-            'scs'           => SubjectCode::all(),
+            'scs'           => CourseCode::all(),
         ]);
 
 

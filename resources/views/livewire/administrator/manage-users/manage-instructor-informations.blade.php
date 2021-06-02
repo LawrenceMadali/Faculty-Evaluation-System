@@ -39,7 +39,7 @@
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900"> {{$instructor->subjectCodes->name}} </div>
+                                        <div class="text-sm text-gray-900"> {{$instructor->CourseCodes->name}} </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
@@ -79,13 +79,13 @@
 
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Subject Code</label>
-                            <select wire:model="subject_code_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <select wire:model="course_code_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="">-- choose subject code --</option>
-                                @foreach ($subjectCodes as $subjectCode)
-                                <option value="{{ $subjectCode->id }}">{{ $subjectCode->name }}</option>
+                                @foreach ($CourseCodes as $CourseCode)
+                                <option value="{{ $CourseCode->id }}">{{ $CourseCode->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="subject_code_id"/>
+                            <x-jet-input-error for="course_code_id"/>
                         </div>
                     </div>
                 </form>

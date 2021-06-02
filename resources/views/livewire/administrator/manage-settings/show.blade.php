@@ -9,7 +9,7 @@
         <x-jet-section-border />
 
         {{-------------------------------------------------- Subject Code --------------------------------------------------}}
-        @livewire('administrator.manage-settings.subject-code-property')
+        @livewire('administrator.manage-settings.course-code-property')
         <x-jet-section-border />
 
         {{--------------------------------------------------- School Year --------------------------------------------------}}

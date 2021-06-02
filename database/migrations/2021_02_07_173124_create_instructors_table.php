@@ -15,9 +15,10 @@ class CreateInstructorsTable extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->foreignId('user_id')->constrained();
             $table->bigInteger('id_number');
-            $table->foreignId('subject_code_id')->constrained();
+            $table->foreignId('course_code_id')->constrained();
             $table->boolean('is_regular')->default(true);
             $table->timestamps();
         });

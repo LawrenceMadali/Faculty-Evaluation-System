@@ -5,9 +5,11 @@ namespace App\Http\Livewire\Administrator\ManageUsers;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\College;
+use App\Models\Student;
 use Livewire\Component;
+use App\Models\CourseCode;
+use App\Models\Instructor;
 use App\Models\UserStatus;
-use App\Models\SubjectCode;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
@@ -36,20 +38,15 @@ class ManageAccounts extends Component
     public $email;
     public $college_id;
     public $course_id;
+    public $course_code_id;
     public $year_and_section_id;
     public $status = true;
 
     protected $messages = [
-        'role_id.required' => 'This role field is required',
+        'role_id.required' => 'The role field is required',
+        'course_code_id.required' => 'The course code field is required',
+        'year_and_section_id.required' => 'The year and section field is required',
     ];
-
-    public $college = null;
-    public $courses = null;
-
-    public function updatedCollege($college_id)
-    {
-        $this->courses = Course::where('college_id', $college_id)->get();
-    }
 
     public function create()
     {
@@ -144,7 +141,43 @@ class ManageAccounts extends Component
 
     public function createEvaluationDetails()
     {
+        if ($this->role_id === 4) {
+            $validated = $this->validate([
+                'course_code_id' => 'required',
+            ]);
+            Instructor::updateOrCreate($validated + [
+                'user_id' => $this->accId,
+                'name'    => $this->name,
+                'id_number' => $this->id_number
+            ]);
+        } elseif ($this->role_id === 5) {
+            $validated = $this->validate([
+                'year_and_section_id' => 'required',
+            ]);
+            Student::updateOrCreate($validated + [
+                'user_id' => $this->accId,
+                'name'    => $this->name,
+                'id_number' => $this->id_number
+            ]);
+        }
+
+        $this->emit('courseCodeCreated');
+        $this->resetValidation();
     }
+
+    public $removeID;
+    public function remove($id)
+    {
+        $this->removeID = $id;
+        if ($this->role_id === 4) {
+            Instructor::find($this->removeID)->destroy($this->removeID);
+        } elseif ($this->role_id === 5)
+        Student::find($this->removeID)->destroy($this->removeID);
+        $this->emit('removed');
+    }
+
+
+    
 
     public function closeModal()
     {
@@ -163,7 +196,6 @@ class ManageAccounts extends Component
             'studentFile' => 'required|mimes:xlsx, xls'
         ]);
 
-        // $import = Excel::import(new UserDataImport, $this->studentFile);
         $import = new UserDataImport();
         $import->import($this->studentFile);
         $import->failures();
@@ -183,13 +215,17 @@ class ManageAccounts extends Component
         return view('livewire.administrator.manage-users.manage-accounts', [
             'colleges'          => College::all(),
             'courses'           => Course::all(),
-            'subjectCodes'      => SubjectCode::all(),
+            'courseCodes'       => CourseCode::all(),
             'yearAndSections'   => YearAndSection::all(),
             'users'             => User::with('yearAndSections', 'colleges', 'roles', 'courses')
-            ->where('role_id', 5),
+                                ->where('role_id', 5),
             'users'             => User::search($this->search)
-            ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-            ->paginate($this->perPage),
+                                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                                ->paginate($this->perPage),
+            'instructors'       => Instructor::where('user_id', $this->accId)->with('CourseCodes')
+                                ->get(),
+            'students'          => Student::where('user_id', $this->accId)->with('yearAndSections')
+                                ->get(),
         ]);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 

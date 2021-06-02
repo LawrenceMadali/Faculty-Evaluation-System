@@ -18,7 +18,7 @@ class CreateSsesTable extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
             $table->foreignId('semester_id')->constrained();
-            $table->foreignId('subject_code_id')->constrained();
+            $table->foreignId('course_code_id')->constrained();
             $table->foreignId('year_and_section_id')->constrained();
             $table->timestamps();
         });

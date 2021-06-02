@@ -78,7 +78,7 @@
                             <div class="text-sm text-gray-900">{{ $spe->yearSections->year_and_section }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->subjectCodes->subject_code }}</div>
+                            <div class="text-sm text-gray-900">{{ $spe->CourseCodes->course_code }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <button wire:click="$toggle('viewModal')" class="text-indigo-600 hover:text-indigo-900">View</button>
@@ -171,13 +171,13 @@
                                                 </div>
                                                 @endif
 
-                                                @if ($subjectCodes)
+                                                @if ($CourseCodes)
                                                 <div class="col-span-6 sm:col-span-3">
-                                                <label for="subject_code" class="block text-sm font-medium text-gray-700">Subject Code</label>
-                                                <select wire:model="subject_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                <label for="course_code" class="block text-sm font-medium text-gray-700">Subject Code</label>
+                                                <select wire:model="course_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                     <option>-- choose subject code --</option>
-                                                    @foreach ($subjectCodes as $sc)
-                                                    <option value="{{ $sc->id }}">{{ $sc->subject_code }}</option>
+                                                    @foreach ($CourseCodes as $sc)
+                                                    <option value="{{ $sc->id }}">{{ $sc->course_code }}</option>
                                                     @endforeach
                                                 </select>
                                                 </div>

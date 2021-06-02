@@ -5,7 +5,7 @@ namespace App\Models;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\SchoolYear;
-use App\Models\SubjectCode;
+use App\Models\CourseCode;
 use App\Models\YearAndSection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -19,7 +19,7 @@ class Spe extends Model
         'semester_id',
         'user_id',
         'course_id',
-        'subject_code_id',
+        'course_code_id',
         'year_and_section_id',
     ];
 
@@ -53,9 +53,9 @@ class Spe extends Model
         return $this->belongsTo(YearAndSection::class, 'year_and_section_id');
     }
 
-    public function subjectCodes()
+    public function CourseCodes()
     {
-        return $this->belongsTo(SubjectCode::class, 'subject_code_id');
+        return $this->belongsTo(CourseCode::class, 'course_code_id');
     }
 
 }

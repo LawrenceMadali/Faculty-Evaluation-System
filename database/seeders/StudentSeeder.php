@@ -15,10 +15,9 @@ class StudentSeeder extends Seeder
     public function run()
     {
         Student::create([
+            'name'      => 'Madali, Jan Lawrence F.',
             'user_id'   => 8,
             'id_number' => 1011800386,
-            'college_id'=> 1,
-            'course_id' => 1,
             'year_and_section_id' => 9,
         ]);
     }

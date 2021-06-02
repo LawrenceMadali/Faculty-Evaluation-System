@@ -15,10 +15,9 @@ class CreateStudentsTable extends Migration
     {
         Schema::create('students', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->foreignId('user_id')->constrained();
             $table->bigInteger('id_number');
-            $table->foreignId('college_id')->constrained();
-            $table->foreignId('course_id')->constrained();
             $table->foreignId('year_and_section_id')->constrained();
             $table->boolean('is_enrolled')->default(true);
             $table->timestamps();
