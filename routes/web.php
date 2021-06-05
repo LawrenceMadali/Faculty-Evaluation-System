@@ -23,11 +23,12 @@ use App\Http\Controllers\Admin\SummaryResult\PeerToPeerController;
 use App\Http\Controllers\Admin\ManageUsers\ManageAccountController;
 
 use App\Http\Controllers\Admin\SectionProperties\CollegeController;
+use App\Http\Controllers\Admin\ManageReports\ManageReportController;
+
 use App\Http\Controllers\Admin\ManageSettings\ManageSettingsController;
-
 use App\Http\Controllers\Admin\Questionair\StudentQuestionairController;
-use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
 
+use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
 use App\Http\Controllers\Admin\EvaluationPage\SetPeerEvaluationController;
 use App\Http\Controllers\Admin\Questionair\PeerToPeerQuestionairController;
 use App\Http\Controllers\Admin\EvaluationPage\SetStudentEvaluationController;
@@ -84,6 +85,10 @@ Route::group(['middleware' => 'auth'], function()
         Route::group(['middleware' => 'studentMiddleware'], function () {
             Route::get('student.rater.form',  [StudentRaterForm::class, 'index'])->name('studentRaterForm');
         });
+    });
+
+    Route::prefix('reports')->group(function () {
+        Route::get('manage.reports',[ManageReportController::class, 'index'])->name('manage-reports');
     });
 });
 Route::get('student.login',  [LoginController::class, 'index'])->name('student-login');

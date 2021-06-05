@@ -14,29 +14,86 @@ class YearAndSectionSeeder extends Seeder
      */
     public function run()
     {
-        YearAndSection::create(['user_id' => 4,'name'=>'1-1']);
-        YearAndSection::create(['user_id' => 5,'name'=>'1-2']);
-        YearAndSection::create(['user_id' => 6,'name'=>'1-3']);
-        YearAndSection::create(['user_id' => 7,'name'=>'1-4']);
+        YearAndSection::create([
+            'instructor_id' => 1,
+            'course_code_id' => 1,
+            'name'=>'1-1']);
+        YearAndSection::create([
+            'instructor_id' => 2,
+            'course_code_id' => 2,
+            'name'=>'1-1']);
+        YearAndSection::create([
+            'instructor_id' => 3,
+            'course_code_id' => 3,
+            'name'=>'1-1']);
+        YearAndSection::create([
+            'instructor_id' => 4,
+            'course_code_id' => 4,
+            'name'=>'1-1']);
+        YearAndSection::create([
+            'instructor_id' => 1,
+            'course_code_id' => 5,
+            'name'=>'1-1']);
+        YearAndSection::create([
+            'instructor_id' => 2,
+            'course_code_id' => 1,
+            'name'=>'1-2']);
+        YearAndSection::create([
+            'instructor_id' => 3,
+            'course_code_id' => 2,
+            'name'=>'1-2']);
+        YearAndSection::create([
+            'instructor_id' => 4,
+            'course_code_id' => 3,
+            'name'=>'1-2']);
+        YearAndSection::create([
+            'instructor_id' => 1,
+            'course_code_id' => 4,
+            'name'=>'1-2']);
+        YearAndSection::create([
+            'instructor_id' => 2,
+            'course_code_id' => 5,
+            'name'=>'1-2']);
+        YearAndSection::create([
+            'instructor_id' => 3,
+            'course_code_id' => 1,
+            'name'=>'1-3']);
+        YearAndSection::create([
+            'instructor_id' => 4,
+            'course_code_id' => 2,
+            'name'=>'1-3']);
+        YearAndSection::create([
+            'instructor_id' => 1,
+            'course_code_id' => 3,
+            'name'=>'1-3']);
+        YearAndSection::create([
+            'instructor_id' => 2,
+            'course_code_id' => 4,
+            'name'=>'1-3']);
+        YearAndSection::create([
+            'instructor_id' => 3,
+            'course_code_id' => 5,
+            'name'=>'1-3']);
+        YearAndSection::create([
+            'instructor_id' => 4,
+            'course_code_id' => 1,
+            'name'=>'1-4']);
+        YearAndSection::create([
+            'instructor_id' => 1,
+            'course_code_id' => 2,
+            'name'=>'1-4']);
+        YearAndSection::create([
+            'instructor_id' => 2,
+            'course_code_id' => 3,
+            'name'=>'1-4']);
+        YearAndSection::create([
+            'instructor_id' => 3,
+            'course_code_id' => 4,
+            'name'=>'1-4']);
+        YearAndSection::create([
+            'instructor_id' => 4,
+            'course_code_id' => 5,
+            'name'=>'1-4']);
 
-        YearAndSection::create(['user_id' => 4,'name'=>'1-1']);
-        YearAndSection::create(['user_id' => 5,'name'=>'1-2']);
-        YearAndSection::create(['user_id' => 6,'name'=>'1-3']);
-        YearAndSection::create(['user_id' => 7,'name'=>'1-4']);
-
-        YearAndSection::create(['user_id' => 4, 'name'=>'2-1']);
-        YearAndSection::create(['user_id' => 5, 'name'=>'2-2']);
-        YearAndSection::create(['user_id' => 6, 'name'=>'2-3']);
-        YearAndSection::create(['user_id' => 7, 'name'=>'2-4']);
-
-        YearAndSection::create(['user_id' => 4, 'name'=>'3-1']);
-        YearAndSection::create(['user_id' => 5, 'name'=>'3-2']);
-        YearAndSection::create(['user_id' => 6, 'name'=>'3-3']);
-        YearAndSection::create(['user_id' => 7, 'name'=>'3-4']);
-
-        YearAndSection::create(['user_id' => 4, 'name'=>'4-1']);
-        YearAndSection::create(['user_id' => 5, 'name'=>'4-2']);
-        YearAndSection::create(['user_id' => 6, 'name'=>'4-3']);
-        YearAndSection::create(['user_id' => 7, 'name'=>'4-4']);
     }
 }

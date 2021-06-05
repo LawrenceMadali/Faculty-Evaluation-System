@@ -2,10 +2,10 @@
 
 namespace App\Imports;
 
-use App\Instructor;
+use App\Student;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class CourseCodeImport implements ToModel
+class StudentImport implements ToModel
 {
     /**
     * @param array $row
@@ -14,7 +14,7 @@ class CourseCodeImport implements ToModel
     */
     public function model(array $row)
     {
-        return new Instructor([
+        return new Student([
             //
         ]);
     }

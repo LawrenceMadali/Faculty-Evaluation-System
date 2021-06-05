@@ -177,7 +177,7 @@ class ManageAccounts extends Component
     }
 
 
-    
+
 
     public function closeModal()
     {

@@ -5,12 +5,15 @@ namespace App\Http\Livewire\Administrator\EvaluationPage;
 use App\Models\Spe;
 use App\Models\Sse;
 use App\Models\User;
+use App\Models\Course;
+use App\Models\College;
 use App\Models\SpeUser;
+use App\Models\Student;
 use Livewire\Component;
 use App\Models\Semester;
-use App\Models\Course;
-use App\Models\SchoolYear;
 use App\Models\CourseCode;
+use App\Models\Instructor;
+use App\Models\SchoolYear;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
@@ -20,7 +23,56 @@ class SetStudentEvaluationPage extends Component
 {
     use WithPagination;
 
-    public $openModal = false;
+    public $openModal = true;
+    public $college_id = null;
+    public $course_id = null;
+    public $course_code_id = null;
+    public $year_and_section_id = null;
+    public $user_id = null;
+
+    protected $rules = [
+        'school_year_id'=> 'required',
+        'semester_id'   => 'required',
+        'college_id'    => 'required',
+        'course_id'     => 'required',
+        'course_code_id'   => 'required',
+        'instructor_id'=> 'required',
+    ];
+
+    public $courses;
+    public $instructor_id = null;
+
+    public function mount()
+    {
+        $this->courses = Course::all();
+        // $this->instructors = collect();
+    }
+
+    public $instructor;
+    public function updatedCourseId($course_id)
+    {
+        $this->instructor_id = Instructor::where('course_id', $course_id)
+                                        ->with('users')
+                                        ->get();
+    }
+
+    public function updatedInstructor($instructor_id)
+    {
+        $this->course_code_id = CourseCode::where('instructor_id', $instructor_id)->get();
+        // dd($this->course_code);
+    }
+
+    public function updatedCourseCode($course_code_id)
+    {
+        $this->year_and_section_id = YearAndSection::where('course_code_id', $course_code_id)->get();
+    }
+
+    public $students = null;
+
+    // public function updatedYearAndSection($year_and_section_id)
+    // {
+    //     $this->students = Student::where('year_and_section_id', $year_and_section_id)->get();
+    // }
 
     public function closeModal()
     {
@@ -29,25 +81,6 @@ class SetStudentEvaluationPage extends Component
         $this->resetValidation();
     }
 
-    public $course_code = null;
-    public $CourseCodes = null;
-    public $course = null;
-    public $yearAndSection = null;
-
-
-    public function updatedCourse($course_id)
-    {
-        $this->yearAndSection = YearAndSection::where('course_id', $course_id)->get();
-    }
-
-    public $students = null;
-
-    public function updatedYearAndSection($year_and_section_id)
-    {
-        $this->students = User::where('year_and_section_id', $year_and_section_id)->get();
-    }
-
-
     // Select all or select 100%
     public $selectedStudents = [];
     public $select100 = false;
@@ -55,7 +88,7 @@ class SetStudentEvaluationPage extends Component
     public function updatedSelect100($value)
     {
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
         } else {
@@ -68,10 +101,10 @@ class SetStudentEvaluationPage extends Component
 
     public function updatedSelect90($value)
     {
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
         $percentage = $studentCount * .90;
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -84,10 +117,10 @@ class SetStudentEvaluationPage extends Component
 
     public function updatedSelect80($value)
     {
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
         $percentage = $studentCount * .80;
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -100,10 +133,10 @@ class SetStudentEvaluationPage extends Component
 
     public function updatedSelect70($value)
     {
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
         $percentage = $studentCount * .70;
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -117,11 +150,11 @@ class SetStudentEvaluationPage extends Component
 
     public function updatedSelect60($value)
     {
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
         $percentage = $studentCount * .60;
 
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -135,11 +168,11 @@ class SetStudentEvaluationPage extends Component
 
     public function updatedSelect50($value)
     {
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
         $percentage = $studentCount * .50;
 
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -153,11 +186,11 @@ class SetStudentEvaluationPage extends Component
 
     public function updatedSelect40($value)
     {
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
         $percentage = $studentCount * .40;
 
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -171,11 +204,11 @@ class SetStudentEvaluationPage extends Component
 
     public function updatedSelect30($value)
     {
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
         $percentage = $studentCount * .30 ;
 
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -189,11 +222,11 @@ class SetStudentEvaluationPage extends Component
 
     public function updatedSelect20($value)
     {
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
         $percentage = $studentCount * .20 ;
 
         if ($value) {
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -208,10 +241,10 @@ class SetStudentEvaluationPage extends Component
     {
 
         if ($value) {
-            $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+            $studentCount = Student::where('year_and_section_id', $this->year_and_section)->count();
             $percentage = $studentCount * .10;
 
-            $this->selectedStudents = User::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
+            $this->selectedStudents = Student::where('year_and_section_id', $this->year_and_section)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
@@ -276,13 +309,13 @@ class SetStudentEvaluationPage extends Component
     {
         // $users = Auth::user() == User::all();
         // dd($users);
-        $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
+        // $studentCount = User::where('year_and_section_id', $this->year_and_section)->count();
 
         return view('livewire.administrator.evaluation-page.set-student-evaluation-page',
         [
-            'instructors'   => User::where('role_id', 4)->get(),
-            'studentCount'  => User::where('year_and_section_id', $this->year_and_section)->count(),
-            'courses'       => Course::all(),
+            // 'instructors'   => User::where('role_id', 4)->get(),
+            'studentCount'  => Student::where('year_and_section_id', $this->year_and_section)->count(),
+            'colleges'      => College::all(),
             'sems'          => Semester::all(),
             'yrSecs'        => YearAndSection::all(),
             'schoolYears'   => SchoolYear::all(),
