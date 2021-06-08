@@ -117,65 +117,50 @@
                                                         </select>
                                                     </div>
                                                 @endif
-                                                @if (!empty($semester) && $semester != '')
-                                                    <div class="col-span-6 sm:col-span-2">
+                                                {{-- @if (!empty($semester) && $semester != '')
+                                                    <div class="col-span-6 sm:col-span-3">
                                                         <label class="block text-sm font-medium text-gray-700">Course</label>
-                                                        <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <select wire:model="course" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                             <option value="">-- choose course --</option>
                                                             @foreach ($courses as $course)
                                                             <option value="{{ $course->id }}">{{ $course->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
-                                                @endif
-                                                @if (!empty($instructor_id) && $course_id != '')
+                                                @endif --}}
+                                                @if (!empty($semester) && $semester != '')
                                                     <div class="col-span-6 sm:col-span-2">
                                                         <label class="block text-sm font-medium text-gray-700">Instructor</label>
                                                         <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                             <option value="">-- choose instructor --</option>
-                                                            @foreach ($instructor_id as $instructor)
+                                                            @foreach ($instructors as $instructor)
                                                             <option value="{{ $instructor->id }}">{{ $instructor->users->name }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 @endif
-                                                {{-- may problema dito --}}
-                                                @if (!empty($course_code_id))
+                                                @if (!empty($courseCodes))
                                                     <div class="col-span-6 sm:col-span-2">
                                                         <label class="block text-sm font-medium text-gray-700">Course Code</label>
-                                                        <select wire:model="course_code_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <select wire:model="courseCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                             <option value="">-- choose course code --</option>
-                                                            @foreach ($course_code_id as $courseCode)
-                                                            <option value="{{ $courseCode->id }}">{{ $courseCode->name }}</option>
+                                                            @foreach ($courseCodes as $courseCode)
+                                                            <option value="{{ $courseCode->id }}">{{ $courseCode->course_code }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 @endif
-
-                                                @if ($year_and_section_id)
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="year_and_section" class="block text-sm font-medium text-gray-700">Year and Section</label>
-                                                    <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                @if (!empty($yearAndSections))
+                                                <div class="col-span-6 sm:col-span-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Year and Section</label>
+                                                    <select wire:model="yearAndSection" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="">-- choose year and section --</option>
-                                                        @foreach ($year_and_section_id as $yrSec)
-                                                        <option value="{{ $yrSec->id }}">{{ $yrSec->name }}</option>
+                                                        @foreach ($yearAndSections as $yearAndSection)
+                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 @endif
-
-                                                 {{--
-                                                @if (!is_null($CourseCodes))
-                                                <div class="col-span-6 sm:col-span-3">
-                                                <label for="course_code" class="block text-sm font-medium text-gray-700">Course Code</label>
-                                                <select wire:model="course_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                    <option>-- choose course code --</option>
-                                                    @foreach ($CourseCodes as $sc)
-                                                    <option value="{{ $sc->id }}">{{ $sc->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                </div>
-                                                @endif --}}
                                             </div>
                                         </div>
                                     </div>
@@ -194,20 +179,20 @@
                                                         student id number
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        @if (!$year_and_section)
-                                                        <div>
-                                                            <svg width="32px" height="32px" viewBox="0 0 45 45" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" color="#000000"><g fill="none" fill-rule="evenodd" transform="translate(1 1)" stroke-width="2"><circle cx="22" cy="22" r="6"><animate attributeName="r" begin="1.5s" dur="3s" values="6;22" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" begin="1.5s" dur="3s" values="1;0" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-width" begin="1.5s" dur="3s" values="2;0" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="22" cy="22" r="6"><animate attributeName="r" begin="3s" dur="3s" values="6;22" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" begin="3s" dur="3s" values="1;0" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-width" begin="3s" dur="3s" values="2;0" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="22" cy="22" r="8"><animate attributeName="r" begin="0s" dur="1.5s" values="6;1;2;3;4;5;6" calcMode="linear" repeatCount="indefinite"></animate></circle></g></svg>
-                                                        </div>
+                                                        @if (!$students)
+                                                            <div>
+                                                                <svg width="32px" height="32px" viewBox="0 0 45 45" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" color="#000000"><g fill="none" fill-rule="evenodd" transform="translate(1 1)" stroke-width="2"><circle cx="22" cy="22" r="6"><animate attributeName="r" begin="1.5s" dur="3s" values="6;22" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" begin="1.5s" dur="3s" values="1;0" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-width" begin="1.5s" dur="3s" values="2;0" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="22" cy="22" r="6"><animate attributeName="r" begin="3s" dur="3s" values="6;22" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" begin="3s" dur="3s" values="1;0" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-width" begin="3s" dur="3s" values="2;0" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="22" cy="22" r="8"><animate attributeName="r" begin="0s" dur="1.5s" values="6;1;2;3;4;5;6" calcMode="linear" repeatCount="indefinite"></animate></circle></g></svg>
+                                                            </div>
                                                         @else
-                                                        @if ($studentCount == 0)
-                                                        <div>
-                                                            <p class="capitalize text-red-500 text-center">No students found...</p>
-                                                        </div>
-                                                        @else
-                                                        <div>
-                                                            <span class=" text-blue-700 text-xs rounded-md p-1">{{ count($selectedStudents)}}/{{$studentCount }} ({{ number_format((count($selectedStudents) / $studentCount) * 100) }}%)</span>
-                                                        </div>
-                                                        @endif
+                                                            @if ($studentCount == 0)
+                                                                <div>
+                                                                    <p class="capitalize text-red-500 text-center">No students found...</p>
+                                                                </div>
+                                                            @else
+                                                                <div>
+                                                                    <span class=" text-blue-700 text-xs rounded-md p-1">{{ count($selectedStudents)}}/{{$studentCount }} ({{ number_format((count($selectedStudents) / $studentCount) * 100) }}%)</span>
+                                                                </div>
+                                                            @endif
                                                         @endif
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">

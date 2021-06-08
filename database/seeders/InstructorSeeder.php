@@ -15,20 +15,24 @@ class InstructorSeeder extends Seeder
     public function run()
     {
         Instructor::create([
-            // 'name' => 'ABAOAG, JOYCE LYN M.',
+            'name' => 'ABAOAG, JOYCE LYN M.',
             'user_id'   => 4,
-            'course_id' => 1]);
+            'id_number' => 4000000400,
+            ]);
         Instructor::create([
-            // 'name' => 'ALBITO, NEIL JOHN P.',
+            'name' => 'ALBITO, NEIL JOHN P.',
             'user_id'   => 5,
-            'course_id' => 2]);
+            'id_number' => 4000000401,
+            ]);
         Instructor::create([
-            // 'name' => 'CABALTERA, BABY EUNICE M.',
+            'name' => 'CABALTERA, BABY EUNICE M.',
             'user_id'   => 6,
-            'course_id' => 3]);
+            'id_number' => 4000000402,
+            ]);
         Instructor::create([
-            // 'name' => 'CANDELARIA, YVES XAVIER S.',
+            'name' => 'CANDELARIA, YVES XAVIER S.',
             'user_id'   => 7,
-            'course_id' => 4]);
+            'id_number' => 4000000403,
+            ]);
     }
 }

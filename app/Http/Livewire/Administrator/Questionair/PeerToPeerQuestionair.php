@@ -192,6 +192,7 @@ class PeerToPeerQuestionair extends Component
             'questionairs' => PeerQuestionairForm::all(),
             'schoolYears'  => SchoolYear::all(),
             'sems'         => Semester::all(),
+            'count'        => PeerQuestionairForm::where('is_enabled', 1 )->count(),
         ]);
     }
 }

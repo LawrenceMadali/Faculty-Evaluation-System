@@ -7,6 +7,7 @@ use App\Models\User;
 use Livewire\Component;
 use App\Models\StudentRatingForm;
 use Illuminate\Support\Facades\Auth;
+use App\Models\StudentQuestionairForm;
 
 class StudentRaterForm extends Component
 {
@@ -74,33 +75,30 @@ class StudentRaterForm extends Component
         ],
 
         [
-            // custom validation message for commitment table
-            'commitment_1.required' => '* This is required',
-            'commitment_2.required' => '* This is required',
-            'commitment_3.required' => '* This is required',
-            'commitment_4.required' => '* This is required',
-            'commitment_5.required' => '* This is required',
-
-            // custom validation message for knowledge of subject table
-            'knowledge_of_subject_1.required' => '* This is required',
-            'knowledge_of_subject_2.required' => '* This is required',
-            'knowledge_of_subject_3.required' => '* This is required',
-            'knowledge_of_subject_4.required' => '* This is required',
-            'knowledge_of_subject_5.required' => '* This is required',
-
-            // custom validation message for teaching for independeint learning table
-            'teaching_for_independent_learning_1.required' => '* This is required',
-            'teaching_for_independent_learning_2.required' => '* This is required',
-            'teaching_for_independent_learning_3.required' => '* This is required',
-            'teaching_for_independent_learning_4.required' => '* This is required',
-            'teaching_for_independent_learning_5.required' => '* This is required',
-
-            // custom validation message for management of learning table
-            'management_of_learning_1.required' => '* This is required',
-            'management_of_learning_2.required' => '* This is required',
-            'management_of_learning_3.required' => '* This is required',
-            'management_of_learning_4.required' => '* This is required',
-            'management_of_learning_5.required' => '* This is required',
+           // custom validation message for commitment table
+        'commitment_1.required' => 'Commitment question 1 is required ',
+        'commitment_2.required' => 'Commitment question 2 is required ',
+        'commitment_3.required' => 'Commitment question 3 is required ',
+        'commitment_4.required' => 'Commitment question 4 is required ',
+        'commitment_5.required' => 'Commitment question 5 is required ',
+        // custom validation message for knowledge of subject table
+        'knowledge_of_subject_1.required' => 'Knowledge of Subject question 1 is required',
+        'knowledge_of_subject_2.required' => 'Knowledge of Subject question 2 is required',
+        'knowledge_of_subject_3.required' => 'Knowledge of Subject question 3 is required',
+        'knowledge_of_subject_4.required' => 'Knowledge of Subject question 4 is required',
+        'knowledge_of_subject_5.required' => 'Knowledge of Subject question 5 is required',
+        // custom validation message for teaching for independeint learning table
+        'teaching_for_independent_learning_1.required' => 'Teaching for Independent Learning question 1 is required',
+        'teaching_for_independent_learning_2.required' => 'Teaching for Independent Learning question 2 is required',
+        'teaching_for_independent_learning_3.required' => 'Teaching for Independent Learning question 3 is required',
+        'teaching_for_independent_learning_4.required' => 'Teaching for Independent Learning question 4 is required',
+        'teaching_for_independent_learning_5.required' => 'Teaching for Independent Learning question 5 is required',
+        // custom validation message for management of learning table
+        'management_of_learning_1.required' => 'Management of Learning question 1 is required',
+        'management_of_learning_2.required' => 'Management of Learning question 2 is required',
+        'management_of_learning_3.required' => 'Management of Learning question 3 is required',
+        'management_of_learning_4.required' => 'Management of Learning question 4 is required',
+        'management_of_learning_5.required' => 'Management of Learning question 5 is required',
         ]);
         StudentRatingForm::create($studentRaterForm +
         [
@@ -167,6 +165,7 @@ class StudentRaterForm extends Component
     {
         return view('livewire.student-rater-form.student-rater-form',[
             'sse'   => Sse::count(),
+            'questionairs'  => StudentQuestionairForm::all(),
             'assignInstructors' => auth()->user(),
         ]);
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSseStudentsTable extends Migration
+class CreateCourseCodeAndTitlesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateSseStudentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sse_students', function (Blueprint $table) {
+        Schema::create('course_code_and_titles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('student_id')->constrained();
-            $table->foreignId('sse_id')->constrained();
+            $table->string('course_code_title');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateSseStudentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sse_students');
+        Schema::dropIfExists('course_code_and_titles');
     }
 }

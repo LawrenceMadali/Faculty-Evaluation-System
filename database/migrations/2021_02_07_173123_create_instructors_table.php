@@ -15,9 +15,10 @@ class CreateInstructorsTable extends Migration
     {
         Schema::create('instructors', function (Blueprint $table) {
             $table->id();
-            // $table->string('name');
+            $table->string('name');
+            $table->bigInteger('id_number');
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('course_id')->constrained();
+            // $table->foreignId('course_id')->constrained();
             $table->timestamps();
         });
     }

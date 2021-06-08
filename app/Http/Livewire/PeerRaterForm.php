@@ -6,6 +6,7 @@ use App\Models\Spe;
 use Livewire\Component;
 use App\Models\PeerRatingForm;
 use App\Models\PeerQuestionairForm;
+use App\Models\StudentQuestionairForm;
 
 class PeerRaterForm extends Component
 {
@@ -165,6 +166,7 @@ class PeerRaterForm extends Component
     {
         return view('livewire.peer-rater-form.peer-rater-form',[
             'questionairs'  => PeerQuestionairForm::all(),
+            'is_enabled'    => PeerQuestionairForm::where('is_enabled')->get(),
         ]);
     }
 }

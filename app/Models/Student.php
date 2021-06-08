@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\CourseCode;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Database\Eloquent\Model;
@@ -22,19 +23,15 @@ class Student extends Model
      *
      * @var array
      */
-    protected $guard = 'student';
 
     protected $fillable = [
-        'role_id',
         'user_id',
         'id_number',
         'name',
         'email',
         'password',
-        'user_status_id',
-        'college_id',
-        'course_id',
         'year_and_section_id',
+        'course_code_id',
 
     ];
 
@@ -63,13 +60,13 @@ class Student extends Model
         return $this->belongsToMany(Sse::class, 'sse_users');
     }
 
-    public function userStatuses()
-    {
-        return $this->belongsTo(UserStatus::class, 'user_status_id');
-    }
-
     public function courses()
     {
         return $this->belongsTo(Course::class, 'course_id');
+    }
+
+    public function course_codes()
+    {
+        return $this->belongsTo(CourseCode::class, 'course_code_id');
     }
 }

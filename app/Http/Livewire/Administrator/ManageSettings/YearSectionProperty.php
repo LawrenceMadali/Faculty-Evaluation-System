@@ -3,8 +3,8 @@
 namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use App\Models\User;
-use App\Models\Course;
 use Livewire\Component;
+use App\Models\CourseCode;
 use App\Models\Instructor;
 use Livewire\WithPagination;
 use App\Models\YearAndSection;
@@ -15,6 +15,7 @@ class YearSectionProperty extends Component
 
     public $name;
     public $instructor_id;
+    public $course_code_id;
     public $createModal = false;
     public $editModal = false;
 
@@ -80,12 +81,21 @@ class YearSectionProperty extends Component
         $this->resetValidation();
     }
 
+    public $course_code;
+    public $instructor = null;
+
+    // public function updatedInstructor($instructor)
+    // {
+    //     $this->courseCodes = CourseCode::where('instructor_id', $this->instructor)->get();
+    //     dd($this->courseCodes);
+    // }
+
 
     public function render()
     {
         return view('livewire.administrator.manage-settings.year-section-property', [
-            'yrSecs'=> YearAndSection::with('instructors')->paginate(5),
-            'instructors' => Instructor::all(),
+            'yrSecs'=> YearAndSection::with('instructors', 'course_codes')->paginate(5),
+            'Course_Codes' => CourseCode::where('course_code', $this->course_code)->with('instructors')->get(),
         ]);
     }
 }

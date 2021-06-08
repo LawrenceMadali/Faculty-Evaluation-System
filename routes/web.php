@@ -16,24 +16,25 @@ use App\Http\Controllers\Admin\ManageUserController;
 use App\Http\Controllers\Student\Auth\LoginController;
 
 use App\Http\Controllers\Admin\SummaryResultController;
+use App\Http\Controllers\StudentEvaluationDetailsController;
 use App\Http\Controllers\Admin\Questionair\QuestionairController;
+
 use App\Http\Controllers\Admin\SectionProperties\CourseController;
-
 use App\Http\Controllers\Admin\SummaryResult\PeerToPeerController;
+
 use App\Http\Controllers\Admin\ManageUsers\ManageAccountController;
-
 use App\Http\Controllers\Admin\SectionProperties\CollegeController;
+
 use App\Http\Controllers\Admin\ManageReports\ManageReportController;
-
 use App\Http\Controllers\Admin\ManageSettings\ManageSettingsController;
-use App\Http\Controllers\Admin\Questionair\StudentQuestionairController;
 
+use App\Http\Controllers\Admin\Questionair\StudentQuestionairController;
 use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
 use App\Http\Controllers\Admin\EvaluationPage\SetPeerEvaluationController;
 use App\Http\Controllers\Admin\Questionair\PeerToPeerQuestionairController;
 use App\Http\Controllers\Admin\EvaluationPage\SetStudentEvaluationController;
 use App\Http\Controllers\Admin\SectionProperties\SectionPropertiesController;
-use App\Http\Controllers\Admin\ManageUsers\ManageInstructorInformationController;
+use App\Http\Controllers\Admin\ManageUsers\InstructorEvaluationDetailsController;
 
 Route::group(['middleware' => 'auth'], function()
 {
@@ -74,7 +75,8 @@ Route::group(['middleware' => 'auth'], function()
     Route::group(['middleware' => 'secretaryMiddleware', 'prefix' => 'dashboard'], function () {
         Route::get('manage.users', [ManageUserController::class, 'index'])->name('manage-users');
         Route::get('manage.accounts', [ManageAccountController::class, 'index'])->name('manage-accounts');
-        Route::get('manage.instructor.information', [ManageInstructorInformationController::class, 'index'])->name('manage-instructor-information');
+        Route::get('manage.instructor.information', [InstructorEvaluationDetailsController::class, 'index'])->name('manage-instructor-information');
+        Route::get('manage.student.details', [StudentEvaluationDetailsController::class, 'index'])->name('manage-student-details');
     });
     Route::prefix('evaluation')->group(function () {
         // middleware for instructor

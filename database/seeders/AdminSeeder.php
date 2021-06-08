@@ -78,7 +78,6 @@ class AdminSeeder extends Seeder
         User::create([
             'name'      => 'Madali, Jan Lawrence F.',
             'id_number' => 1011800386,
-            'course_id' => 1,
             'email'     => 'lawrencemadali@example.com',
             'password'  => bcrypt('password'),
             'role_id'   => 5,

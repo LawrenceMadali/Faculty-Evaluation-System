@@ -176,9 +176,6 @@ class ManageAccounts extends Component
         $this->emit('removed');
     }
 
-
-
-
     public function closeModal()
     {
         $this->createModal = false;

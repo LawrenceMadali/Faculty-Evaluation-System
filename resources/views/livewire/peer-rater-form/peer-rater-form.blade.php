@@ -31,37 +31,6 @@
                 Your rating will be kept confidential </h2>
             </div>
 
-            <div class="flex flex-col">
-                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                    <table class="min-w-full divide-y divide-gray-200">
-                        <thead class="bg-gray-50">
-                        <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Evaluate Instructor</th>
-                        </tr>
-                        </thead>
-                        <tbody class="bg-white divide-y divide-gray-200">
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10">
-                                <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=4&w=256&h=256&q=60" alt="">
-                                </div>
-                                <div class="ml-4">
-                                <div class="text-sm font-medium text-gray-900">
-                                    Jane Cooper
-                                </div>
-                                </div>
-                            </div>
-                        </tr>
-                        </tbody>
-                    </table>
-                    </div>
-                </div>
-                </div>
-            </div>
-
             <table class="mx-auto">
                 <thead>
                     <tr>
@@ -102,302 +71,312 @@
                 </tbody>
             </table>
             @forelse ($questionairs as $questionair)
+            @if ($questionair->is_enabled === 1)
             <form wire:submit.prevent="submit">
-                @if ($questionair->is_enabled === 0)
-                <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionair enable yet.</h2>
-                @else
-                {{-------------------------------------------------- Commitment --------------------------------------------------}}
-                <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">
-                    <div>
-                    <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">A. Commitment </h1>
-                    <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 1. {{ $questionair->A_Question_1 }} </h2>
-                    <div class="max-w-sm flex flex-col">
-
-                        <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A5" for="1A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A4" for="1A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A3" for="1A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A2" for="1A2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A1" for="1A1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                        <x-jet-input-error for="commitment_1"/>
+                <div class="space-y-2">
+                    <div class="col-span-6 text-gray-600 font-medium p-2 rounded-md border-none bg-blue-100">
+                        <label class="block text-sm font-medium">Evaluate Instructor</label>
+                        <select wire:model="sse_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option value="null">-- choose instructor you want to evaluate first --</option>
+                            {{-- @foreach ($assignInstructors->sses as $ai)
+                            <option value="{{ $ai->id }}">{{ $ai->year_and_section_id }}</option>
+                            @endforeach --}}
+                        </select>
+                        <x-jet-input-error for="sse_id"/>
                     </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 2. {{ $questionair->A_Question_2 }} </h2>
+                    {{-------------------------------------------------- Commitment --------------------------------------------------}}
+                    <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">
+                        <div>
+                        <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">A. Commitment </h1>
+                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 1. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_1 }} </h2>
                         <div class="max-w-sm flex flex-col">
 
-                            <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A5" for="2A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A4" for="2A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A3" for="2A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A2" for="2A2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A1" for="2A1" value="1"> 1 - Poor </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A5" for="1A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A4" for="1A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A3" for="1A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A2" for="1A2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A1" for="1A1" value="1"> 1 - Poor </x-srf-form.radio-input>
 
-                            <x-jet-input-error for="commitment_2"/>
+                            <x-jet-input-error for="commitment_1"/>
+                        </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 2. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_2 }} </h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A5" for="2A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A4" for="2A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A3" for="2A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A2" for="2A2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A1" for="2A1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="commitment_2"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 3. {{ $questionair->is_enabled == 0 ? null :  $questionair->A_Question_3 }} </h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A5" for="3A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A4" for="3A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A3" for="3A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A2" for="3A2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A1" for="3A1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="commitment_3"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_4 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A5" for="4A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A4" for="4A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A3" for="4A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A2" for="4A2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A1" for="4A1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="commitment_4"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_5 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A5" for="5A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A4" for="5A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A3" for="5A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A2" for="5A2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A1" for="5A1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="commitment_5"/>
+                            </div>
                         </div>
                     </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 3. {{ $questionair->A_Question_3 }} </h2>
+
+                    {{-------------------------------------------------- Knowledge of Subject --------------------------------------------------}}
+                    <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
+                        <div>
+                        <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">B. Knowledge of Subject</h1>
+                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 1. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_1 }}</h2>
                         <div class="max-w-sm flex flex-col">
 
-                            <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A5" for="3A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A4" for="3A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A3" for="3A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A2" for="3A2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A1" for="3A1" value="1"> 1 - Poor </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B5" for="1B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B4" for="1B4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B3" for="1B3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B2" for="1B2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B1" for="1B1" value="1"> 1 - Poor </x-srf-form.radio-input>
 
-                            <x-jet-input-error for="commitment_3"/>
+                            <x-jet-input-error for="knowledge_of_subject_1"/>
+                        </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_2 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B5" for="2B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B4" for="2B4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B3" for="2B3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B2" for="2B2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B1" for="2B1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="knowledge_of_subject_2"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_3 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B5" for="3B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B4" for="3B4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B3" for="3B3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B2" for="3B2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B1" for="3B1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="knowledge_of_subject_3"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 4. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_4 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B5" for="4B5" value="5">5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B4" for="4B4" value="4">4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B3" for="4B3" value="3">3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B2" for="4B2" value="2">2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B1" for="4B1" value="1">1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="knowledge_of_subject_4"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_5 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B5" for="5B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B4" for="5B4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B3" for="5B3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B2" for="5B2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B1" for="5B1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="knowledge_of_subject_5"/>
+                            </div>
                         </div>
                     </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->A_Question_4 }}</h2>
+
+                    {{-------------------------------------------------- Teaching for Independent Learning --------------------------------------------------}}
+                    <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
+                        <div>
+                        <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">C. Teaching for Independent Learning</h1>
+                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_1 }}</h2>
                         <div class="max-w-sm flex flex-col">
 
-                            <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A5" for="4A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A4" for="4A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A3" for="4A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A2" for="4A2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A1" for="4A1" value="1"> 1 - Poor </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C5" for="1C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C4" for="1C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C3" for="1C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C2" for="1C2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C1" for="1C1" value="1"> 1 - Poor </x-srf-form.radio-input>
 
-                            <x-jet-input-error for="commitment_4"/>
+                            <x-jet-input-error for="teaching_for_independent_learning_1"/>
+                        </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_2 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C5" for="2C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C4" for="2C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C3" for="2C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C2" for="2C2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C1" for="2C1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="teaching_for_independent_learning_2"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_3 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C5" for="3C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C4" for="3C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C3" for="3C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C2" for="3C2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C1" for="3C1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="teaching_for_independent_learning_3"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_4 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C5" for="4C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C4" for="4C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C3" for="4C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C2" for="4C2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C1" for="4C1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="teaching_for_independent_learning_4"/>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_5 }}</h2>
+                            <div class="max-w-sm flex flex-col">
+
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C5" for="5C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C4" for="5C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C3" for="5C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C2" for="5C2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C1" for="5C1" value="1"> 1 - Poor </x-srf-form.radio-input>
+
+                                <x-jet-input-error for="teaching_for_independent_learning_5"/>
+                            </div>
                         </div>
                     </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->A_Question_5 }}</h2>
+
+                    {{-------------------------------------------------- Management of Learning --------------------------------------------------}}
+                    <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
+                        <div>
+                        <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">D. Management of Learning</h1>
+                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_1 }}</h2>
                         <div class="max-w-sm flex flex-col">
 
-                            <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A5" for="5A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A4" for="5A4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A3" for="5A3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A2" for="5A2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A1" for="5A1" value="1"> 1 - Poor </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D5" for="1D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D4" for="1D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D3" for="1D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D2" for="1D2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                            <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D1" for="1D1" value="1"> 1 - Poor </x-srf-form.radio-input>
 
-                            <x-jet-input-error for="commitment_5"/>
+                            <x-jet-input-error for="management_of_learning_1"/>
                         </div>
-                    </div>
-                </div>
-
-                {{-------------------------------------------------- Knowledge of Subject --------------------------------------------------}}
-                <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
-                    <div>
-                    <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">B. Knowledge of Subject</h1>
-                    <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 1. {{ $questionair->B_Question_1 }}</h2>
-                    <div class="max-w-sm flex flex-col">
-
-                        <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B5" for="1B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B4" for="1B4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B3" for="1B3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B2" for="1B2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B1" for="1B1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                        <x-jet-input-error for="knowledge_of_subject_1"/>
-                    </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->B_Question_2 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B5" for="2B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B4" for="2B4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B3" for="2B3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B2" for="2B2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B1" for="2B1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="knowledge_of_subject_2"/>
                         </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->B_Question_3 }}</h2>
-                        <div class="max-w-sm flex flex-col">
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_2 }}</h2>
+                            <div class="max-w-sm flex flex-col">
 
-                            <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B5" for="3B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B4" for="3B4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B3" for="3B3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B2" for="3B2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B1" for="3B1" value="1"> 1 - Poor </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D5" for="2D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D4" for="2D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D3" for="2D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D2" for="2D2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D1" for="2D1" value="1"> 1 - Poor </x-srf-form.radio-input>
 
-                            <x-jet-input-error for="knowledge_of_subject_3"/>
+                                <x-jet-input-error for="management_of_learning_2"/>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 4. {{ $questionair->B_Question_4 }}</h2>
-                        <div class="max-w-sm flex flex-col">
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_3 }}</h2>
+                            <div class="max-w-sm flex flex-col">
 
-                            <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B5" for="4B5" value="5">5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B4" for="4B4" value="4">4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B3" for="4B3" value="3">3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B2" for="4B2" value="2">2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B1" for="4B1" value="1">1 - Poor </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D5" for="3D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D4" for="3D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D3" for="3D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D2" for="3D2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D1" for="3D1" value="1"> 1 - Poor </x-srf-form.radio-input>
 
-                            <x-jet-input-error for="knowledge_of_subject_4"/>
+                                <x-jet-input-error for="management_of_learning_3"/>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->B_Question_5 }}</h2>
-                        <div class="max-w-sm flex flex-col">
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_4 }}</h2>
+                            <div class="max-w-sm flex flex-col">
 
-                            <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B5" for="5B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B4" for="5B4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B3" for="5B3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B2" for="5B2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B1" for="5B1" value="1"> 1 - Poor </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D5" for="4D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D4" for="4D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D3" for="4D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D2" for="4D2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D1" for="4D1" value="1"> 1 - Poor </x-srf-form.radio-input>
 
-                            <x-jet-input-error for="knowledge_of_subject_5"/>
+                                <x-jet-input-error for="management_of_learning_4"/>
+                            </div>
                         </div>
-                    </div>
-                </div>
+                        <hr>
+                        <div>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_5 }}</h2>
+                            <div class="max-w-sm flex flex-col">
 
-                {{-------------------------------------------------- Teaching for Independent Learning --------------------------------------------------}}
-                <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
-                    <div>
-                    <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">C. Teaching for Independent Learning</h1>
-                    <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->C_Question_1 }}</h2>
-                    <div class="max-w-sm flex flex-col">
+                                <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D5" for="5D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D4" for="5D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D3" for="5D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D2" for="5D2" value="2"> 2 - Fair </x-srf-form.radio-input>
+                                <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D1" for="5D1" value="1"> 1 - Poor </x-srf-form.radio-input>
 
-                        <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C5" for="1C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C4" for="1C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C3" for="1C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C2" for="1C2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C1" for="1C1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                        <x-jet-input-error for="teaching_for_independent_learning_1"/>
-                    </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->C_Question_2 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C5" for="2C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C4" for="2C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C3" for="2C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C2" for="2C2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C1" for="2C1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="teaching_for_independent_learning_2"/>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->C_Question_3 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C5" for="3C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C4" for="3C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C3" for="3C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C2" for="3C2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C1" for="3C1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="teaching_for_independent_learning_3"/>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->C_Question_4 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C5" for="4C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C4" for="4C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C3" for="4C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C2" for="4C2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C1" for="4C1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="teaching_for_independent_learning_4"/>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->C_Question_5 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C5" for="5C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C4" for="5C4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C3" for="5C3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C2" for="5C2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C1" for="5C1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="teaching_for_independent_learning_5"/>
-                        </div>
-                    </div>
-                </div>
-
-                {{-------------------------------------------------- Management of Learning --------------------------------------------------}}
-                <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
-                    <div>
-                    <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">D. Management of Learning</h1>
-                    <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->D_Question_1 }}</h2>
-                    <div class="max-w-sm flex flex-col">
-
-                        <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D5" for="1D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D4" for="1D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D3" for="1D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D2" for="1D2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                        <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D1" for="1D1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                        <x-jet-input-error for="management_of_learning_1"/>
-                    </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->D_Question_2 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D5" for="2D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D4" for="2D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D3" for="2D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D2" for="2D2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D1" for="2D1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="management_of_learning_2"/>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->D_Question_3 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D5" for="3D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D4" for="3D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D3" for="3D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D2" for="3D2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D1" for="3D1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="management_of_learning_3"/>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->D_Question_4 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D5" for="4D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D4" for="4D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D3" for="4D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D2" for="4D2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D1" for="4D1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="management_of_learning_4"/>
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->D_Question_5 }}</h2>
-                        <div class="max-w-sm flex flex-col">
-
-                            <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D5" for="5D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D4" for="5D4" value="4"> 4 - Very Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D3" for="5D3" value="3"> 3 - Satisfactory </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D2" for="5D2" value="2"> 2 - Fair </x-srf-form.radio-input>
-                            <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D1" for="5D1" value="1"> 1 - Poor </x-srf-form.radio-input>
-
-                            <x-jet-input-error for="management_of_learning_5"/>
+                                <x-jet-input-error for="management_of_learning_5"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -407,6 +386,8 @@
                     {{ __('Submit') }}
                 </x-jet-button>
             </div>
+            {{-- @else
+            <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionair enabled yet.</h2> --}}
             @endif
             @empty
             <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionairs found.</h2>
@@ -425,12 +406,15 @@
             </x-slot>
             <x-slot name="content">
                 @forelse ($questionairs as $questionair)
+                @if ($questionair->is_enabled == 0)
+                {{-- <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionairs enabled yet.</h2> --}}
+                @else
                 <form wire:submit.prevent="submit">
                     {{-------------------------------------------------- Commitment --------------------------------------------------}}
                     <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                             <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">A. Commitment</h1>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->A_Question_1 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_1 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A5" for="1A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -444,7 +428,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->A_Question_2 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_2 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A5" for="2A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -458,7 +442,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->A_Question_3 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_3 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A5" for="3A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -472,7 +456,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->A_Question_4 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_4 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A5" for="4A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -486,7 +470,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->A_Question_5 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_5 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A5" for="5A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -504,7 +488,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                             <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">B. Knowledge of Subject</h1>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->B_Question_1 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_1 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B5" for="1B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -518,7 +502,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->B_Question_2 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_2 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B5" for="2B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -532,7 +516,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->B_Question_3 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_3 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B5" for="3B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -546,7 +530,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->B_Question_4 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_4 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B5" for="4B5" value="5">5 - Outstanding </x-srf-form.radio-input>
@@ -560,7 +544,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->B_Question_5 }}</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_5 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B5" for="5B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -578,7 +562,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                             <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">C.	Teaching for Independent Learning</h1>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->C_Question_1 }}  </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_1 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C5" for="1C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -592,7 +576,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->C_Question_2 }}  </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_2 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C5" for="2C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -606,7 +590,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->C_Question_3 }}  </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_3 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C5" for="3C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -620,7 +604,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->C_Question_4 }}  </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_4 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C5" for="4C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -634,7 +618,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->C_Question_5 }}  </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_5 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C5" for="5C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -652,7 +636,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                             <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">D.	Management of Learning</h1>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->D_Question_1 }} </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_1 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D5" for="1D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -666,7 +650,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->D_Question_2 }} </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_2 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D5" for="2D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -680,7 +664,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->D_Question_3 }} </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_3 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D5" for="3D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -694,7 +678,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->D_Question_4 }} </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_4 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D5" for="4D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -708,7 +692,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->D_Question_5 }} </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_5 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D5" for="5D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -725,6 +709,7 @@
                         </div>
                     </div>
                 </form>
+                @endif
                 @empty
                 <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionairs found.</h2>
                 @endforelse
@@ -738,9 +723,9 @@
                     <x-jet-button class="ml-2" wire:click.prevent="submit" wire:loading.attr="disabled">
                     {{ __('Submit') }}
                     </x-jet-button>
-                    <x-jet-secondary-button wire:click.prevent="$toggle('prfModal')" wire:loading.attr="disabled">
+                    {{-- <x-jet-secondary-button wire:click.prevent="$toggle('prfModal')" wire:loading.attr="disabled">
                     {{ __('Cancel') }}
-                    </x-jet-secondary-button>
+                    </x-jet-secondary-button> --}}
                 </div>
             </x-slot>
 

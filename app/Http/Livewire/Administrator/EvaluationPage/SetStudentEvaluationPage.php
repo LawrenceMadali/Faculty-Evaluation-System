@@ -24,55 +24,51 @@ class SetStudentEvaluationPage extends Component
     use WithPagination;
 
     public $openModal = true;
-    public $college_id = null;
-    public $course_id = null;
-    public $course_code_id = null;
-    public $year_and_section_id = null;
     public $user_id = null;
 
     protected $rules = [
         'school_year_id'=> 'required',
         'semester_id'   => 'required',
-        'college_id'    => 'required',
         'course_id'     => 'required',
-        'course_code_id'   => 'required',
-        'instructor_id'=> 'required',
+        'course_code_id'=> 'required',
+        'courseCodes'   => 'required',
+        'instructor_id' => 'required',
     ];
 
-    public $courses;
-    public $instructor_id = null;
+    public $courses = null;
+    public $course = null;
 
     public function mount()
     {
-        $this->courses = Course::all();
-        // $this->instructors = collect();
-    }
-
-    public $instructor;
-    public function updatedCourseId($course_id)
-    {
-        $this->instructor_id = Instructor::where('course_id', $course_id)
-                                        ->with('users')
+        $this->instructors = Instructor::with('users')
                                         ->get();
     }
 
-    public function updatedInstructor($instructor_id)
+    public $instructors = null;
+    public $instructor = null;
+
+    public $courseCodes = null;
+    public $courseCode = null;
+    public function updatedInstructor($instructor)
     {
-        $this->course_code_id = CourseCode::where('instructor_id', $instructor_id)->get();
-        // dd($this->course_code);
+        $this->courseCodes = CourseCode::where('instructor_id', $instructor)->get();
     }
 
-    public function updatedCourseCode($course_code_id)
+    public $yearAndSections = null;
+    public $yearAndSection = null;
+    public function updatedCourseCode($courseCode , $instructor)
     {
-        $this->year_and_section_id = YearAndSection::where('course_code_id', $course_code_id)->get();
+        $this->yearAndSections = YearAndSection::where(['course_code_id' => $this->courseCode, 'instructor_id' => $this->instructor])
+                                                ->get();
+        // dd($this->yearAndSections);
     }
 
     public $students = null;
 
-    // public function updatedYearAndSection($year_and_section_id)
-    // {
-    //     $this->students = Student::where('year_and_section_id', $year_and_section_id)->get();
-    // }
+    public function updatedYearAndSection($yearAndSection)
+    {
+        $this->students = Student::where('year_and_section_id', $yearAndSection)->get();
+    }
 
     public function closeModal()
     {

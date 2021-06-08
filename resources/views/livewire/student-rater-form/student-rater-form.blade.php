@@ -70,15 +70,17 @@
                     </tr>
                 </tbody>
             </table>
+            @forelse ($questionairs as $questionair)
+            @if ($questionair->is_enabled === 1)
             <form wire:submit.prevent="submit">
                 <div class="space-y-2">
-                    <div class="col-span-6 text-gray-600 font-medium p-2 rounded-md border border-gray-500 bg-blue-100">
+                    <div class="col-span-6 text-gray-600 font-medium p-2 rounded-md border-none bg-blue-100">
                         <label class="block text-sm font-medium">Evaluate Instructor</label>
                         <select wire:model="sse_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="null">-- choose instructor you want to evaluate first --</option>
-                            @foreach ($assignInstructors->sses as $ai)
+                            {{-- @foreach ($assignInstructors->sses as $ai)
                             <option value="{{ $ai->id }}">{{ $ai->year_and_section_id }}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                         <x-jet-input-error for="sse_id"/>
                     </div>
@@ -86,9 +88,7 @@
                     <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                         <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">A. Commitment </h1>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                            1.	Demonstrate sensitivity to student’s ability to attend and to absorb content information.
-                        </h2>
+                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 1. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_1 }} </h2>
                         <div class="max-w-sm flex flex-col">
 
                             <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A5" for="1A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -102,8 +102,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                2.	Integrates sensitively his/her learning objectives with those of the students in a collaborative process.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 2. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_2 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A5" for="2A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -117,8 +116,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                3.	Makes self-available to students beyond official time slots.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 3. {{ $questionair->is_enabled == 0 ? null :  $questionair->A_Question_3 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A5" for="3A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -132,8 +130,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                4.	Regularly comes to class on time, well-groomed and well-prepared to complete assigned responsibilities.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_4 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A5" for="4A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -147,8 +144,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                5.	Keeps accurate records of students’ performance and prompt submission of the same.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_5 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A5" for="5A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -166,9 +162,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                         <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">B. Knowledge of Subject</h1>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                            1.	Demonstrate mastery of the subject matter.(explain the subject matter without relying solely on the prescribed textbooks)
-                        </h2>
+                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 1. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_1 }}</h2>
                         <div class="max-w-sm flex flex-col">
 
                             <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B5" for="1B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -182,8 +176,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                2.	Draws and shares information on the art of theory and practice in his/her discipline.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_2 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B5" for="2B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -197,9 +190,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                3.	Integrates subject to practical circumstances and learning intents/purposes of students.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_3 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B5" for="3B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -213,9 +204,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                4.	Explains the relevance of present topics lessons, and relates the subject matter to relevant current issues and/or daily life activities.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500"> 4. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_4 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B5" for="4B5" value="5">5 - Outstanding </x-srf-form.radio-input>
@@ -229,9 +218,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                5.	Demonstrate up-to-date knowledge and/or awareness on current trends and issues of the subject.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_5 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B5" for="5B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -249,9 +236,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                         <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">C. Teaching for Independent Learning</h1>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                            1.    Creates teaching strategies that allows students to practice using Concepts they need to understand and (interactive decision).
-                        </h2>
+                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_1 }}</h2>
                         <div class="max-w-sm flex flex-col">
 
                             <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C5" for="1C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -265,8 +250,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                2.    Enhances students’ self-esteem and/or gives due recognition to students’ performance/potential.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_2 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C5" for="2C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -280,9 +264,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                3.    Allows students to create their own course with objectives and realistically Defined student-professor rules to make them accountable for their performance.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_3 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C5" for="3C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -296,9 +278,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                4.	Allows students to think independently and make their own decisions and holding them accountable for their performance based largely on their success in executing decisions.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_4 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C5" for="4C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -312,9 +292,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                5.	Encourage students to learn beyond what is required and help/guide the students how to apply the concepts learned.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_5 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C5" for="5C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -332,9 +310,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                         <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">D. Management of Learning</h1>
-                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                            1.	Creates opportunities for extension contribution of students (e.g. breaks class into dyad, triads or buzz/talk groups)
-                        </h2>
+                        <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_1 }}</h2>
                         <div class="max-w-sm flex flex-col">
 
                             <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D5" for="1D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -348,8 +324,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                2.	Assumes roles as facilitator, resource person, coach, inquisitor, integrator, referee in drawing students to contribute to knowledge and understanding of the concepts at hand.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_2 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D5" for="2D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -363,9 +338,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                3.    Designs and implements learning conditions and experiences that promotes healthy exchange and/or confrontations.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_3 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D5" for="3D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -379,9 +352,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                4.    Structures/re-structures learning and teaching learning context to enhance attainment of collective learning objectives.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_4 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D5" for="4D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -395,9 +366,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                5.	Use of Instructional Materials (audio/video materials: fieldtrips, film showing, computer aided instruction and etc.) to reinforces learning processes.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_5 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D5" for="5D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -417,6 +386,10 @@
                     {{ __('Submit') }}
                 </x-jet-button>
             </div>
+            @endif
+            @empty
+            <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionairs found.</h2>
+            @endforelse
         </section>
     </div>
     {{-------------------------------------------------- Open Modal --------------------------------------------------}}
@@ -430,14 +403,16 @@
                 </div>
             </x-slot>
             <x-slot name="content">
+                @forelse ($questionairs as $questionair)
+                @if ($questionair->is_enabled == 0)
+                {{-- <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionairs enabled yet.</h2> --}}
+                @else
                 <form wire:submit.prevent="submit">
                     {{-------------------------------------------------- Commitment --------------------------------------------------}}
                     <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                             <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">A. Commitment</h1>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                1.	Demonstrate sensitivity to student’s ability to attend and to absorb content information.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_1 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_1" name="commitment_1" id="1A5" for="1A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -451,8 +426,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                2.	Integrates sensitively his/her learning objectives with those of the students in a collaborative process.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_2 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_2" name="commitment_2" id="2A5" for="2A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -466,8 +440,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                3.	Makes self-available to students beyond official time slots.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_3 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_3" name="commitment_3" id="3A5" for="3A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -481,7 +454,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4.	Regularly comes to class on time, well-groomed and well-prepared to complete assigned responsibilities.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_4 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_4" name="commitment_4" id="4A5" for="4A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -495,7 +468,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5.	Keeps accurate records of students’ performance and prompt submission of the same.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->A_Question_5 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="commitment_5" name="commitment_5" id="5A5" for="5A5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -513,9 +486,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                             <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">B. Knowledge of Subject</h1>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                1.	Demonstrate mastery of the subject matter.(explain the subject matter without relying solely on the prescribed textbooks)
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_1 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_1" name="knowledge_of_subject_1" id="1B5" for="1B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -529,8 +500,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                2.	Draws and shares information on the art of theory and practice in his/her discipline.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_2 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_2" name="knowledge_of_subject_2" id="2B5" for="2B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -544,9 +514,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                3.	Integrates subject to practical circumstances and learning intents/purposes of students.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_3 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_3" name="knowledge_of_subject_3" id="3B5" for="3B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -560,9 +528,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                4.	Explains the relevance of present topics lessons, and relates the subject matter to relevant current issues and/or daily life activities.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_4 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_4" name="knowledge_of_subject_4" id="4B5" for="4B5" value="5">5 - Outstanding </x-srf-form.radio-input>
@@ -576,9 +542,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                5.	Demonstrate up-to-date knowledge and/or awareness on current trends and issues of the subject.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->B_Question_5 }}</h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="knowledge_of_subject_5" name="knowledge_of_subject_5" id="5B5" for="5B5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -596,9 +560,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                             <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">C.	Teaching for Independent Learning</h1>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                1.    Creates teaching strategies that allows students to practice using Concepts they need to understand and (interactive decision).
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_1 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_1" name="teaching_for_independent_learning_1" id="1C5" for="1C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -612,8 +574,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                2.    Enhances students’ self-esteem and/or gives due recognition to students’ performance/potential.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_2 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_2" name="teaching_for_independent_learning_2" id="2C5" for="2C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -627,9 +588,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                3.    Allows students to create their own course with objectives and realistically Defined student-professor rules to make them accountable for their performance.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_3 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_3" name="teaching_for_independent_learning_3" id="3C5" for="3C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -643,9 +602,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                4.	Allows students to think independently and make their own decisions and holding them accountable for their performance based largely on their success in executing decisions.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_4 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_4" name="teaching_for_independent_learning_4" id="4C5" for="4C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -659,9 +616,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                5.	Encourage students to learn beyond what is required and help/guide the students how to apply the concepts learned.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->C_Question_5 }}  </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="teaching_for_independent_learning_5" name="teaching_for_independent_learning_5" id="5C5" for="5C5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -679,9 +634,7 @@
                     <div class="space-y-2 mt-2 rounded-lg border-2 border-blue-200 p-2">
                         <div>
                             <h1 class="p-2 text-center text-blue-900 font-alfa uppercase tracking-widest bg-blue-200 rounded-lg">D.	Management of Learning</h1>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                1.	Creates opportunities for extension contribution of students (e.g. breaks class into dyad, triads or buzz/talk groups)
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">1. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_1 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_1" name="management_of_learning_1" id="1D5" for="1D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -695,8 +648,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                2.	Assumes roles as facilitator, resource person, coach, inquisitor, integrator, referee in drawing students to contribute to knowledge and understanding of the concepts at hand.</h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">2. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_2 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_2" name="management_of_learning_2" id="2D5" for="2D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -710,9 +662,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                3.    Designs and implements learning conditions and experiences that promotes healthy exchange and/or confrontations.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">3. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_3 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_3" name="management_of_learning_3" id="3D5" for="3D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -726,9 +676,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                4.    Structures/re-structures learning and teaching learning context to enhance attainment of collective learning objectives.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">4. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_4 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_4" name="management_of_learning_4" id="4D5" for="4D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -742,9 +690,7 @@
                         </div>
                         <hr>
                         <div>
-                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">
-                                5.	Use of Instructional Materials (audio/video materials: fieldtrips, film showing, computer aided instruction and etc.) to reinforces learning processes.
-                            </h2>
+                            <h2 class="px-2 py-4 mx-auto font-bold text-gray-500">5. {{ $questionair->is_enabled == 0 ? null : $questionair->D_Question_5 }} </h2>
                             <div class="max-w-sm flex flex-col">
 
                                 <x-srf-form.radio-input model="management_of_learning_5" name="management_of_learning_5" id="5D5" for="5D5" value="5"> 5 - Outstanding </x-srf-form.radio-input>
@@ -757,10 +703,14 @@
                             </div>
                         </div>
                         <div>
-                            <textarea class="rounded-lg shadow-lg" name="comment" id="comment" cols="50" rows="5" placeholder="Comments and Suggestions"></textarea>
+                            <textarea wire:model.lazy="comments" class="rounded-lg shadow-lg" name="comment" id="comment" cols="50" rows="5" placeholder="Comments and Suggestions"></textarea>
                         </div>
                     </div>
                 </form>
+                @endif
+                @empty
+                <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionairs found.</h2>
+                @endforelse
             </x-slot>
 
             <x-slot name="footer">
@@ -771,9 +721,6 @@
                     <x-jet-button class="ml-2" wire:click.prevent="submit" wire:loading.attr="disabled">
                     {{ __('Submit') }}
                     </x-jet-button>
-                    <x-jet-secondary-button wire:click.prevent="$toggle('srfOpenModal')" wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
-                    </x-jet-secondary-button>
                 </div>
             </x-slot>
 

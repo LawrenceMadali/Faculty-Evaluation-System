@@ -28,10 +28,17 @@
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 space-y-2">
-                <x-jet-button wire:click="$toggle('openModal')">
-                    <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
-                    new
-                </x-jet-button>
+                <div class="flex items-center space-x-4">
+                    <x-jet-button wire:click="$toggle('openModal')">
+                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
+                        new
+                    </x-jet-button>
+                    @if ($count > 1)
+                    <div class="p-2 bg-red-200 text-red-700 rounded-md text-sm">
+                        <span> Warning: Enabling two (2) or more questionairs will return of uncommon behavior of the form.  </span>
+                    </div>
+                    @endif
+                </div>
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
@@ -74,7 +81,7 @@
                                 <td colspan="6">
                                     <div class="flex justify-center items-center space-x-2">
                                         <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                        <span class="text-xl text-gray-400 font-medium py-8">No forms created yet...</span>
+                                        <span class="text-xl text-gray-400 font-medium py-8">No questionairs found...</span>
                                     </div>
                                 </td>
                             </tr>
@@ -110,7 +117,7 @@
                                 <div class="col-span-6">
                                     <x-jet-validation-errors class="mb-4" />
                                 </div>
-                                <div class="col-span-6">
+                                <div class="col-span-6 sm:col-span-3">
                                     <label class="block text-sm font-medium text-gray-700 pr-2">School year</label>
                                     <div class=" flex items-center">
                                         <select wire:model="school_year" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -122,7 +129,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-span-6">
+                                <div class="col-span-6 sm:col-span-3">
                                     <label class="block text-sm font-medium text-gray-700 pr-2">Semester</label>
                                     <select wire:model="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="null">-- choose semester --</option>

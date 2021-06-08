@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Administrator\ManageSettings;
 
+use App\Models\User;
 use App\Models\Course;
 use Livewire\Component;
 use App\Models\CourseCode;
+use App\Models\Instructor;
 use Livewire\WithPagination;
 use App\Models\YearAndSection;
 
@@ -12,18 +14,18 @@ class CourseCodeProperty extends Component
 {
     use WithPagination;
 
-    public $name;
-    public $course_id;
-    public $createModal;
-    public $editModal;
+    public $course_code;
+    public $instructor_id;
+    public $createModal = false;
+    public $editModal = false;
 
     protected $rules = [
-        'name'      => 'required|unique:course_codes',
-        'course_id' => 'required',
+        'course_code'   => 'required|unique:course_codes',
+        'instructor_id' => 'required',
     ];
 
     protected $messages = [
-        'course_id.required' => 'The course field is required.'
+        'instructor_id.required' => 'The instructor field is required.'
     ];
 
     public function create()
@@ -31,8 +33,8 @@ class CourseCodeProperty extends Component
         $this->validate();
 
         CourseCode::create([
-            'name'      => $this->name,
-            'course_id' => $this->course_id,
+            'course_code'   => $this->course_code,
+            'instructor_id' => $this->instructor_id,
         ]);
         $this->reset();
         $this->resetValidation();
@@ -51,9 +53,9 @@ class CourseCodeProperty extends Component
     public function editOpenModal($id)
     {
         $this->CourseCodeId = $id;
-        $CourseCodeId  = CourseCode::find($this->CourseCodeId);
-        $this->name     = $CourseCodeId->name;
-        $this->course_id= $CourseCodeId->course_id;
+        $CourseCodeId       = CourseCode::find($this->CourseCodeId);
+        $this->course_code  = $CourseCodeId->course_code;
+        $this->instructor_id= $CourseCodeId->instructor_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -62,11 +64,10 @@ class CourseCodeProperty extends Component
     public function update()
     {
         $validated = $this->validate([
-            'name'      => 'required',
-            'course_id' => 'required',
+            'course_code'   => 'required',
+            'instructor_id' => 'required',
             ]);
             CourseCode::find($this->CourseCodeId)->update($validated);
-            $this->reset();
             $this->resetValidation();
             $this->emit('updated');
     }
@@ -79,11 +80,41 @@ class CourseCodeProperty extends Component
         $this->resetValidation();
     }
 
+    // year and section
+    public $year_and_section;
+    public $course_code_id;
+    public function submitYearAndSection()
+    {
+        $this->validate([
+            'year_and_section' => 'required',
+            'course_code_id' => 'required',
+        ]);
+
+        YearAndSection::updateOrCreate([
+            'instructor_id' => $this->instructor_id,
+            'course_code_id' => $this->course_code_id,
+            'year_and_section' => $this->year_and_section,
+
+        ]);
+        $this->year_and_section = '';
+        $this->resetValidation();
+        $this->emit('saved');
+    }
+
+    public function remove($id)
+    {
+        $this->CourseCodeId = $id;
+        $CourseCodeId = YearAndSection::find($this->CourseCodeId)->destroy($this->CourseCodeId);
+        $this->emit('deleted');
+    }
+
     public function render()
     {
         return view('livewire.administrator.manage-settings.course-code-property',[
-            'scs'       => CourseCode::with('courses')->paginate(5),
-            'courses'   => Course::all(),
+            'ccs'           => CourseCode::with('instructors')->paginate(5),
+            'courseCodes'   => CourseCode::all(),
+            'instructors'   => User::where('role_id', 4)->get(),
+            'yearAndSections'=> YearAndSection::where('course_code_id', $this->CourseCodeId)->get(),
         ]);
     }
 }

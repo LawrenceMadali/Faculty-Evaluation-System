@@ -12,8 +12,9 @@ class YearAndSection extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
+        'year_and_section',
         'instructor_id',
+        'course_code_id',
     ];
 
     public function instructors()
@@ -21,8 +22,8 @@ class YearAndSection extends Model
         return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 
-    // public function users()
-    // {
-    //     return $this->belongsTo(Course::class, 'course_id');
-    // }
+    public function course_codes()
+    {
+        return $this->belongsTo(CourseCode::class, 'course_code_id');
+    }
 }
