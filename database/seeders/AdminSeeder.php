@@ -77,11 +77,42 @@ class AdminSeeder extends Seeder
 
         User::create([
             'name'      => 'Madali, Jan Lawrence F.',
-            'id_number' => 1011800386,
-            'email'     => 'lawrencemadali@example.com',
+            'id_number' => 1000000011,
+            'email'     => 'Lawrencemadali14@example.com',
             'password'  => bcrypt('password'),
             'role_id'   => 5,
             'college_id'=> 1,
+            'year_and_section_id' => 9,
+        ]);
+
+        User::create([
+            'name'      => 'Peroche, Mark Angelo T.',
+            'id_number' => 1011800386,
+            'email'     => 'markangeloperoche1@example.com',
+            'password'  => bcrypt('password'),
+            'role_id'   => 5,
+            'college_id'=> 1,
+            'year_and_section_id' => 9,
+        ]);
+
+        User::create([
+            'name'      => 'Tolentino, Nick Vincent D.',
+            'id_number' => 1000000048,
+            'email'     => 'tnick8382@example.com',
+            'password'  => bcrypt('password'),
+            'role_id'   => 5,
+            'college_id'=> 1,
+            'year_and_section_id' => 9,
+        ]);
+
+        User::create([
+            'name'      => 'Cortez, Patricia C.',
+            'id_number' => 1000000006,
+            'email'     => 'cortezpatricia577@gmail.com',
+            'password'  => bcrypt('password'),
+            'role_id'   => 5,
+            'college_id'=> 1,
+            'year_and_section_id' => 9,
         ]);
     }
 }

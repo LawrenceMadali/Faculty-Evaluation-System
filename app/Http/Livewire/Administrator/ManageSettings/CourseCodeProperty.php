@@ -55,6 +55,7 @@ class CourseCodeProperty extends Component
         $this->CourseCodeId = $id;
         $CourseCodeId       = CourseCode::find($this->CourseCodeId);
         $this->course_code  = $CourseCodeId->course_code;
+        $this->course_code_id  = $CourseCodeId->course_code_id;
         $this->instructor_id= $CourseCodeId->instructor_id;
         $this->resetValidation();
 

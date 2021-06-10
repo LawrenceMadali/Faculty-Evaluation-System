@@ -21,8 +21,8 @@
         <x-jet-section-border />
 
         {{-- ------------------------------------------------ Year and Section ------------------------------------------------}}
-        {{-- @livewire('administrator.manage-settings.year-section-property')
-        <x-jet-section-border /> --}}
+        @livewire('administrator.manage-settings.year-section-property')
+        <x-jet-section-border />
 
     </div>
 </div>

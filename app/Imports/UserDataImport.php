@@ -14,7 +14,7 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
 class UserDataImport implements
-ToCollection,
+ToModel,
 WithHeadingRow,
 WithValidation,
 SkipsOnFailure
@@ -37,32 +37,16 @@ SkipsOnFailure
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
-    public function collection(Collection $row)
+    public function model(array $row)
     {
-        // return new User([
-        //     'id_number'             => $row['id_number'],
-        //     'name'                  => $row['name'],
-        //     'college_id'            => $row['college_id'] ?? null,
-        //     'role_id'               => $row['role_id'],
-        //     'email'                 => $row['email'],
-        //     'password'              => Hash::make($row['password']),
-        // ]);
-
-        foreach ($rows as $row) {
-            User::create([
-                'id_number'             => $row['id_number'],
-                'name'                  => $row['name'],
-                'college_id'            => $row['college_id'] ?? null,
-                'role_id'               => $row['role_id'],
-                'email'                 => $row['email'],
-                'password'              => Hash::make($row['password']),
-            ]);
-
-            Student::create([
-                'id_number'             => $row['id_number'],
-                'name'                  => $row['name'],
-            ]);
-        }
+        return new User([
+            'id_number'             => $row['id_number'],
+            'name'                  => $row['name'],
+            'college_id'            => $row['college_id'] ?? null,
+            'role_id'               => $row['role_id'],
+            'email'                 => $row['email'],
+            'password'              => Hash::make($row['password']),
+        ]);
 
     }
 }

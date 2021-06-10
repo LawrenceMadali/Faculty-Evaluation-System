@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Models\Instructor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,7 +14,7 @@ class Sse extends Model
     protected $fillable = [
         'school_year_id',
         'semester_id',
-        'name',
+        'user_id',
         'course_id',
         'course_code_id',
         'year_and_section_id',
@@ -21,7 +22,9 @@ class Sse extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'sse_users')->withTimestamps();
+        return $this->belongsToMany(Student::class, 'sse_students')
+        ->withTimestamps()
+        ->using(EvaluationUser::class);
     }
 
     public function schoolYears()
@@ -29,10 +32,10 @@ class Sse extends Model
         return $this->belongsTo(SchoolYear::class, 'school_year_id');
     }
 
-    // public function instructors()
-    // {
-    //     return $this->belongsTo(User::class, 'user_id');
-    // }
+    public function instructors()
+    {
+        return $this->belongsTo(Instructor::class, 'user_id');
+    }
 
     public function semesters()
     {

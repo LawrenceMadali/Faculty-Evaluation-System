@@ -35,6 +35,19 @@ class Student extends Model
 
     ];
 
+    public static function search($search)
+    {
+        return empty($search)
+        ? static::query()
+        : static::query()
+        ->where('id_number', 'LIKE' , '%'.$search.'%')
+        ->orWhere('name', 'LIKE' , '%'.$search.'%')
+        ->orWhere('email', 'LIKE' , '%'.$search.'%')
+        ->orwhere('created_at', 'LIKE' , '%'.$search.'%')
+        ->orwhere('year_and_section_id', 'LIKE' , '%'.$search.'%')
+        ->orwhere('course_code_id', 'LIKE' , '%'.$search.'%');
+    }
+
     public function roles()
     {
         return $this->belongsTo(Role::class, 'role_id');
@@ -50,14 +63,9 @@ class Student extends Model
         return $this->belongsTo(College::class, 'college_id');
     }
 
-    public function spes()
-    {
-        return $this->belongsToMany(Spe::class, 'spe_users');
-    }
-
     public function sses()
     {
-        return $this->belongsToMany(Sse::class, 'sse_users');
+        return $this->belongsToMany(Sse::class, 'sse_students');
     }
 
     public function courses()

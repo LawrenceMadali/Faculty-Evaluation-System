@@ -11,7 +11,8 @@ class SseStudent extends Model
 
     protected $fillable = [
         'student_id',
-        'sse_id'
+        'sse_id',
+        'user_id',
     ];
 
 }

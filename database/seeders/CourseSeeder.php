@@ -15,19 +15,19 @@ class CourseSeeder extends Seeder
     public function run()
     {
         Course::create([
-            'college_id' => 1,
-            'name'=>'Bachelor of Science in Information System']);
+            'instructor_id' => 1,
+            'course'=>'Bachelor of Science in Information System']);
         Course::create([
-            'college_id' => 1,
-            'name'=>'Bachelor of Science in Information Technology']);
+            'instructor_id' => 2,
+            'course'=>'Bachelor of Science in Information Technology']);
         Course::create([
-            'college_id' => 2,
-            'name'=>'Bachelor of Science in Accountancy']);
+            'instructor_id' => 3,
+            'course'=>'Bachelor of Science in Accountancy']);
         Course::create([
-            'college_id' => 3,
-            'name'=>'Bachelor of Science in Business Administration']);
+            'instructor_id' => 4,
+            'course'=>'Bachelor of Science in Business Administration']);
         Course::create([
-            'college_id' => 3,
-            'name'=>'Bachelor of Science in Office Administration']);
+            'instructor_id' => 4,
+            'course'=>'Bachelor of Science in Office Administration']);
     }
 }

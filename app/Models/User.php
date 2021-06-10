@@ -113,14 +113,14 @@ class User extends Authenticatable
         return $this->belongsToMany(Spe::class, 'spe_users');
     }
 
-    public function sses()
-    {
-        return $this->belongsToMany(Sse::class, 'sse_users');
-    }
+    // public function sses()
+    // {
+    //     return $this->belongsToMany(Sse::class, 'sse_students');
+    // }
 
-    public function userStatuses()
+    public function children()
     {
-        return $this->belongsTo(UserStatus::class, 'user_status_id');
+        return $this->hasMany(Student::class, 'user_id');
     }
 
     public function courses()

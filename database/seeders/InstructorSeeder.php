@@ -16,22 +16,22 @@ class InstructorSeeder extends Seeder
     {
         Instructor::create([
             'name' => 'ABAOAG, JOYCE LYN M.',
-            'user_id'   => 4,
+            'college_id'   => 1,
             'id_number' => 4000000400,
             ]);
         Instructor::create([
             'name' => 'ALBITO, NEIL JOHN P.',
-            'user_id'   => 5,
+            'college_id'   => 1,
             'id_number' => 4000000401,
             ]);
         Instructor::create([
             'name' => 'CABALTERA, BABY EUNICE M.',
-            'user_id'   => 6,
+            'college_id'   => 1,
             'id_number' => 4000000402,
             ]);
         Instructor::create([
             'name' => 'CANDELARIA, YVES XAVIER S.',
-            'user_id'   => 7,
+            'college_id'   => 1,
             'id_number' => 4000000403,
             ]);
     }

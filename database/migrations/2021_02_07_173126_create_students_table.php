@@ -17,10 +17,10 @@ class CreateStudentsTable extends Migration
             $table->id();
             $table->bigInteger('id_number');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->foreignId('user_id')->constrained();
             $table->foreignId('year_and_section_id')->constrained();
-            $table->foreignId('course_code_id')->constrained();
+            $table->foreignId('course_id')->constrained();
             $table->boolean('is_enrolled')->default(true);
             $table->timestamps();
         });

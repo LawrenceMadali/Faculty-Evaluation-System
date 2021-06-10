@@ -15,8 +15,9 @@ class CreateCourseCodesTable extends Migration
     {
         Schema::create('course_codes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('instructor_id')->constrained();
             $table->string('course_code');
+            $table->foreignId('year_and_section_id')->constrained();
+            $table->foreignId('course_id')->constrained();
             $table->timestamps();
         });
     }

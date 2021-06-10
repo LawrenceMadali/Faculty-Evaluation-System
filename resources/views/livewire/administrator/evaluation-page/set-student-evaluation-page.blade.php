@@ -29,16 +29,16 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School year</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                            {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th> --}}
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject Code</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Code</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($sses as $sse)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center">
-                            <div class="text-sm font-medium text-gray-900">{{ $sse->name }}</div>
+                            <div class="text-sm font-medium text-gray-900">{{ $sse->instructors->name }}</div>
                         </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -47,14 +47,14 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->semesters->name }}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        {{-- <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->courses->name }}</div>
+                        </td> --}}
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ $sse->yearSections->year_and_section }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $sse->yearSections->name }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $sse->CourseCodes->name }}</div>
+                            <div class="text-sm text-gray-900">{{ $sse->CourseCodes->course_code }}</div>
                         </td>
                     </tr>
                     @empty
@@ -117,30 +117,30 @@
                                                         </select>
                                                     </div>
                                                 @endif
-                                                {{-- @if (!empty($semester) && $semester != '')
+                                                @if (!empty($semester) && $semester != '')
+                                                <div class="col-span-6 sm:col-span-3">
+                                                    <label class="block text-sm font-medium text-gray-700">Instructor</label>
+                                                    <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <option value="">-- choose instructor --</option>
+                                                        @foreach ($instructors as $instructor)
+                                                        <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                @endif
+                                                @if (!empty($courses))
                                                     <div class="col-span-6 sm:col-span-3">
                                                         <label class="block text-sm font-medium text-gray-700">Course</label>
                                                         <select wire:model="course" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                             <option value="">-- choose course --</option>
                                                             @foreach ($courses as $course)
-                                                            <option value="{{ $course->id }}">{{ $course->name }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                @endif --}}
-                                                @if (!empty($semester) && $semester != '')
-                                                    <div class="col-span-6 sm:col-span-2">
-                                                        <label class="block text-sm font-medium text-gray-700">Instructor</label>
-                                                        <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                            <option value="">-- choose instructor --</option>
-                                                            @foreach ($instructors as $instructor)
-                                                            <option value="{{ $instructor->id }}">{{ $instructor->users->name }}</option>
+                                                            <option value="{{ $course->id }}">{{ $course->course }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 @endif
                                                 @if (!empty($courseCodes))
-                                                    <div class="col-span-6 sm:col-span-2">
+                                                    <div class="col-span-6 sm:col-span-3">
                                                         <label class="block text-sm font-medium text-gray-700">Course Code</label>
                                                         <select wire:model="courseCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                             <option value="">-- choose course code --</option>
@@ -151,7 +151,7 @@
                                                     </div>
                                                 @endif
                                                 @if (!empty($yearAndSections))
-                                                <div class="col-span-6 sm:col-span-2">
+                                                <div class="col-span-6 sm:col-span-3">
                                                     <label class="block text-sm font-medium text-gray-700">Year and Section</label>
                                                     <select wire:model="yearAndSection" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="">-- choose year and section --</option>

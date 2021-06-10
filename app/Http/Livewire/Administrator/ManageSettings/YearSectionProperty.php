@@ -14,7 +14,6 @@ class YearSectionProperty extends Component
     use WithPagination;
 
     public $name;
-    public $instructor_id;
     public $course_code_id;
     public $createModal = false;
     public $editModal = false;
@@ -81,21 +80,29 @@ class YearSectionProperty extends Component
         $this->resetValidation();
     }
 
+    public $courseCodes;
+    public $courseCode;
     public $course_code;
-    public $instructor = null;
+    public $instructor_id;
 
-    // public function updatedInstructor($instructor)
-    // {
-    //     $this->courseCodes = CourseCode::where('instructor_id', $this->instructor)->get();
-    //     dd($this->courseCodes);
-    // }
+    public function mount()
+    {
+        // $this->courseCodes = CourseCode::with('instructors')->get();
+    }
+
+    public function updatedInstructorId()
+    {
+        // $instructor_id = CourseCode::find($this->instructor_id);
+        // $this->course_code = $instructor_id->course_code ?? null;
+    }
 
 
     public function render()
     {
+        // dd(CourseCode::with('instructors')->get());
         return view('livewire.administrator.manage-settings.year-section-property', [
             'yrSecs'=> YearAndSection::with('instructors', 'course_codes')->paginate(5),
-            'Course_Codes' => CourseCode::where('course_code', $this->course_code)->with('instructors')->get(),
+            'courseCodes' => CourseCode::with('instructors'),
         ]);
     }
 }
