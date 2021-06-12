@@ -44,7 +44,7 @@ class StudentRatingForm extends Model
         'management_of_learning_total',
         'total',
         'comments',
-        'id_number',
+        'instructor_id',
     ];
 
     public function user()

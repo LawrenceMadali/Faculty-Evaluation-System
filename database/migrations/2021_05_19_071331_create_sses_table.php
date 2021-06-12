@@ -15,11 +15,13 @@ class CreateSsesTable extends Migration
     {
         Schema::create('sses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained();
+            $table->string('name');
             $table->foreignId('school_year_id')->constrained();
             $table->foreignId('semester_id')->constrained();
-            $table->foreignId('course_code_id')->constrained();
+            $table->foreignId('instructor_id')->constrained();
+            $table->foreignId('course_id')->constrained();
             $table->foreignId('year_and_section_id')->constrained();
+            $table->foreignId('course_code_id')->constrained();
             $table->timestamps();
         });
     }

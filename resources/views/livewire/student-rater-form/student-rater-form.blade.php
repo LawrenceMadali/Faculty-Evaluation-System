@@ -12,6 +12,10 @@
             </div>
             @endif
         </div>
+        <div class="flex justify-center items-center text-sm text-yellow-700 bg-yellow-200 p-2 rounded-md">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <p>If the questions are not in present please contact the school staff.</p>
+        </div>
         <section class="flex justify-center items-center text-center mb-8 text-gray-700">
             <x-jet-application-mark/>
             <div class="px-4">
@@ -76,11 +80,11 @@
                 <div class="space-y-2">
                     <div class="col-span-6 text-gray-600 font-medium p-2 rounded-md border-none bg-blue-100">
                         <label class="block text-sm font-medium">Evaluate Instructor</label>
-                        <select wire:model="sse_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="null">-- choose instructor you want to evaluate first --</option>
-                            {{-- @foreach ($assignInstructors->sses as $ai)
-                            <option value="{{ $ai->id }}">{{ $ai->year_and_section_id }}</option>
-                            @endforeach --}}
+                            @foreach ($assignInstructors->sses as $ai)
+                            <option value="{{ $ai->id }}">{{ $ai->name }}</option>
+                            @endforeach
                         </select>
                         <x-jet-input-error for="sse_id"/>
                     </div>

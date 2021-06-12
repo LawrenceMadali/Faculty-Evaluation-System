@@ -14,7 +14,7 @@
 
         </x-jet-action-message>
 
-        <x-jet-button wire:click="$toggle('openModal')">
+        <x-jet-button wire:click="openCreateModal">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
             Create
         </x-jet-button>
@@ -29,7 +29,7 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School year</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
-                            {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th> --}}
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Code</th>
                         </tr>
@@ -47,9 +47,9 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->semesters->name }}</div>
                         </td>
-                        {{-- <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $sse->courses->name }}</div>
-                        </td> --}}
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ $sse->courses->course }}</div>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->yearSections->year_and_section }}</div>
                         </td>
@@ -106,7 +106,7 @@
                                                 </div>
                                                 </div>
 
-                                                @if (!empty($school_year) && $school_year != '')
+                                                @if (!empty($school_year) && $school_year != null)
                                                     <div class="col-span-6 sm:col-span-3">
                                                         <label class="block text-sm font-medium text-gray-700">Semester</label>
                                                         <select wire:model="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -117,7 +117,7 @@
                                                         </select>
                                                     </div>
                                                 @endif
-                                                @if (!empty($semester) && $semester != '')
+                                                @if (!empty($semester) && $semester != null)
                                                 <div class="col-span-6 sm:col-span-3">
                                                     <label class="block text-sm font-medium text-gray-700">Instructor</label>
                                                     <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -128,7 +128,18 @@
                                                     </select>
                                                 </div>
                                                 @endif
-                                                @if (!empty($courses))
+                                                @if (!empty($semester) && $semester != null)
+                                                <div class="col-span-6 sm:col-span-3 sr-only">
+                                                    <label class="block text-sm font-medium text-gray-700">Instructor</label>
+                                                    <select wire:model="name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <option value="">-- choose instructor --</option>
+                                                        @foreach ($instructors as $instructor)
+                                                        <option value="{{ $instructor->name }}">{{ $instructor->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                @endif
+                                                @if (!empty($courses) && !empty($instructor))
                                                     <div class="col-span-6 sm:col-span-3">
                                                         <label class="block text-sm font-medium text-gray-700">Course</label>
                                                         <select wire:model="course" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -139,18 +150,7 @@
                                                         </select>
                                                     </div>
                                                 @endif
-                                                @if (!empty($courseCodes))
-                                                    <div class="col-span-6 sm:col-span-3">
-                                                        <label class="block text-sm font-medium text-gray-700">Course Code</label>
-                                                        <select wire:model="courseCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                            <option value="">-- choose course code --</option>
-                                                            @foreach ($courseCodes as $courseCode)
-                                                            <option value="{{ $courseCode->id }}">{{ $courseCode->course_code }}</option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                @endif
-                                                @if (!empty($yearAndSections))
+                                                @if (!empty($yearAndSections) && !empty($course))
                                                 <div class="col-span-6 sm:col-span-3">
                                                     <label class="block text-sm font-medium text-gray-700">Year and Section</label>
                                                     <select wire:model="yearAndSection" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -160,6 +160,17 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
+                                                @endif
+                                                @if (!empty($courseCodes) && !empty($yearAndSection))
+                                                    <div class="col-span-6 sm:col-span-3">
+                                                        <label class="block text-sm font-medium text-gray-700">Course Code</label>
+                                                        <select wire:model="courseCode" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                            <option value="">-- choose course code --</option>
+                                                            @foreach ($courseCodes as $courseCode)
+                                                            <option value="{{ $courseCode->id }}">{{ $courseCode->course_code }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
                                                 @endif
                                             </div>
                                         </div>

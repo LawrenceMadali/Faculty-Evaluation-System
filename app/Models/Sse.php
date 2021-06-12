@@ -14,7 +14,8 @@ class Sse extends Model
     protected $fillable = [
         'school_year_id',
         'semester_id',
-        'user_id',
+        'instructor_id',
+        'name',
         'course_id',
         'course_code_id',
         'year_and_section_id',
@@ -22,9 +23,10 @@ class Sse extends Model
 
     public function users()
     {
-        return $this->belongsToMany(Student::class, 'sse_students')
-        ->withTimestamps()
-        ->using(EvaluationUser::class);
+        return $this->belongsToMany(User::class, 'sse_users')
+        ->withTimestamps();
+        // ->withPivot(['']);
+        // ->using(EvaluationUser::class);
     }
 
     public function schoolYears()
@@ -34,7 +36,7 @@ class Sse extends Model
 
     public function instructors()
     {
-        return $this->belongsTo(Instructor::class, 'user_id');
+        return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 
     public function semesters()

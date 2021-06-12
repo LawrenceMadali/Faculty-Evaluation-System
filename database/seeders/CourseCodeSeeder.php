@@ -234,6 +234,8 @@ class CourseCodeseeder extends Seeder
         CourseCode::create(['year_and_section_id'=> 13, 'course_id' => 1, 'course_code' => 'Rizal 1 - Life and Works of National Hero Dr. Jose Rizal']);
         CourseCode::create(['year_and_section_id'=> 13, 'course_id' => 1, 'course_code' => 'ITE 7 - Application Development and Emerging Technologies']);
         CourseCode::create(['year_and_section_id'=> 13, 'course_id' => 1, 'course_code' => 'IS 18 - IS Strategy Management and Acquisition']);
+        CourseCode::create(['year_and_section_id'=> 13, 'course_id' => 1, 'course_code' => 'IS ELECT 3 - IS Elective 3']);
+        CourseCode::create(['year_and_section_id'=> 13, 'course_id' => 1, 'course_code' => 'IS ELECT 4 - IS Elective 4']);
         CourseCode::create(['year_and_section_id'=> 13, 'course_id' => 1, 'course_code' => 'IS 19 - Evaluation of Business Performance']);
         //  4-1 2nd sem
         CourseCode::create(['year_and_section_id'=> 13, 'course_id' => 1, 'course_code' => 'IS 20 - Practicum for Information System (486 Hours)']);
@@ -241,6 +243,8 @@ class CourseCodeseeder extends Seeder
         CourseCode::create(['year_and_section_id'=> 14, 'course_id' => 1, 'course_code' => 'Rizal 1 - Life and Works of National Hero Dr. Jose Rizal']);
         CourseCode::create(['year_and_section_id'=> 14, 'course_id' => 1, 'course_code' => 'ITE 7 - Application Development and Emerging Technologies']);
         CourseCode::create(['year_and_section_id'=> 14, 'course_id' => 1, 'course_code' => 'IS 18 - IS Strategy Management and Acquisition']);
+        CourseCode::create(['year_and_section_id'=> 14, 'course_id' => 1, 'course_code' => 'IS ELECT 3 - IS Elective 3']);
+        CourseCode::create(['year_and_section_id'=> 14, 'course_id' => 1, 'course_code' => 'IS ELECT 4 - IS Elective 4']);
         CourseCode::create(['year_and_section_id'=> 14, 'course_id' => 1, 'course_code' => 'IS 19 - Evaluation of Business Performance']);
         //  4-2 2nd sem
         CourseCode::create(['year_and_section_id'=> 14, 'course_id' => 1, 'course_code' => 'IS 20 - Practicum for Information System (486 Hours)']);
@@ -248,6 +252,8 @@ class CourseCodeseeder extends Seeder
         CourseCode::create(['year_and_section_id'=> 15, 'course_id' => 1, 'course_code' => 'Rizal 1 - Life and Works of National Hero Dr. Jose Rizal']);
         CourseCode::create(['year_and_section_id'=> 15, 'course_id' => 1, 'course_code' => 'ITE 7 - Application Development and Emerging Technologies']);
         CourseCode::create(['year_and_section_id'=> 15, 'course_id' => 1, 'course_code' => 'IS 18 - IS Strategy Management and Acquisition']);
+        CourseCode::create(['year_and_section_id'=> 15, 'course_id' => 1, 'course_code' => 'IS ELECT 3 - IS Elective 3']);
+        CourseCode::create(['year_and_section_id'=> 15, 'course_id' => 1, 'course_code' => 'IS ELECT 4 - IS Elective 4']);
         CourseCode::create(['year_and_section_id'=> 15, 'course_id' => 1, 'course_code' => 'IS 19 - Evaluation of Business Performance']);
         //  4-3 2nd sem
         CourseCode::create(['year_and_section_id'=> 15, 'course_id' => 1, 'course_code' => 'IS 20 - Practicum for Information System (486 Hours)']);
@@ -255,6 +261,8 @@ class CourseCodeseeder extends Seeder
         CourseCode::create(['year_and_section_id'=> 16, 'course_id' => 1, 'course_code' => 'Rizal 1 - Life and Works of National Hero Dr. Jose Rizal']);
         CourseCode::create(['year_and_section_id'=> 16, 'course_id' => 1, 'course_code' => 'ITE 7 - Application Development and Emerging Technologies']);
         CourseCode::create(['year_and_section_id'=> 16, 'course_id' => 1, 'course_code' => 'IS 18 - IS Strategy Management and Acquisition']);
+        CourseCode::create(['year_and_section_id'=> 16, 'course_id' => 1, 'course_code' => 'IS ELECT 3 - IS Elective 3']);
+        CourseCode::create(['year_and_section_id'=> 16, 'course_id' => 1, 'course_code' => 'IS ELECT 4 - IS Elective 4']);
         CourseCode::create(['year_and_section_id'=> 16, 'course_id' => 1, 'course_code' => 'IS 19 - Evaluation of Business Performance']);
         //  4-4 2nd sem
         CourseCode::create(['year_and_section_id'=> 16, 'course_id' => 1, 'course_code' => 'IS 20 - Practicum for Information System (486 Hours)']);
