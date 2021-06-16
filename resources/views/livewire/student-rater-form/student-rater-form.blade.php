@@ -82,8 +82,8 @@
                         <label class="block text-sm font-medium">Evaluate Instructor</label>
                         <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="null">-- choose instructor you want to evaluate first --</option>
-                            @foreach ($assignInstructors->sses as $ai)
-                            <option value="{{ $ai->id }}">{{ $ai->name }}</option>
+                            @foreach ($assignInstructors as $ai)
+                            <option value="{{ $ai->id }}">{{ $ai->name }} </option>
                             @endforeach
                         </select>
                         <x-jet-input-error for="sse_id"/>

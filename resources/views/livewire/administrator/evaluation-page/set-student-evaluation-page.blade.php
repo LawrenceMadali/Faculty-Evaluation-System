@@ -14,10 +14,12 @@
 
         </x-jet-action-message>
 
-        <x-jet-button wire:click="openCreateModal">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-            Create
-        </x-jet-button>
+        <div class="flex justify-between">
+            <x-jet-button wire:click="openCreateModal">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                Create
+            </x-jet-button>
+        </div>
 
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -26,17 +28,35 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
+                            {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sr-only">Status</th> --}}
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School year</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Code</th>
+                            <th scope="col" class="relative px-6 py-3">
+                                <span class="sr-only">Edit</span>
+                            </th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($sses as $sse)
                     <tr>
+                        {{-- <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="flex items-center h-5">
+                                <input type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                            </div>
+                        </td> --}}
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                            {{ $sse->is_used === 0
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-green-100 text-green-800'}}">
+                            {{ $sse->is_used === 0 ? 'Inactive' : 'Active' }}
+                            </span>
+                        </td>
                         <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center">
                             <div class="text-sm font-medium text-gray-900">{{ $sse->instructors->name }}</div>
                         </div>
@@ -56,10 +76,13 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->CourseCodes->course_code }}</div>
                         </td>
+                        <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-2">
+                            <button wire:click.prevent="editOpenModal({{$sse->id}})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6">
+                        <td colspan="7">
                             <div class="flex justify-center items-center space-x-2">
                                 <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 <span class="text-xl text-gray-400 font-medium py-8">No evaluation set yet...</span>
@@ -287,5 +310,37 @@
                 </x-jet-button>
             </x-slot>
         </x-jet-dialog-modal>
+
+        {{-------------------------------------------------- Edit Modal  --------------------------------------------------}}
+        <x-jet-dialog-modal maxWidth="5xl" wire:model.defer="editModal">
+            <x-slot name="title">
+                <label class="block text-sm font-medium text-gray-700">
+                    Create evaluator
+                </label>
+            </x-slot>
+
+            <x-slot name="content">
+                <form wire:submit.prevent="update">
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium text-gray-700">Status</label>
+                        <input wire:model="is_enabled" name="is_enabled" type="checkbox" value="1" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                        <input type="hidden" name="is_enabled" value="0">
+                        <x-jet-input-error for="is_enabled"/>
+                    </div>
+                </form>
+            </x-slot>
+                <x-slot name="footer">
+                    <div class="text-left">
+                        <x-jet-validation-errors class="mb-4" />
+                    </div>
+                    <x-jet-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                        {{ __('Cancel') }}
+                    </x-jet-secondary-button>
+
+                    <x-jet-button class="ml-2" wire:click="create" wire:loading.attr="disabled">
+                        {{ __('Create') }}
+                    </x-jet-button>
+                </x-slot>
+            </x-jet-dialog-modal>
     </div>
 </div>

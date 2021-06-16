@@ -2,10 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\SrfCommitment;
-use App\Models\SrfKnowledgeSubject;
-use App\Models\SrfTeachingLearning;
-use App\Models\SrfManagementLearning;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -50,5 +46,10 @@ class StudentRatingForm extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function instructors()
+    {
+        return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 }

@@ -165,13 +165,10 @@ class StudentRaterForm extends Component
 
     public function render()
     {
-        // $student = Auth::user()->with('sses')->get();
-        // $student->sses;
-        // dd($student);
         return view('livewire.student-rater-form.student-rater-form',[
             'sse'   => Sse::count(),
             'questionairs'  => StudentQuestionairForm::all(),
-            'assignInstructors' => auth()->user(),
+            'assignInstructors' => auth()->user()->sses,
         ]);
     }
 

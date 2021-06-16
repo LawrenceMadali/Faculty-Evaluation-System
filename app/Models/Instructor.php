@@ -15,6 +15,7 @@ class Instructor extends Model
         'user_id',
         'id_number',
         'course_code_id',
+        'college_id',
         'is_regular',
     ];
 
@@ -26,5 +27,10 @@ class Instructor extends Model
     public function CourseCodes()
     {
         return $this->belongsTo(CourseCode::class, 'course_code_id');
+    }
+
+    public function colleges()
+    {
+        return $this->belongsTo(College::class, 'college_id');
     }
 }

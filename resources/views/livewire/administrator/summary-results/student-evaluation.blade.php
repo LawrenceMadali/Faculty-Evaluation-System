@@ -2,7 +2,7 @@
     <div class="mt-10">
         <x-table>
             <x-slot name="head">
-                <x-table.head> Id number </x-table.head>
+                <x-table.head> Evaluated instructor </x-table.head>
                 <x-table.head> Commitment </x-table.head>
                 <x-table.head> Knowledge of subject </x-table.head>
                 <x-table.head> Teaching for independent learning </x-table.head>
@@ -14,7 +14,7 @@
                 @forelse ($students as $student)
                     <tr>
                         <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">
-                            {{ $student->id_number }}
+                            {{ $student->instructors->name }}
                         </td>
                         <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">
                             {{ $student->commitment_total }}

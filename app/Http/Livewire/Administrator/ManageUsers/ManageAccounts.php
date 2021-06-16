@@ -50,20 +50,30 @@ class ManageAccounts extends Component
 
     public function create()
     {
-        if (!in_array($this->role_id, [3,6] )) {
+        if ($this->role_id == 5 ) {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required|unique:users|min:10',
+                'id_number'     => 'required|unique:users,id_number',
                 'name'          => 'required',
-                'email'         => 'required|email',
+                'email'         => 'required|email|unique:users,email',
                 'college_id'    => 'required',
+                'year_and_section_id'    => 'required',
             ]);
-        } else {
+        } elseif (in_array($this->role_id, [3,6]))
+        {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required|unique:users|min:10',
+                'id_number'     => 'required|unique:users,id_number',
                 'name'          => 'required',
-                'email'         => 'required|email',
+                'email'         => 'required|email|unique:users,email',
+            ]);
+        } elseif (in_array($this->role_id, [1,2,4])) {
+            $this->validate([
+                'role_id'       => 'required',
+                'id_number'     => 'required|unique:users,id_number',
+                'name'          => 'required',
+                'email'         => 'required|email|unique:users,email',
+                'college_id'    => 'required',
             ]);
         }
 
@@ -73,6 +83,7 @@ class ManageAccounts extends Component
             'name'          => $this->name,
             'email'         => $this->email,
             'college_id'    => $this->college_id,
+            'year_and_section_id'    => $this->year_and_section_id,
             'password'      => bcrypt('urspassword'),
         ]);
         $this->reset();
@@ -91,10 +102,10 @@ class ManageAccounts extends Component
     public $accId;
     public $user;
 
-    public function editOpenModal($id)
+    public function editOpenModal($id_number)
     {
-        $this->accId = $id;
-        $accId                     = User::find($this->accId);
+        $this->accId = $id_number;
+        $accId                      = User::where('id_number',$this->accId)->first();
         $this->role_id              = $accId->role_id;
         $this->id_number            = $accId->id_number;
         $this->name                 = $accId->name;
@@ -102,6 +113,7 @@ class ManageAccounts extends Component
         $this->status               = $accId->status;
         $this->user_id              = $accId->user_id;
         $this->college_id           = $accId->college_id;
+        $this->year_and_section_id  = $accId->year_and_section_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -111,7 +123,24 @@ class ManageAccounts extends Component
 
     public function update()
     {
-        if (!in_array($this->role_id, [3,6] )) {
+        if ($this->role_id == 5 ) {
+            $this->validate([
+                'role_id'       => 'required',
+                'id_number'     => 'required|unique:users,id_number,'.$this->user->id,
+                'name'          => 'required',
+                'email'         => 'required|email|unique:users,email,'.$this->user->id,
+                'college_id'    => 'required',
+                'year_and_section_id'    => 'required',
+            ]);
+        } elseif (in_array($this->role_id, [3,6]))
+        {
+            $this->validate([
+                'role_id'       => 'required',
+                'id_number'     => 'required|unique:users,id_number,'.$this->user->id,
+                'name'          => 'required',
+                'email'         => 'required|email|unique:users,email,'.$this->user->id,
+            ]);
+        } elseif (in_array($this->role_id, [1,2,4])) {
             $this->validate([
                 'role_id'       => 'required',
                 'id_number'     => 'required|unique:users,id_number,'.$this->user->id,
@@ -119,61 +148,26 @@ class ManageAccounts extends Component
                 'email'         => 'required|email|unique:users,email,'.$this->user->id,
                 'college_id'    => 'required',
             ]);
-        } else {
-            $this->validate([
-                'role_id'       => 'required',
-                'id_number'     => 'required',
-                'name'          => 'required',
-                'email'         => 'required|email|unique:users',
-            ]);
         }
-            User::find($this->accId)->update([
+            User::where('id_number', $this->accId)->update([
                 'role_id'       => $this->role_id,
                 'id_number'     => $this->id_number,
                 'name'          => $this->name,
                 'email'         => $this->email,
                 'status'        => $this->status,
                 'college_id'    => $this->college_id,
+                'year_and_section_id'    => $this->year_and_section_id,
             ]);
+            if ($this->role_id = 4) {
+                Instructor::where('id_number', $this->accId)->update([
+                    'name'       => $this->name,
+                    'id_number'  => $this->id_number,
+                    'college_id' => $this->college_id,
+                    ]);
+            }
+            $this->reset();
             $this->resetValidation();
             $this->emit('updated');
-    }
-
-    public function createEvaluationDetails()
-    {
-        if ($this->role_id === 4) {
-            $validated = $this->validate([
-                'course_code_id' => 'required',
-            ]);
-            Instructor::updateOrCreate($validated + [
-                'user_id' => $this->accId,
-                'name'    => $this->name,
-                'id_number' => $this->id_number
-            ]);
-        } elseif ($this->role_id === 5) {
-            $validated = $this->validate([
-                'year_and_section_id' => 'required',
-            ]);
-            Student::updateOrCreate($validated + [
-                'user_id' => $this->accId,
-                'name'    => $this->name,
-                'id_number' => $this->id_number
-            ]);
-        }
-
-        $this->emit('courseCodeCreated');
-        $this->resetValidation();
-    }
-
-    public $removeID;
-    public function remove($id)
-    {
-        $this->removeID = $id;
-        if ($this->role_id === 4) {
-            Instructor::find($this->removeID)->destroy($this->removeID);
-        } elseif ($this->role_id === 5)
-        Student::find($this->removeID)->destroy($this->removeID);
-        $this->emit('removed');
     }
 
     public function closeModal()
@@ -202,7 +196,6 @@ class ManageAccounts extends Component
         else{
             $this->reset();
         }
-
         $this->resetValidation();
         $this->emit('import');
     }
@@ -214,15 +207,11 @@ class ManageAccounts extends Component
             'courses'           => Course::all(),
             'courseCodes'       => CourseCode::all(),
             'yearAndSections'   => YearAndSection::all(),
-            'users'             => User::with('yearAndSections', 'colleges', 'roles', 'courses')
-                                ->where('role_id', 5),
             'users'             => User::search($this->search)
+                                ->with('yearAndSections', 'colleges', 'roles', 'courses')
+                                ->where('id' , '!=', auth()->id())
                                 ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                                ->paginate($this->perPage),
-            'instructors'       => Instructor::where('user_id', $this->accId)->with('CourseCodes')
-                                ->get(),
-            'students'          => Student::where('user_id', $this->accId)->with('yearAndSections')
-                                ->get(),
+                                ->paginate($this->perPage)
         ]);
     }
 }

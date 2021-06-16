@@ -4,15 +4,17 @@ namespace App\Models;
 
 use App\Models\Spe;
 use App\Models\Role;
-use App\Models\Section;
 use App\Models\Course;
-use App\Models\UserStatus;
+use Illuminate\Support\Str;
 use App\Models\PeerRatingForm;
 use App\Models\YearAndSection;
 use App\Models\StudentRatingForm;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,12 +27,14 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
+
     protected $fillable = [
         'role_id',
         'id_number',
@@ -39,7 +43,16 @@ class User extends Authenticatable
         'password',
         'status',
         'college_id',
+        'year_and_section_id',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name', 'role_id'])
+        ->useLogName('Manage Accounts')
+        ->dontSubmitEmptyLogs();
+    }
 
     /**
      * The attributes that should be hidden for arrays.

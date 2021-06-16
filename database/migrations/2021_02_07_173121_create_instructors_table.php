@@ -17,6 +17,7 @@ class CreateInstructorsTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('id_number');
+            $table->boolean('is_regular')->default(true);
             $table->foreignId('college_id')->constrained();
             $table->timestamps();
         });

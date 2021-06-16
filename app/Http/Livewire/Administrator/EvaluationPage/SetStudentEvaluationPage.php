@@ -23,7 +23,8 @@ class SetStudentEvaluationPage extends Component
 {
     use WithPagination;
 
-    public $openModal = true;
+    public $openModal = false;
+    public $editModal = false;
     public $user_id = null;
 
     protected $rules = [
@@ -299,7 +300,10 @@ class SetStudentEvaluationPage extends Component
         }
     }
 
-
+    public function editOpenModal()
+    {
+        $this->editModal = true;
+    }
 
     public function updatedSelectedStudents()
     {
@@ -319,10 +323,10 @@ class SetStudentEvaluationPage extends Component
     public function create()
     {
         $validateEvaluation = $this->validate([
-            'school_year'       => 'required',
+            'school_year'       => 'required|unique:sses,school_year_id,NULL,id,course_code_id,'.$this->courseCode.',semester_id,'.$this->semester.',course_id,'.$this->course.',year_and_section_id,'.$this->yearAndSection,
             'semester'          => 'required',
             'instructor'        => 'required',
-            'courseCode'        => 'required|unique:sses,course_code_id,NULL,id,instructor_id,'.$this->instructor,
+            'courseCode'        => 'required|unique:sses,course_code_id,NULL,id,instructor_id,'.$this->instructor.',school_year_id,'.$this->school_year,
             'course'            => 'required',
             'yearAndSection'    => 'required',
             'selectedStudents'  => 'required',
