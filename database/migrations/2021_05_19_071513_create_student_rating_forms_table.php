@@ -15,6 +15,7 @@ class CreateStudentRatingFormsTable extends Migration
     {
         Schema::create('student_rating_forms', function (Blueprint $table) {
             $table->id();
+            $table->string('evaluator');
             $table->foreignId('instructor_id')->constrained()->onUpdate('cascade');
             $table->integer('commitment_1');
             $table->integer('commitment_2');
@@ -46,6 +47,7 @@ class CreateStudentRatingFormsTable extends Migration
             $table->integer('management_of_learning_total');
             $table->integer('total');
             $table->longText('comments')->nullable();
+            $table->integer('scale');
             $table->timestamps();
         });
     }

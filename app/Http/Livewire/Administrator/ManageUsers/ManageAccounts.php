@@ -149,7 +149,8 @@ class ManageAccounts extends Component
                 'college_id'    => 'required',
             ]);
         }
-            User::where('id_number', $this->accId)->update([
+            $updateUser = User::where('id_number', $this->accId);
+            $updateUser->update([
                 'role_id'       => $this->role_id,
                 'id_number'     => $this->id_number,
                 'name'          => $this->name,
@@ -159,7 +160,8 @@ class ManageAccounts extends Component
                 'year_and_section_id'    => $this->year_and_section_id,
             ]);
             if ($this->role_id = 4) {
-                Instructor::where('id_number', $this->accId)->update([
+                $updateInstructor = Instructor::where('id_number', $this->accId);
+                $updateInstructor->update([
                     'name'       => $this->name,
                     'id_number'  => $this->id_number,
                     'college_id' => $this->college_id,

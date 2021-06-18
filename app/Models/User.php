@@ -5,7 +5,6 @@ namespace App\Models;
 use App\Models\Spe;
 use App\Models\Role;
 use App\Models\Course;
-use Illuminate\Support\Str;
 use App\Models\PeerRatingForm;
 use App\Models\YearAndSection;
 use App\Models\StudentRatingForm;
@@ -34,7 +33,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-
+    
     protected $fillable = [
         'role_id',
         'id_number',
@@ -46,13 +45,16 @@ class User extends Authenticatable
         'year_and_section_id',
     ];
 
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly(['name', 'role_id'])
-        ->useLogName('Manage Accounts')
-        ->dontSubmitEmptyLogs();
+        ->logFillable()
+        ->logOnlyDirty()
+        ->useLogName('Managing Accounts')
+        ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
     }
+    
 
     /**
      * The attributes that should be hidden for arrays.
@@ -129,11 +131,6 @@ class User extends Authenticatable
     public function sses()
     {
         return $this->belongsToMany(Sse::class, 'sse_users');
-    }
-
-    public function children()
-    {
-        return $this->hasMany(Student::class, 'user_id');
     }
 
     public function courses()
