@@ -13,12 +13,12 @@ use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Jetstream\HasProfilePhoto;
 use Illuminate\Notifications\Notifiable;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use Spatie\Activitylog\Traits\LogsActivity;
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -33,7 +33,7 @@ class User extends Authenticatable
      *
      * @var array
      */
-    
+
     protected $fillable = [
         'role_id',
         'id_number',
@@ -45,16 +45,14 @@ class User extends Authenticatable
         'year_and_section_id',
     ];
 
-
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
         ->logFillable()
         ->logOnlyDirty()
         ->useLogName('Managing Accounts')
-        ->setDescriptionForEvent(fn(string $eventName) => "This model has been {$eventName}");
+        ->setDescriptionForEvent(fn(string $eventName) => "This user has been {$eventName}");
     }
-    
 
     /**
      * The attributes that should be hidden for arrays.
@@ -75,6 +73,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'properties',
     ];
 
     /**

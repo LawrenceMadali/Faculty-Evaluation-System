@@ -2,18 +2,18 @@
 
 namespace App\Http\Livewire\Administrator\ManageUsers;
 
+use App;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\College;
-use App\Models\Student;
 use Livewire\Component;
 use App\Models\CourseCode;
 use App\Models\Instructor;
-use App\Models\UserStatus;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
 use App\Imports\UserDataImport;
+use Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ManageAccounts extends Component
@@ -149,7 +149,7 @@ class ManageAccounts extends Component
                 'college_id'    => 'required',
             ]);
         }
-            $updateUser = User::where('id_number', $this->accId);
+            $updateUser = User::where('id_number', $this->accId)->first();
             $updateUser->update([
                 'role_id'       => $this->role_id,
                 'id_number'     => $this->id_number,
@@ -159,6 +159,12 @@ class ManageAccounts extends Component
                 'college_id'    => $this->college_id,
                 'year_and_section_id'    => $this->year_and_section_id,
             ]);
+            activity()
+            ->causedBy(Auth::user())
+            ->performedOn($updateUser)
+            ->event('updated')
+            ->log('This model has been updated.');
+
             if ($this->role_id = 4) {
                 $updateInstructor = Instructor::where('id_number', $this->accId);
                 $updateInstructor->update([
@@ -167,6 +173,7 @@ class ManageAccounts extends Component
                     'college_id' => $this->college_id,
                     ]);
             }
+
             $this->reset();
             $this->resetValidation();
             $this->emit('updated');

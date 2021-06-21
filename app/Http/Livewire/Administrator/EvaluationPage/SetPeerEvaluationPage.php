@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Administrator\EvaluationPage;
 
 use App\Models\Spe;
 use App\Models\User;
-use App\Models\SpeUser;
 use Livewire\Component;
 use App\Models\Semester;
 use App\Models\Course;

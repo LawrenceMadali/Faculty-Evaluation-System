@@ -7,8 +7,6 @@ use App\Models\Sse;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\College;
-use App\Models\SpeUser;
-use App\Models\Student;
 use Livewire\Component;
 use App\Models\Semester;
 use App\Models\CourseCode;

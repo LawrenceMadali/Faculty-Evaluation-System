@@ -2,17 +2,18 @@
 
 namespace App\Http\Livewire\Administrator\ManageReports;
 
+use App\Models\User;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Spatie\Activitylog\Models\Activity;
 
 class AuditTrail extends Component
 {
-
+    use WithPagination;
     public function render()
     {
-        // $logs = Log::all();
         return view('livewire.administrator.manage-reports.audit-trail', [
-            'activities' => Activity::all(),
+            'activities' => Activity::latest('id')->paginate(10),
         ]);
     }
 }

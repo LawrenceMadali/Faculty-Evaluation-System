@@ -2,13 +2,14 @@
 
 namespace App\Listeners;
 
+use Illuminate\Support\Str;
 use IlluminateAuthEventsLogin;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 use Illuminate\Auth\Events\Login;
+
 use Illuminate\Support\Facades\Session;
 use Spatie\Activitylog\Models\Activity;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 
 class LoginLogs
@@ -33,11 +34,12 @@ class LoginLogs
     {
         // dd($event);
         $event->subject = 'Login';
-        $event->description = 'login :attributes ';
-
-        // Session::flash('login-success', 'Hello ' . $event->user->name . ', welcome back!');
+        $event->description = 'Login successful';
         activity($event->subject)
             ->by($event->user)
+            ->withProperties(['attributes' => [
+                'name' => $event->user->name
+                ]])
             ->log($event->description);
     }
 }

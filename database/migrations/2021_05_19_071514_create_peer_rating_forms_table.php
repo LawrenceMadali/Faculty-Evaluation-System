@@ -15,7 +15,8 @@ class CreatePeerRatingFormsTable extends Migration
     {
         Schema::create('peer_rating_forms', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('spe_id')->constrained();
+            $table->string('evaluator');
+            $table->foreignId('instructor_id')->constrained()->onUpdate('cascade');
             $table->integer('commitment_1');
             $table->integer('commitment_2');
             $table->integer('commitment_3');
