@@ -47,6 +47,7 @@ class CreatePeerRatingFormsTable extends Migration
             $table->integer('management_of_learning_total');
             $table->integer('total');
             $table->longText('comments')->nullable();
+            $table->integer('scale');
             $table->timestamps();
         });
     }

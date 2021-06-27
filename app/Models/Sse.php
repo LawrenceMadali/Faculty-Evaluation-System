@@ -4,14 +4,12 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Instructor;
-use Haruncpi\LaravelUserActivity\Traits\Loggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Sse extends Model
 {
     use HasFactory;
-    use Loggable;
 
     protected $fillable = [
         'school_year_id',

@@ -16,11 +16,10 @@ class CreateSpesTable extends Migration
         Schema::create('spes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('user_id')->constrained()->onUpdate('cascade');
             $table->foreignId('school_year_id')->constrained();
             $table->foreignId('semester_id')->constrained();
-            $table->foreignId('course_id')->constrained();
-            $table->foreignId('course_code_id')->constrained();
-            $table->foreignId('year_and_section_id')->constrained();
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
         });
     }

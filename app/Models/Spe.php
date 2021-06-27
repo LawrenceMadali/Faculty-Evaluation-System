@@ -17,10 +17,8 @@ class Spe extends Model
     protected $fillable = [
         'school_year_id',
         'semester_id',
+        'name',
         'user_id',
-        'course_id',
-        'course_code_id',
-        'year_and_section_id',
     ];
 
     public function users()

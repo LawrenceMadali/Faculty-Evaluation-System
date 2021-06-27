@@ -152,10 +152,30 @@ class PeerRaterForm extends Component
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
             $this->management_of_learning_5,
-
+            'scale' =>
+            ($this->commitment_1 +
+            $this->commitment_2 +
+            $this->commitment_3 +
+            $this->commitment_4 +
+            $this->commitment_5 +
+            $this->knowledge_of_subject_1 +
+            $this->knowledge_of_subject_2 +
+            $this->knowledge_of_subject_3 +
+            $this->knowledge_of_subject_4 +
+            $this->knowledge_of_subject_5 +
+            $this->teaching_for_independent_learning_1 +
+            $this->teaching_for_independent_learning_2 +
+            $this->teaching_for_independent_learning_3 +
+            $this->teaching_for_independent_learning_4 +
+            $this->teaching_for_independent_learning_5 +
+            $this->management_of_learning_1 +
+            $this->management_of_learning_2 +
+            $this->management_of_learning_3 +
+            $this->management_of_learning_4 +
+            $this->management_of_learning_5) / 20,
+            'instructor_id' => $this->instructor_id,
             'comments' => $this->comments,
-
-            'id_number' => auth()->user()->id_number,
+            'evaluator' => Auth::user(),
         ]);
 
         session()->flash('message', 'Thank you! Your response will be recorded.');

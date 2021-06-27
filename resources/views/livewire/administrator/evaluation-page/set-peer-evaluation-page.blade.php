@@ -28,44 +28,26 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School year</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject Code</th>
-                            <th scope="col" class="relative px-6 py-3"><span class="sr-only">View</span></th>
+                            {{-- <th scope="col" class="relative px-6 py-3"><span class="sr-only">View</span></th> --}}
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                         @foreach ($spes as $spe)
-                        <tr>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center">
-                                <div class="flex-shrink-0 h-10 w-10"><img class="h-8 w-8 rounded-full" src="{{ $spe->instructors->profile_photo_url }}" alt=""></div>
-                                <div class="ml-4">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-gray-900">{{ $spe->instructors->name }}</div>
-                                    <div class="text-sm text-gray-500">{{ $spe->instructors->email }}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->schoolYears->school_year }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->semesters->semester }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->courses->course }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->yearSections->year_and_section }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $spe->CourseCodes->course_code }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                            <button wire:click="$toggle('viewModal')" class="text-indigo-600 hover:text-indigo-900">View</button>
-                        </td>
-                    </tr>
-                    @endforeach
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $spe->schoolYears->name }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $spe->semesters->name }}</div>
+                                </td>
+                                {{-- <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                    <button wire:click="$toggle('viewModal')" class="text-indigo-600 hover:text-indigo-900">View</button>
+                                </td> --}}
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
@@ -76,7 +58,7 @@
 
 
         {{-------------------------------------------------- Create Modal  --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="openModal">
+        <x-jet-dialog-modal maxWidth="5xl" wire:model.defer="openModal">
             <x-slot name="title">
                 <label class="block text-sm font-medium text-gray-700">
                     Create evaluator
@@ -91,78 +73,52 @@
                                 <div class="mt-5 md:mt-0 md:col-span-2">
                                     <div class="shadow overflow-hidden sm:rounded-md">
                                         <div class="px-4 py-5 bg-white sm:p-6 space-y-3">
-                                            {{-- <x-jet-secondary-button wire:click="clear"> --}}
-                                                {{-- <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg> --}}
-                                                {{-- Clear inputs
-                                            </x-jet-secondary-button> --}}
 
                                             <div class="grid grid-cols-6 gap-2">
-                                                <div class="col-span-6 sm:col-span-3">
+                                                <div class="col-span-6 sm:col-span-2">
                                                 <label class="block text-sm font-medium text-gray-700 pr-2">School year</label>
                                                 <div class=" flex items-center">
                                                     <select wire:model="school_year" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="null">- Choose school year -</option>
                                                         @foreach ($schoolYears as $Sy)
-                                                        <option value="{{ $Sy->id }}">{{ $Sy->school_year }}</option>
+                                                        <option value="{{ $Sy->id }}">{{ $Sy->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                                 </div>
-
-                                                <div class="col-span-6 sm:col-span-3">
-                                                <label class="block text-sm font-medium text-gray-700">Semester</label>
-                                                <select wire:model="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                    <option value="null">-- choose semester</option>
-                                                    @foreach ($sems as $sem)
-                                                    <option value="{{ $sem->id }}">{{ $sem->semester }}</option>
-                                                    @endforeach
-                                                </select>
-                                                </div>
-
-                                                <div class="col-span-6 sm:col-span-3">
-                                                <label for="country" class="block text-sm font-medium text-gray-700">Instructor</label>
-                                                <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                    <option value="null">-- choose instructor --</option>
-                                                    @foreach ($instructors as $instructor)
-                                                    <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                                </div>
-
-                                                <div class="col-span-6 sm:col-span-3">
-                                                <label for="course" class="block text-sm font-medium text-gray-700">Course</label>
-                                                <select wire:model="course" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                    <option value="null">-- choose course --</option>
-                                                    @foreach ($courses as $course)
-                                                    <option value="{{ $course->id }}">{{ $course->course }}</option>
-                                                    @endforeach
-                                                </select>
-                                                </div>
-
-
-                                                @if ($yearAndSection)
-                                                <div class="col-span-6 sm:col-span-3">
-                                                    <label for="year_and_section" class="block text-sm font-medium text-gray-700">Year and Section</label>
-                                                    <select wire:model="year_and_section" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                        <option>-- choose year and section --</option>
-                                                        @foreach ($yearAndSection as $yrSec)
-                                                        <option value="{{ $yrSec->id }}">{{ $yrSec->year_and_section }}</option>
+                                                @if (!is_null($school_year))
+                                                    <div class="col-span-6 sm:col-span-2">
+                                                    <label class="block text-sm font-medium text-gray-700">Semester</label>
+                                                    <select wire:model="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <option value="null">-- choose semester</option>
+                                                        @foreach ($sems as $sem)
+                                                        <option value="{{ $sem->id }}">{{ $sem->name }}</option>
                                                         @endforeach
                                                     </select>
-                                                </div>
+                                                    </div>
                                                 @endif
-
-                                                @if ($CourseCodes)
-                                                <div class="col-span-6 sm:col-span-3">
-                                                <label for="course_code" class="block text-sm font-medium text-gray-700">Subject Code</label>
-                                                <select wire:model="course_code" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                    <option>-- choose subject code --</option>
-                                                    @foreach ($CourseCodes as $sc)
-                                                    <option value="{{ $sc->id }}">{{ $sc->course_code }}</option>
-                                                    @endforeach
-                                                </select>
-                                                </div>
+                                                @if (!is_null($semester))
+                                                    <div class="col-span-6 sm:col-span-2">
+                                                    <label for="user_id" class="block text-sm font-medium text-gray-700">Instructor</label>
+                                                    <select wire:model="user_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <option value="null">-- choose instructor --</option>
+                                                        @foreach ($instructors as $instructor)
+                                                        <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    </div>
                                                 @endif
+                                                {{-- @if (!is_null($semester)) --}}
+                                                    <div class="col-span-6 sm:col-span-2 sr-only">
+                                                    <label for="name" class="block text-sm font-medium text-gray-700">Instructor</label>
+                                                    <select wire:model="name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                        <option value="null">-- choose instructor --</option>
+                                                        @foreach ($instructors as $instructor)
+                                                        <option value="{{ $instructor->name }}">{{ $instructor->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                    </div>
+                                                {{-- @endif --}}
                                             </div>
                                         </div>
                                     </div>
@@ -178,17 +134,25 @@
                                             <thead class="bg-gray-50">
                                                 <tr>
                                                     <th scope="col" class="flex px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        student id number
+                                                        Instructor id number
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        @if ($studentCount == 0)
-                                                        <div>
-                                                            <p class="capitalize text-red-500">(No student found...)</p>
-                                                        </div>
+                                                        @if (!$user_id)
+                                                            <div>
+                                                                <svg width="32px" height="32px" viewBox="0 0 45 45" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" color="#000000"><g fill="none" fill-rule="evenodd" transform="translate(1 1)" stroke-width="2"><circle cx="22" cy="22" r="6"><animate attributeName="r" begin="1.5s" dur="3s" values="6;22" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" begin="1.5s" dur="3s" values="1;0" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-width" begin="1.5s" dur="3s" values="2;0" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="22" cy="22" r="6"><animate attributeName="r" begin="3s" dur="3s" values="6;22" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-opacity" begin="3s" dur="3s" values="1;0" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="stroke-width" begin="3s" dur="3s" values="2;0" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="22" cy="22" r="8"><animate attributeName="r" begin="0s" dur="1.5s" values="6;1;2;3;4;5;6" calcMode="linear" repeatCount="indefinite"></animate></circle></g></svg>
+                                                            </div>
                                                         @else
-                                                        <div>
-                                                            <span class=" text-blue-700 text-xs rounded-md p-1">{{ count($selectedStudents)}}/{{$studentCount }} ({{ number_format((count($selectedStudents) / $studentCount) * 100) }}%)</span>
-                                                        </div>
+                                                            @if ($instructorCount == 0)
+                                                            <div>
+                                                                <p class="capitalize text-red-500">(No instructor found...)</p>
+                                                            </div>
+                                                            @else
+                                                                {{-- @if ($evaluatees != $name) --}}
+                                                                    <div>
+                                                                        <span class=" text-blue-700 text-xs rounded-md p-1">{{ count($selectedInstructor)}}/{{$instructorCount }} ({{ number_format((count($selectedInstructor) / $instructorCount) * 100) }}%)</span>
+                                                                    </div>
+                                                                {{-- @endif --}}
+                                                            @endif
                                                         @endif
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -196,16 +160,32 @@
                                                         100%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        <input wire:model="select90" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        90%
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         <input wire:model="select80" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         80%
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        <input wire:model="select70" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        70%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         <input wire:model="select60" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         60%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        <input wire:model="select50" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        50%
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         <input wire:model="select40" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         40%
+                                                    </th>
+                                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                        <input wire:model="select30" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        30%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         <input wire:model="select20" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
@@ -218,20 +198,24 @@
                                             </tr>
                                             </thead>
                                             <tbody class="bg-white divide-y divide-gray-200">
-                                                @foreach ($instructors as $instructor)
+                                                @if (!empty($user_id))
+                                                @foreach ($evaluatees as $evaluatee)
                                                 <tr>
-                                                    <td colspan="8" class="px-6 py-4 whitespace-nowrap">
+                                                    <td colspan="12" class="px-6 py-4 whitespace-nowrap">
                                                         <div class="flex items-center">
                                                             <div class="ml-4">
                                                                 <div class="text-sm font-medium text-gray-900">
-                                                                    <input wire:model="selectedStudents" value="{{ $instructor->id }}" type="checkbox" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                                                    {{ $instructor->id_number }}
+                                                                    @if ($evaluatee->id != $user_id)
+                                                                        <input wire:model="selectedInstructor" value="{{ $evaluatee->id }}" type="checkbox" class="mr-2 focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                                        <label for="selectedInstructor">{{ $evaluatee->id_number }}</label>
+                                                                    @endif
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </td>
                                                 </tr>
-                                                @endforeach
+                                                    @endforeach
+                                                @endif
                                             </tbody>
                                         </table>
                                     </div>
@@ -254,59 +238,5 @@
                 </x-jet-button>
             </x-slot>
         </x-jet-dialog-modal>
-
-        {{-------------------------------------------------- View modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="viewModal">
-            <x-slot name="title">
-                <label class="block text-sm font-medium text-gray-700">
-                    Evaluator
-                </label>
-            </x-slot>
-
-            <x-slot name="content">
-                <div class="flex flex-col">
-                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                <table class="min-w-full divide-y divide-gray-200">
-                                    <thead class="bg-gray-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Number</th>
-                                            <th scope="col" class="relative px-6 py-3"><span class="sr-only">View</span></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody class="bg-white divide-y divide-gray-200">
-                                        @if ($peerCounts == 0)
-
-                                        @else
-                                        @foreach ($studentEvaluator->users as $user)
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="ml-4">
-                                                        <div class="text-sm font-medium text-gray-900">{{ $user->id_number }}</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </x-slot>
-                <x-slot name="footer">
-                <div class="text-left">
-                    <x-jet-validation-errors class="mb-4" />
-                </div>
-                <x-jet-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
-                    {{ __('Okay') }}
-                </x-jet-secondary-button>
-            </x-slot>
-        </x-jet-dialog-modal>
-
     </div>
 </div>
