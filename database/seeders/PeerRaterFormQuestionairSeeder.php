@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\PeerQuestionairForm;
 use Illuminate\Database\Seeder;
 
 class PeerRaterFormQuestionairSeeder extends Seeder
@@ -13,7 +14,7 @@ class PeerRaterFormQuestionairSeeder extends Seeder
      */
     public function run()
     {
-        StudentQuestionairForm::create([
+        PeerQuestionairForm::create([
             'name'         => 'Administrator',
             'semester'     => '1st semester',
             'school_year'  => '2020-2021',

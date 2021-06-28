@@ -261,7 +261,7 @@ class SetPeerEvaluationPage extends Component
     {
         $this->validate([
             'user_id'            => 'required',
-            'school_year'        => 'required|unique:school_years,name,NULL,id,'.$this->school_year,
+            'school_year'        => 'required',
             'semester'           => 'required',
             'selectedInstructor' => 'required',
         ],[

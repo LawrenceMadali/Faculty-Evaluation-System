@@ -6,6 +6,7 @@ use App\Models\Spe;
 use Livewire\Component;
 use App\Models\PeerRatingForm;
 use App\Models\PeerQuestionairForm;
+use Illuminate\Support\Facades\Auth;
 use App\Models\StudentQuestionairForm;
 
 class PeerRaterForm extends Component
@@ -39,11 +40,16 @@ class PeerRaterForm extends Component
     public $management_of_learning_total;
 
     public $total;
+    public $scale;
     public $prfModal = false;
     public $id_number;
     public $comments;
+    public $instructor_id;
+    public $evaluator;
 
     protected $rules = [
+        'instructor_id' => 'required',
+        // validation for commitment
         'commitment_1' => 'required',
         'commitment_2' => 'required',
         'commitment_3' => 'required',
@@ -95,6 +101,8 @@ class PeerRaterForm extends Component
         'management_of_learning_3.required' => 'Management of Learning question 3 is required',
         'management_of_learning_4.required' => 'Management of Learning question 4 is required',
         'management_of_learning_5.required' => 'Management of Learning question 5 is required',
+
+        'instructor_id.required' => 'The instructor field is required'
     ];
 
     public function submit()
@@ -152,6 +160,7 @@ class PeerRaterForm extends Component
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
             $this->management_of_learning_5,
+
             'scale' =>
             ($this->commitment_1 +
             $this->commitment_2 +
@@ -172,10 +181,10 @@ class PeerRaterForm extends Component
             $this->management_of_learning_2 +
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
-            $this->management_of_learning_5) / 20,
+            $this->management_of_learning_5) / 20, 
             'instructor_id' => $this->instructor_id,
             'comments' => $this->comments,
-            'evaluator' => Auth::user(),
+            'evaluator' => Auth::user()->name,
         ]);
 
         session()->flash('message', 'Thank you! Your response will be recorded.');
@@ -186,7 +195,7 @@ class PeerRaterForm extends Component
     {
         return view('livewire.peer-rater-form.peer-rater-form',[
             'questionairs'  => PeerQuestionairForm::all(),
-            'is_enabled'    => PeerQuestionairForm::where('is_enabled')->get(),
+            'assignInstructors' => Auth::user()->spes,
         ]);
     }
 }

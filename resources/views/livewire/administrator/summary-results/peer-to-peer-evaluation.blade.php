@@ -3,24 +3,26 @@
         <table class="min-w-full">
             <thead class="bg-gray-50">
             <tr>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> id number </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> evaluated instructor </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> commitment </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> knowledge of subject </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> teaching for independent learning </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> management of learning </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> total </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> scale </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> submitted at </th>
             </tr>
             </thead>
             <tbody class="bg-white">
                 @forelse ($instructors as $instructor)
                 <tr>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->id_number }}</td>
+                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->instructors->name }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->commitment_total }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->knowledge_of_subject_total }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->teaching_for_independent_learning_total }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->management_of_learning_total }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->total }}</td>
+                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->scale }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->created_at->toFormattedDateString() }}</td>
                 </tr>
                 @empty

@@ -4,12 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\Activitylog\Traits\LogsActivity;
 
 class StudentRatingForm extends Model
 {
     use HasFactory;
-    use LogsActivity;
 
     protected $fillable = [
         'commitment_1',
@@ -46,14 +44,6 @@ class StudentRatingForm extends Model
         'scale',
         'evaluator',
     ];
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-        ->logOnly(['evaluator'])
-        ->useLogName('Student Rater Form')
-        ->dontSubmitEmptyLogs();
-    }
 
     public function user()
     {

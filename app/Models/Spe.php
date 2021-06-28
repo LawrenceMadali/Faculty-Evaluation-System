@@ -55,5 +55,4 @@ class Spe extends Model
     {
         return $this->belongsTo(CourseCode::class, 'course_code_id');
     }
-
 }

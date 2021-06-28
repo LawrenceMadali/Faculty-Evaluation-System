@@ -177,8 +177,8 @@ class StudentRaterForm extends Component
             $this->management_of_learning_4 +
             $this->management_of_learning_5) / 20,
             'instructor_id' => $this->instructor_id,
-            'comments' => $this->comments,
-            'evaluator' => Auth::user(),
+            'comments'      => $this->comments,
+            'evaluator'     => Auth::user()->name,
 
     ]);
 
@@ -191,9 +191,9 @@ class StudentRaterForm extends Component
     public function render()
     {
         return view('livewire.student-rater-form.student-rater-form',[
-            'sse'   => Sse::count(),
+            // 'sse'   => Sse::count(),
             'questionairs'  => StudentQuestionairForm::all(),
-            'assignInstructors' => auth()->user()->sses,
+            'assignStudents' => auth()->user()->sses,
         ]);
     }
 

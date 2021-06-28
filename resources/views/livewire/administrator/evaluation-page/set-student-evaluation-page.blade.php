@@ -36,9 +36,9 @@
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Code</th>
-                            <th scope="col" class="relative px-6 py-3">
+                            {{-- <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Edit</span>
-                            </th>
+                            </th> --}}
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
@@ -76,9 +76,9 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->CourseCodes->course_code }}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-2">
+                        {{-- <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-2">
                             <button wire:click.prevent="editOpenModal({{$sse->id}})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
-                        </td>
+                        </td> --}}
                     </tr>
                     @empty
                     <tr>

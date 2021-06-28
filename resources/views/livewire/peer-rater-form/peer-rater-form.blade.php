@@ -75,14 +75,14 @@
             <form wire:submit.prevent="submit">
                 <div class="space-y-2">
                     <div class="col-span-6 text-gray-600 font-medium p-2 rounded-md border-none bg-blue-100">
-                        <label class="block text-sm font-medium">Evaluate Instructor</label>
-                        <select wire:model="sse_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <label class="block text-sm">Evaluate Instructor <span class="text-red-500">*</span></label>
+                        <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="null">-- choose instructor you want to evaluate first --</option>
-                            {{-- @foreach ($assignInstructors->sses as $ai)
-                            <option value="{{ $ai->id }}">{{ $ai->year_and_section_id }}</option>
-                            @endforeach --}}
+                            @foreach ($assignInstructors as $ai)
+                            <option value="{{ $ai->id }}">{{ $ai->name }}</option>
+                            @endforeach
                         </select>
-                        <x-jet-input-error for="sse_id"/>
+                        <x-jet-input-error for="instructor_id"/>
                     </div>
                     {{-------------------------------------------------- Commitment --------------------------------------------------}}
                     <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">

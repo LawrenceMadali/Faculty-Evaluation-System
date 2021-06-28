@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class PeerRatingForm extends Model
 {
     use HasFactory;
+
     protected $fillable = [
         'commitment_1',
         'commitment_2',
@@ -40,11 +41,18 @@ class PeerRatingForm extends Model
         'management_of_learning_total',
         'total',
         'comments',
-        'id_number',
+        'instructor_id',
+        'scale',
+        'evaluator',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function instructors()
+    {
+        return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 }
