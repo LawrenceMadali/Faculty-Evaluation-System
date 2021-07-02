@@ -11,6 +11,8 @@ class StudentQuestionair extends Component
 {
     public $openModal = false;
     public $editModal = false;
+    public $warningModal = false;
+    public $viewModal = false;
 
     public $currentPage = 1;
 
@@ -69,7 +71,7 @@ class StudentQuestionair extends Component
 
     private $validationRules = [
         1 => [
-            'school_year'=> 'required',
+            'school_year'=> 'required|unique:peer_questionair_forms,school_year',
             'semester'     => 'required',
         ],
         2 => [
@@ -182,9 +184,40 @@ class StudentQuestionair extends Component
     {
         $this->openModal = false;
         $this->editModal = false;
-        $this->reset();
-        $this->resetValidation();
+        $this->warningModal = false;
+        $this->viewModal = false;
     }
+
+    public function openViewModal($id)
+    {
+        $view = StudentQuestionairForm::find($id);
+        $this->A_Question_1 = $view->A_Question_1;
+        $this->A_Question_2 = $view->A_Question_2;
+        $this->A_Question_3 = $view->A_Question_3;
+        $this->A_Question_4 = $view->A_Question_4;
+        $this->A_Question_5 = $view->A_Question_5;
+
+        $this->B_Question_1 = $view->B_Question_1;
+        $this->B_Question_2 = $view->B_Question_2;
+        $this->B_Question_3 = $view->B_Question_3;
+        $this->B_Question_4 = $view->B_Question_4;
+        $this->B_Question_5 = $view->B_Question_5;
+
+        $this->C_Question_1 = $view->C_Question_1;
+        $this->C_Question_2 = $view->C_Question_2;
+        $this->C_Question_3 = $view->C_Question_3;
+        $this->C_Question_4 = $view->C_Question_4;
+        $this->C_Question_5 = $view->C_Question_5;
+
+        $this->D_Question_1 = $view->D_Question_1;
+        $this->D_Question_2 = $view->D_Question_2;
+        $this->D_Question_3 = $view->D_Question_3;
+        $this->D_Question_4 = $view->D_Question_4;
+        $this->D_Question_5 = $view->D_Question_5;
+
+        $this->viewModal = true;
+    }
+
     public function render()
     {
         return view('livewire.administrator.questionair.student-questionair', [

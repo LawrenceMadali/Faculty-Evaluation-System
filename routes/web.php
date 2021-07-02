@@ -14,23 +14,26 @@ use App\Http\Controllers\Student\Auth\LoginController;
 use App\Http\Controllers\Admin\SummaryResultController;
 use App\Http\Controllers\StudentEvaluationDetailsController;
 // summary result
-use App\Http\Controllers\Admin\SummaryResult\PeerToPeerController;
-use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
+use App\Http\Controllers\Admin\Questionair\QuestionairController;
+use App\Http\Controllers\Admin\ManageReports\AuditTrailController;
 // manage account
+use App\Http\Controllers\Admin\SummaryResult\PeerToPeerController;
 use App\Http\Controllers\Admin\ManageUsers\ManageAccountController;
-use App\Http\Controllers\Admin\ManageUsers\InstructorEvaluationDetailsController;
 // manage report
 use App\Http\Controllers\Admin\ManageReports\ManageReportController;
-// manage settings
 use App\Http\Controllers\Admin\ManageSettings\ManageSettingsController;
-// Questionair
-use App\Http\Controllers\Admin\Questionair\QuestionairController;
+// manage settings
 use App\Http\Controllers\Admin\Questionair\StudentQuestionairController;
-use App\Http\Controllers\Admin\Questionair\PeerToPeerQuestionairController;
+// Questionair
+use App\Http\Livewire\Administrator\SummaryResults\PeerToPeerEvaluation;
+use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
 // Evaluation Page
 use App\Http\Controllers\Admin\EvaluationPage\SetPeerEvaluationController;
+use App\Http\Controllers\Admin\Questionair\PeerToPeerQuestionairController;
 use App\Http\Controllers\Admin\EvaluationPage\SetStudentEvaluationController;
-use App\Http\Controllers\Admin\ManageReports\AuditTrailController;
+use App\Http\Controllers\Admin\ManageReports\StudentEvaluationReportController;
+use App\Http\Controllers\Admin\ManageUsers\InstructorEvaluationDetailsController;
+use App\Http\Controllers\Admin\ManageReports\PeerToPeerEvaluationReportController;
 
 Route::group(['middleware' => 'auth'], function()
 {
@@ -83,6 +86,8 @@ Route::group(['middleware' => 'auth'], function()
     // -------------------------------------------------- Manage reports --------------------------------------------------
     Route::prefix('reports')->group(function () {
         Route::get('manage.reports',[ManageReportController::class, 'index'])->name('manage-reports');
+        Route::get('peer.to.peer.evaluation.report', [PeerToPeerEvaluationReportController::class, 'index'])->name('peer-to-peer-evaluation-report');
+        Route::get('student.evaluation.report', [StudentEvaluationReportController::class, 'index'])->name('student-evaluation-report');
         Route::get('audit.trail',[AuditTrailController::class, 'index'])->name('audit-trail');
     });
 });

@@ -33,11 +33,6 @@
                         <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path></svg>
                         new
                     </x-jet-button>
-                    @if ($count > 1)
-                    <div class="p-2 bg-red-200 text-red-700 rounded-md text-sm">
-                        <span> Warning: Enabling two (2) or more questionairs will return of uncommon behavior of the form.  </span>
-                    </div>
-                    @endif
                 </div>
                 <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-200">
@@ -68,13 +63,20 @@
                             <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center">{{ $q->semester }}</div></td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $q->school_year }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $q->name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $q->created_at->toFormattedDateString() }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
-                                <button class="text-indigo-600 hover:text-indigo-900">View</button>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ $q->created_at->toFormattedDateString() }}</div>
+                                <div class="text-sm text-gray-500">{{ $q->created_at->diffForHumans() }}</div>
 
-                                <button wire:click="editOpenModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline">
-                                    Edit
-                                </button>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
+                                <button wire:click="openViewModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900">View</button>
+
+                                @if (!$count >= 1 || $q->is_enabled == 1)
+                                <button wire:click="editOpenModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline">Edit</button>
+                                @else
+                                <button wire:click="$toggle('warningModal')" class="text-indigo-600 hover:text-indigo-900 hover:underline">Edit</button>
+                                @endif
+
                             </td>
                             @empty
                             <tr>
@@ -320,6 +322,173 @@
 
                 <x-jet-button class="ml-2" wire:click="update" wire:loading.attr="disabled">
                     {{ __('Update') }}
+                </x-jet-button>
+            </x-slot>
+        </x-jet-dialog-modal>
+
+        {{-------------------------------------------------- Warning Modal --------------------------------------------------}}
+        <x-jet-dialog-modal wire:model.defer="warningModal">
+            <x-slot name="title">
+                {{ __('Oops!') }}
+            </x-slot>
+
+            <x-slot name="content">
+                <div class="p-2 bg-red-100 text-red-700 rounded-md text-sm text-center">
+                    <span>Only one question must be enabled... Please disable first the enabled one.</span>
+                </div>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-jet-button wire:click="closeModal" wire:loading.attr="disabled">
+                    {{ __('Okay') }}
+                </x-jet-button>
+            </x-slot>
+        </x-jet-dialog-modal>
+
+        {{-------------------------------------------------- View Modal --------------------------------------------------}}
+        <x-jet-dialog-modal maxWidth="4xl" wire:model.defer="viewModal">
+            <x-slot name="title">
+                {{ __('Questions') }}
+            </x-slot>
+
+            <x-slot name="content">
+                <section class="p-4 space-y-4">
+                    <div class="flex flex-col">
+                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 space-y-4">
+                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">A. Commitment</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap space-y-2">
+                                            <div class="text-sm text-gray-700">
+                                                1. {{ $A_Question_1 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                2. {{ $A_Question_2 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                3.	{{ $A_Question_3 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                4.	{{ $A_Question_4 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                5.	{{ $A_Question_5 }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+
+                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">B. Knowledge of Subject</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap space-y-2">
+                                            <div class="text-sm text-gray-700">
+                                                1. {{ $B_Question_1 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                2. {{ $B_Question_2 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                3.	{{ $B_Question_3 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                4.	{{ $B_Question_4 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                5.	{{ $B_Question_5 }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+
+                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">C. Teaching for Independent Learning</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap space-y-2">
+                                            <div class="text-sm text-gray-700">
+                                                1. {{ $C_Question_1 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                2. {{ $C_Question_2 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                3.	{{ $C_Question_3 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                4.	{{ $C_Question_4 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                5.	{{ $C_Question_5 }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+
+                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">D. Management of Learning</th>
+                                </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap space-y-2">
+                                            <div class="text-sm text-gray-700">
+                                                1. {{ $D_Question_1 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                2. {{ $D_Question_2 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                3.	{{ $D_Question_3 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                4.	{{ $D_Question_4 }}
+                                            </div>
+                                            <div class="text-sm text-gray-700">
+                                                5.	{{ $D_Question_5 }}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </section>
+
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-jet-button wire:click="closeModal" wire:loading.attr="disabled">
+                    {{ __('Okay') }}
                 </x-jet-button>
             </x-slot>
         </x-jet-dialog-modal>

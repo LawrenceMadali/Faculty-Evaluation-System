@@ -33,4 +33,9 @@ class Instructor extends Model
     {
         return $this->belongsTo(College::class, 'college_id');
     }
+
+    public function prfs()
+    {
+        return $this->belongsTo(PeerRatingForm::class, 'instructor_id');
+    }
 }
