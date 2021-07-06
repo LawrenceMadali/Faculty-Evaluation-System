@@ -4,26 +4,32 @@
             <thead class="bg-gray-50">
             <tr>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> evaluated instructor </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> commitment </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> knowledge of subject </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> teaching for independent learning </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> management of learning </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> total </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> scale </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> semester </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> school year </th>
+                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> status </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> submitted at </th>
+                <th scope="col" class="relative px-6 py-3"><span class="sr-only">Edit</span></th>
             </tr>
             </thead>
             <tbody class="bg-white">
                 @forelse ($instructors as $instructor)
                 <tr>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->instructors->name }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->commitment_total }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->knowledge_of_subject_total }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->teaching_for_independent_learning_total }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->management_of_learning_total }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->total }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->scale }}</td>
+                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->spes->name }}</td>
+                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->semesters->name }}</td>
+                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->schoolYears->name }}</td>
+                    <td class="px-6 text-center py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                        {{ $instructor->is_evaluated === 0
+                        ? 'bg-red-100 text-red-800'
+                        : 'bg-green-100 text-green-800'}}">
+                        {{ $instructor->is_evaluated === 0 ? 'Inactive' : 'Active' }}
+                        </span>
+                    </td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->created_at->toFormattedDateString() }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-4">
+                        <button wire:click.prevent="" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>View</em></button>
+                        <button wire:click.prevent="" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
+                    </td>
                 </tr>
                 @empty
                 <tr>
@@ -38,4 +44,22 @@
             </tbody>
         </table>
     </div>
+
+
+        {{-------------------------------------------------- Update Modal --------------------------------------------------}}
+        <x-jet-dialog-modal wire:model.defer="warningModal">
+            <x-slot name="title">
+                {{ __('Disabled') }}
+            </x-slot>
+
+            <x-slot name="content">
+                
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-jet-button wire:click="closeModal" wire:loading.attr="disabled">
+                    {{ __('Okay') }}
+                </x-jet-button>
+            </x-slot>
+        </x-jet-dialog-modal>
 </div>

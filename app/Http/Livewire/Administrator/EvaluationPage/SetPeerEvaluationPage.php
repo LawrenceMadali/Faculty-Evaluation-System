@@ -15,7 +15,19 @@ class SetPeerEvaluationPage extends Component
     use WithPagination;
 
     public $openModal = false;
+    public $editModal = false;
     public $user_id;
+    public $evaluatee;
+
+    public function updatedSchoolYear()
+    {
+        $this->reset('semester', 'user_id', 'selectedInstructor');
+    }
+
+    public function updatedSemester()
+    {
+        $this->reset('user_id', 'selectedInstructor');
+    }
 
     public function closeModal()
     {
@@ -24,6 +36,20 @@ class SetPeerEvaluationPage extends Component
         $this->resetValidation();
     }
 
+    public function resetFields()
+    {
+        $this->reset([
+        'selectedInstructor', 'select100', 'select80', 'select60',
+        'select40', 'select20', 'select10', 'school_year', 'semester'
+        ,'user_id' ,'evaluatee']);
+    }
+
+    public function openCreateModal()
+    {
+        $this->openModal = true;
+        $this->resetFields();
+        $this->resetValidation();
+    }
 
     // Select all or select 100%
     public $selectedInstructor = [];
@@ -36,6 +62,16 @@ class SetPeerEvaluationPage extends Component
             ->where('id', '!=', $this->user_id)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select90 = false;
+            $this->select80 = false;
+            $this->select70 = false;
+            $this->select60 = false;
+            $this->select50 = false;
+            $this->select40 = false;
+            $this->select30 = false;
+            $this->select20 = false;
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -46,17 +82,29 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect90($value)
     {
-        $instructorCount = User::where('role_id', 4)
-        ->where('id', '!=', $this->user_id)
-        ->count();
-        $percentage = .90 * $instructorCount;
         if ($value) {
+            $instructorCount = User::where('role_id', 4)
+            ->where('id', '!=', $this->user_id)
+            ->count();
+            $percentage = .90 * $instructorCount;
+
             $this->selectedInstructor = User::where('role_id', 4)
             ->where('id', '!=', $this->user_id)
             ->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            
+            $this->select80 = false;
+            $this->select70 = false;
+            $this->select60 = false;
+            $this->select50 = false;
+            $this->select40 = false;
+            $this->select30 = false;
+            $this->select20 = false;
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -67,17 +115,29 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect80($value)
     {
-        $instructorCount = User::where('role_id', 4)
-        ->where('id', '!=', $this->user_id)
-        ->count();
-        $percentage = .80 * $instructorCount;
         if ($value) {
+            $instructorCount = User::where('role_id', 4)
+            ->where('id', '!=', $this->user_id)
+            ->count();
+            $percentage = .80 * $instructorCount;
+
             $this->selectedInstructor = User::where('role_id', 4)
             ->where('id', '!=', $this->user_id)
             ->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            $this->select90 = false;
+            
+            $this->select70 = false;
+            $this->select60 = false;
+            $this->select50 = false;
+            $this->select40 = false;
+            $this->select30 = false;
+            $this->select20 = false;
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -88,17 +148,29 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect70($value)
     {
-        $instructorCount = User::where('role_id', 4)
-        ->where('id', '!=', $this->user_id)
-        ->count();
-        $percentage = .70 * $instructorCount;
         if ($value) {
+            $instructorCount = User::where('role_id', 4)
+            ->where('id', '!=', $this->user_id)
+            ->count();
+            $percentage = .70 * $instructorCount;
+
             $this->selectedInstructor = User::where('role_id', 4)
             ->where('id', '!=', $this->user_id)
             ->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            $this->select90 = false;
+            $this->select80 = false;
+
+            $this->select60 = false;
+            $this->select50 = false;
+            $this->select40 = false;
+            $this->select30 = false;
+            $this->select20 = false;
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -109,18 +181,29 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect60($value)
     {
-        $instructorCount = User::where('role_id', 4)
-        ->where('id', '!=', $this->user_id)
-        ->count();
-        $percentage = .60 * $instructorCount;
-
         if ($value) {
+            $instructorCount = User::where('role_id', 4)
+            ->where('id', '!=', $this->user_id)
+            ->count();
+            $percentage = .60 * $instructorCount;
+
             $this->selectedInstructor = User::where('role_id', 4)
             ->where('id', '!=', $this->user_id)
             ->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            $this->select90 = false;
+            $this->select80 = false;
+            $this->select70 = false;
+            
+            $this->select50 = false;
+            $this->select40 = false;
+            $this->select30 = false;
+            $this->select20 = false;
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -130,19 +213,30 @@ class SetPeerEvaluationPage extends Component
     public $select50 = false;
 
     public function updatedSelect50($value)
-    {
-        $instructorCount = User::where('role_id', 4)
-        ->where('id', '!=', $this->user_id)
-        ->count();
-        $percentage = .50 * $instructorCount;
-
+    {   
         if ($value) {
+            $instructorCount = User::where('role_id', 4)
+            ->where('id', '!=', $this->user_id)
+            ->count();
+            $percentage = .50 * $instructorCount;
+
             $this->selectedInstructor = User::where('role_id', 4)
             ->where('id', '!=', $this->user_id)
             ->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            $this->select90 = false;
+            $this->select80 = false;
+            $this->select70 = false;
+            $this->select60 = false;
+            
+            $this->select40 = false;
+            $this->select30 = false;
+            $this->select20 = false;
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -153,18 +247,29 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect40($value)
     {
-        $instructorCount = User::where('role_id', 4)
-        ->where('id', '!=', $this->user_id)
-        ->count();
-        $percentage = .40 * $instructorCount;
-
         if ($value) {
+            $instructorCount = User::where('role_id', 4)
+            ->where('id', '!=', $this->user_id)
+            ->count();
+            $percentage = .40 * $instructorCount;
+
             $this->selectedInstructor = User::where('role_id', 4)
             ->where('id', '!=', $this->user_id)
             ->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            $this->select90 = false;
+            $this->select80 = false;
+            $this->select70 = false;
+            $this->select60 = false;
+            $this->select50 = false;
+            
+            $this->select30 = false;
+            $this->select20 = false;
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -175,18 +280,29 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect30($value)
     {
-        $instructorCount = User::where('role_id', 4)
-        ->where('id', '!=', $this->user_id)
-        ->count();
-        $percentage = .30 * $instructorCount;
-
         if ($value) {
+            $instructorCount = User::where('role_id', 4)
+            ->where('id', '!=', $this->user_id)
+            ->count();
+            $percentage = .30 * $instructorCount;
+
             $this->selectedInstructor = User::where('role_id', 4)
             ->where('id', '!=', $this->user_id)
             ->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            $this->select90 = false;
+            $this->select80 = false;
+            $this->select70 = false;
+            $this->select60 = false;
+            $this->select50 = false;
+            $this->select40 = false;
+            
+            $this->select20 = false;
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -197,18 +313,29 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedSelect20($value)
     {
-        $instructorCount = User::where('role_id', 4)
-        ->where('id', '!=', $this->user_id)
-        ->count();
-        $percentage = .20 * $instructorCount;
-
         if ($value) {
+            $instructorCount = User::where('role_id', 4)
+            ->where('id', '!=', $this->user_id)
+            ->count();
+            $percentage = .20 * $instructorCount;
+
             $this->selectedInstructor = User::where('role_id', 4)
             ->where('id', '!=', $this->user_id)
             ->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            $this->select90 = false;
+            $this->select80 = false;
+            $this->select70 = false;
+            $this->select60 = false;
+            $this->select50 = false;
+            $this->select40 = false;
+            $this->select30 = false;
+            
+            $this->select10 = false;
         } else {
             $this->selectedInstructor = [];
         }
@@ -231,6 +358,17 @@ class SetPeerEvaluationPage extends Component
             ->take($percentage)
             ->pluck('id')
             ->map(fn($id) => (string)$id)->toArray();
+
+            $this->select100 = false;
+            $this->select90 = false;
+            $this->select80 = false;
+            $this->select70 = false;
+            $this->select60 = false;
+            $this->select50 = false;
+            $this->select40 = false;
+            $this->select30 = false;
+            $this->select20 = false;
+            
         } else {
             $this->selectedInstructor = [];
         }
@@ -239,6 +377,11 @@ class SetPeerEvaluationPage extends Component
 
 
     public function updatedselectedInstructor()
+    {
+        $this->reseSelect();
+    }
+
+    public function reseSelect()
     {
         $this->select100 = false;
         $this->select90 = false;
@@ -274,47 +417,77 @@ class SetPeerEvaluationPage extends Component
             'semester_id'       => $this->semester,
             'user_id'           => $this->user_id,
             'name'              => $this->name,
+            'evaluatee'         => $this->evaluatee = count($this->selectedInstructor),
         ]);
         $this->emit('created');
         $evaluator->users()->sync($this->selectedInstructor);
         $this->openModal = false;
         $this->reset();
         $this->resetValidation();
-
     }
-
 
     public function updatedUserId()
     {
         $this->selectedInstructor = [];
-        $this->select100 = false;
-        $this->select80 = false;
-        $this->select60 = false;
-        $this->select40 = false;
-        $this->select20 = false;
-        $this->select10 = false;
+        $this->reseSelect();
 
         $name = User::find($this->user_id);
         $this->name = $name->name ?? null;
     }
 
+    public $selectedEvaluator = [];
+    public $selectAll = false;
+
+    public function updatedSelectAll($value)
+    {
+        if ($value) {
+            $this->selectedEvaluator = Spe::where(['is_active' => 1])
+            ->pluck('id');
+        } else {
+            $this->selectedEvaluator = [];
+        }
+    }
+
+    public function updatedSelectedEvaluator()
+    {
+        $this->selectAll = false;
+    }
+    
+    public function openEditModal()
+    {
+        $this->selectedEvaluator;
+        $this->editModal = true;
+    }
+
+    public function updateSelected()
+    {
+        Spe::where('is_active', 1)->update([
+            'is_active' => $this->is_active,
+        ]);
+        $this->reset();
+        $this->emit('updated');
+    }
+
+    public $bulkDisabled;
+    public $is_active = true;
+
     public function render()
     {
+        $this->bulkDisabled = count($this->selectedEvaluator) < 1;
         return view('livewire.administrator.evaluation-page.set-peer-evaluation-page',[
-            'instructors'   => User::where('role_id', 4)->get(),
-            'evaluatees'    => User::where('role_id', 4)->get(),
-
-            'instructorCount' => User::where(['role_id' => 4])
-                            ->where('id', '!=', $this->user_id)
-                            ->count(),
-            'sems'          => Semester::all(),
-            'schoolYears'   => SchoolYear::all(),
-            'peerCounts'    => Spe::count(),
-            'spes'          => Spe::with('schoolYears', 'instructors', 'semesters',
-                                         'courses', 'yearSections', 'CourseCodes')
-            ->latest('id')
-            ->paginate(5),
-
+            'instructors'       => User::where('role_id', 4)->get(),
+            'evaluatees'        => User::where('role_id', 4)->get(),
+            'instructorCount'   => User::where(['role_id' => 4])
+                                ->where('id', '!=', $this->user_id)
+                                ->count(),
+            'sems'              => Semester::all(),
+            'schoolYears'       => SchoolYear::all(),
+            'peerCounts'        => Spe::count(),
+            'spes'              => Spe::with('schoolYears', 'instructors', 'semesters',
+                                'courses', 'yearSections', 'CourseCodes')
+                                ->latest('id')
+                                ->paginate(5),
+            'groupBy'           => Spe::groupBy(['semester_id', 'school_year_id'])
             ]);
     }
 }

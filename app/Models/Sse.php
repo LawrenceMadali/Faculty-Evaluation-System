@@ -19,6 +19,7 @@ class Sse extends Model
         'course_id',
         'course_code_id',
         'year_and_section_id',
+        'evaluatee',
     ];
 
     public function users()

@@ -13,7 +13,7 @@ class AuditTrail extends Component
     public function render()
     {
         return view('livewire.administrator.manage-reports.audit-trail', [
-            'activities' => Activity::latest('id')->paginate(10),
+            'activities' => Activity::latest('id')->paginate(5),
         ]);
     }
 }

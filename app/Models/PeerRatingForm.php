@@ -3,12 +3,15 @@
 namespace App\Models;
 
 use App\Models\User;
+use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PeerRatingForm extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'commitment_1',
@@ -41,18 +44,39 @@ class PeerRatingForm extends Model
         'management_of_learning_total',
         'total',
         'comments',
-        'instructor_id',
+        'spe_id',
         'scale',
         'evaluator',
+        'semester_id',
+        'school_year_id',
+        'is_evaluated',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['evaluator'])
+        ->useLogName('Peer to Peer Rating Form')
+        ->setDescriptionForEvent(fn(string $eventName) => "This user has been {$eventName}");
+    }
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function instructors()
+    public function spes()
     {
-        return $this->belongsTo(Instructor::class, 'instructor_id');
+        return $this->belongsTo(Spe::class, 'spe_id');
+    }
+
+    public function semesters()
+    {
+        return $this->belongsTo(Semester::class, 'semester_id');
+    }
+
+    public function schoolYears()
+    {
+        return $this->belongsTo(SchoolYear::class, 'school_year_id');
     }
 }

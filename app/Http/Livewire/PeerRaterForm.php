@@ -7,7 +7,6 @@ use Livewire\Component;
 use App\Models\PeerRatingForm;
 use App\Models\PeerQuestionairForm;
 use Illuminate\Support\Facades\Auth;
-use App\Models\StudentQuestionairForm;
 
 class PeerRaterForm extends Component
 {
@@ -44,11 +43,14 @@ class PeerRaterForm extends Component
     public $prfModal = false;
     public $id_number;
     public $comments;
-    public $instructor_id;
+    public $spe_id;
     public $evaluator;
+    public $semester_id;
+    public $school_year_id;
+    public $is_evaluated;
 
     protected $rules = [
-        'instructor_id' => 'required',
+        'spe_id' => 'required|unique:peer_rating_forms',
         // validation for commitment
         'commitment_1' => 'required',
         'commitment_2' => 'required',
@@ -78,31 +80,32 @@ class PeerRaterForm extends Component
 
     protected $messages =[
         // custom validation message for commitment table
-        'commitment_1.required' => 'Commitment question 1 is required ',
-        'commitment_2.required' => 'Commitment question 2 is required ',
-        'commitment_3.required' => 'Commitment question 3 is required ',
-        'commitment_4.required' => 'Commitment question 4 is required ',
-        'commitment_5.required' => 'Commitment question 5 is required ',
+        'commitment_1.required' => 'The commitment question number 1 is required ',
+        'commitment_2.required' => 'The commitment question number 2 is required ',
+        'commitment_3.required' => 'The commitment question number 3 is required ',
+        'commitment_4.required' => 'The commitment question number 4 is required ',
+        'commitment_5.required' => 'The commitment question number 5 is required ',
         // custom validation message for knowledge of subject table
-        'knowledge_of_subject_1.required' => 'Knowledge of Subject question 1 is required',
-        'knowledge_of_subject_2.required' => 'Knowledge of Subject question 2 is required',
-        'knowledge_of_subject_3.required' => 'Knowledge of Subject question 3 is required',
-        'knowledge_of_subject_4.required' => 'Knowledge of Subject question 4 is required',
-        'knowledge_of_subject_5.required' => 'Knowledge of Subject question 5 is required',
+        'knowledge_of_subject_1.required' => 'The knowledge of Subject question number 1 is required',
+        'knowledge_of_subject_2.required' => 'The knowledge of Subject question number 2 is required',
+        'knowledge_of_subject_3.required' => 'The knowledge of Subject question number 3 is required',
+        'knowledge_of_subject_4.required' => 'The knowledge of Subject question number 4 is required',
+        'knowledge_of_subject_5.required' => 'The knowledge of Subject question number 5 is required',
         // custom validation message for teaching for independeint learning table
-        'teaching_for_independent_learning_1.required' => 'Teaching for Independent Learning question 1 is required',
-        'teaching_for_independent_learning_2.required' => 'Teaching for Independent Learning question 2 is required',
-        'teaching_for_independent_learning_3.required' => 'Teaching for Independent Learning question 3 is required',
-        'teaching_for_independent_learning_4.required' => 'Teaching for Independent Learning question 4 is required',
-        'teaching_for_independent_learning_5.required' => 'Teaching for Independent Learning question 5 is required',
+        'teaching_for_independent_learning_1.required' => 'The teaching for Independent Learning question number 1 is required',
+        'teaching_for_independent_learning_2.required' => 'The teaching for Independent Learning question number 2 is required',
+        'teaching_for_independent_learning_3.required' => 'The teaching for Independent Learning question number 3 is required',
+        'teaching_for_independent_learning_4.required' => 'The teaching for Independent Learning question number 4 is required',
+        'teaching_for_independent_learning_5.required' => 'The teaching for Independent Learning question number 5 is required',
         // custom validation message for management of learning table
-        'management_of_learning_1.required' => 'Management of Learning question 1 is required',
-        'management_of_learning_2.required' => 'Management of Learning question 2 is required',
-        'management_of_learning_3.required' => 'Management of Learning question 3 is required',
-        'management_of_learning_4.required' => 'Management of Learning question 4 is required',
-        'management_of_learning_5.required' => 'Management of Learning question 5 is required',
+        'management_of_learning_1.required' => 'The management of Learning question number 1 is required',
+        'management_of_learning_2.required' => 'The management of Learning question number 2 is required',
+        'management_of_learning_3.required' => 'The management of Learning question number 3 is required',
+        'management_of_learning_4.required' => 'The management of Learning question number 4 is required',
+        'management_of_learning_5.required' => 'The management of Learning question number 5 is required',
+        'unique' => 'The selected faculty has already evaluated.',
 
-        'instructor_id.required' => 'The instructor field is required'
+        'spe_id.required' => 'The instructor field is required'
     ];
 
     public function submit()
@@ -181,14 +184,26 @@ class PeerRaterForm extends Component
             $this->management_of_learning_2 +
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
-            $this->management_of_learning_5) / 20, 
-            'instructor_id' => $this->instructor_id,
-            'comments' => $this->comments,
-            'evaluator' => Auth::user()->name,
+            $this->management_of_learning_5) / 20,
+            'spe_id'        => $this->spe_id,
+            'comments'      => $this->comments,
+            'evaluator'     => Auth::user()->name,
+            'semester_id'   => $this->semester_id,
+            'school_year_id'=> $this->school_year_id
         ]);
 
         session()->flash('message', 'Thank you! Your response will be recorded.');
         $this->reset();
+    }
+
+    public function updatedSpeId()
+    {
+        $speId = Spe::find($this->spe_id);
+        $this->semester_id = $speId->semester_id ?? null;
+        $this->school_year_id = $speId->school_year_id ?? null;
+        $this->validate([
+            'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id'
+        ]);
     }
 
     public function render()
@@ -196,6 +211,8 @@ class PeerRaterForm extends Component
         return view('livewire.peer-rater-form.peer-rater-form',[
             'questionairs'  => PeerQuestionairForm::all(),
             'assignInstructors' => Auth::user()->spes,
+            'prfs' => PeerRatingForm::where(['is_evaluated' => 1])->get(),
+            'facultyCounts' => Auth::user()->spes()->count(),
         ]);
     }
 }

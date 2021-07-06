@@ -15,10 +15,22 @@
         </x-jet-action-message>
 
         <div class="flex justify-between">
-            <x-jet-button wire:click="openCreateModal">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
-                Create
-            </x-jet-button>
+            <div class="flex items-center space-x-4">
+                <x-jet-button wire:click="openCreateModal">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
+                    Create
+                </x-jet-button>
+
+                <button wire:click="openEditModal" class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150"
+                {{ $bulkDisabled ? 'disabled' : null }} >
+                    Edit Selected
+                </button>
+                @if (!count($selectedEvaluator) == 0)
+                <div class="p-2 bg-green-200 text-green-700 rounded-lg">
+                    {{ count($selectedEvaluator) }} is selected.
+                </div>
+                @endif
+            </div>
         </div>
 
         <div class="flex flex-col">
@@ -28,34 +40,29 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            {{-- <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider sr-only">Status</th> --}}
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" class="relative px-6 py-3">
+                                <div class="text-center">
+                                    <input wire:model="selectAll" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-400 rounded">
+                                </div>
+                            </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School year</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Code</th>
-                            {{-- <th scope="col" class="relative px-6 py-3">
-                                <span class="sr-only">Edit</span>
-                            </th> --}}
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated At</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($sses as $sse)
                     <tr>
-                        {{-- <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="flex items-center h-5">
-                                <input type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                            </div>
-                        </td> --}}
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                            {{ $sse->is_used === 0
-                            ? 'bg-red-100 text-red-800'
-                            : 'bg-green-100 text-green-800'}}">
-                            {{ $sse->is_used === 0 ? 'Inactive' : 'Active' }}
-                            </span>
+                        <td class="px-6 py-4 whitespace-nowrap text-center">
+                            @if ($sse->is_active == 1)
+                            <input wire:model="selectedEvaluator" value=" {{ $sse->id }} " type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-400 rounded">
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center">
                             <div class="text-sm font-medium text-gray-900">{{ $sse->instructors->name }}</div>
@@ -68,6 +75,14 @@
                             <div class="text-sm text-gray-900">{{ $sse->semesters->name }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                            {{ $sse->is_active === 0
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-green-100 text-green-800'}}">
+                            {{ $sse->is_active === 0 ? 'Disabled' : 'Enable' }}
+                            </span>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->courses->course }}</div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -76,13 +91,18 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->CourseCodes->course_code }}</div>
                         </td>
-                        {{-- <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-2">
-                            <button wire:click.prevent="editOpenModal({{$sse->id}})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
-                        </td> --}}
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ $sse->created_at->ToFormattedDateString() }}</div>
+                            <div class="text-sm text-gray-500">{{ $sse->created_at->diffForHumans() }}</div>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">{{ $sse->updated_at->ToFormattedDateString() }}</div>
+                            <div class="text-sm text-gray-500">{{ $sse->updated_at->diffForHumans() }}</div>
+                        </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="8">
+                        <td colspan="10">
                             <div class="flex justify-center items-center space-x-2">
                                 <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 <span class="text-xl text-gray-400 font-medium py-8">No evaluation set yet...</span>
@@ -230,43 +250,43 @@
                                                         @endif
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select100" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select100" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         100%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select90" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select90" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         90%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select80" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select80" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         80%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select70" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select70" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         70%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select60" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select60" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         60%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select50" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select50" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         50%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select40" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select40" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         40%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select30" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select30" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         30%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select20" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select20" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         20%
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        <input wire:model="select10" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                                        <input wire:model="select10" {{ $yearAndSections ? null : 'disabled' }} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                                         10%
                                                     </th>
                                             </tr>
@@ -311,36 +331,42 @@
             </x-slot>
         </x-jet-dialog-modal>
 
-        {{-------------------------------------------------- Edit Modal  --------------------------------------------------}}
-        <x-jet-dialog-modal maxWidth="5xl" wire:model.defer="editModal">
+        {{-------------------------------------------------- Edit Selected Modal --------------------------------------------------}}
+        <x-jet-dialog-modal wire:model.defer="editModal">
             <x-slot name="title">
-                <label class="block text-sm font-medium text-gray-700">
-                    Create evaluator
-                </label>
+                <div>
+                    {{ __('Edit Status') }}
+                </div>
             </x-slot>
 
             <x-slot name="content">
-                <form wire:submit.prevent="update">
-                    <div class="col-span-6">
-                        <label class="block text-sm font-medium text-gray-700">Status</label>
-                        <input wire:model="is_enabled" name="is_enabled" type="checkbox" value="1" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                        <input type="hidden" name="is_enabled" value="0">
-                        <x-jet-input-error for="is_enabled"/>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-center p-2 bg-yellow-200 text-yellow-700 rounded-lg text-sm">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                        Warning: Are you sure? Once you disable the selected items you cannot reused it.
                     </div>
-                </form>
+                    <form wire:submit.prevent="updateSelected">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                              <input wire:model="is_active" value="1" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                              <input wire:model="is_active" value="0" type="checkbox" class="hidden">
+                            </div>
+                            <div class="ml-3 text-sm">
+                              <label class="font-medium text-gray-700">Status</label>
+                            </div>
+                          </div>
+                    </form>
+                </div>
             </x-slot>
-                <x-slot name="footer">
-                    <div class="text-left">
-                        <x-jet-validation-errors class="mb-4" />
-                    </div>
-                    <x-jet-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
-                        {{ __('Cancel') }}
-                    </x-jet-secondary-button>
+            <x-slot name="footer">
+                <x-jet-secondary-button wire:click="closeModal" wire:loading.attr="disabled">
+                    {{ __('Cancel') }}
+                </x-jet-secondary-button>
 
-                    <x-jet-button class="ml-2" wire:click="create" wire:loading.attr="disabled">
-                        {{ __('Create') }}
-                    </x-jet-button>
-                </x-slot>
-            </x-jet-dialog-modal>
+                <x-jet-button class="ml-2" wire:click="updateSelected" wire:loading.attr="disabled">
+                    {{ __('Okay') }}
+                </x-jet-button>
+            </x-slot>
+        </x-jet-dialog-modal>
     </div>
 </div>

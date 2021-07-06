@@ -23,6 +23,7 @@ class CreateSsesTable extends Migration
             $table->foreignId('year_and_section_id')->constrained();
             $table->foreignId('course_code_id')->constrained();
             $table->boolean('is_active')->default(true);
+            $table->integer('evaluatee');
             $table->timestamps();
         });
     }

@@ -20,6 +20,7 @@ class CreateSpesTable extends Migration
             $table->foreignId('school_year_id')->constrained();
             $table->foreignId('semester_id')->constrained();
             $table->boolean('is_active')->default(true);
+            $table->integer('evaluatee');
             $table->timestamps();
         });
     }

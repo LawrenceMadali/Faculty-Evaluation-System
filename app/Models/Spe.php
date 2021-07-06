@@ -9,17 +9,30 @@ use App\Models\CourseCode;
 use App\Models\YearAndSection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Spe extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'school_year_id',
         'semester_id',
         'name',
         'user_id',
+        'evaluatee',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name'])
+        ->logOnlyDirty()
+        ->useLogName('Set Peer Evaluation')
+        ->setDescriptionForEvent(fn(string $eventName) => "This module has been {$eventName}");
+    }
 
     public function users()
     {
@@ -54,5 +67,10 @@ class Spe extends Model
     public function CourseCodes()
     {
         return $this->belongsTo(CourseCode::class, 'course_code_id');
+    }
+
+    public function prfs()
+    {
+        return $this->hasMany(PeerRatingForm::class, 'spe_id');
     }
 }
