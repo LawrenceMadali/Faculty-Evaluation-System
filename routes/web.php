@@ -2,38 +2,35 @@
 
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\PeerRaterForm;
 use App\Http\Controllers\StudentRaterForm;
-
+use App\Http\Controllers\StudentEvaluationDetailsController;
+// admin
 use App\Http\Controllers\Admin\SectionController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ManageUserController;
-
-use App\Http\Controllers\Student\Auth\LoginController;
-
 use App\Http\Controllers\Admin\SummaryResultController;
-use App\Http\Controllers\StudentEvaluationDetailsController;
 // summary result
-use App\Http\Controllers\Admin\Questionair\QuestionairController;
-use App\Http\Controllers\Admin\ManageReports\AuditTrailController;
-// manage account
-use App\Http\Controllers\Admin\SummaryResult\PeerToPeerController;
-use App\Http\Controllers\Admin\ManageUsers\ManageAccountController;
-// manage report
-use App\Http\Controllers\Admin\ManageReports\ManageReportController;
-use App\Http\Controllers\Admin\ManageSettings\ManageSettingsController;
-// manage settings
-use App\Http\Controllers\Admin\Questionair\StudentQuestionairController;
-// Questionair
-use App\Http\Livewire\Administrator\SummaryResults\PeerToPeerEvaluation;
 use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
+use App\Http\Controllers\Admin\SummaryResult\PeerToPeerController;
+use App\Http\Controllers\Admin\SummaryResult\ResultController;
+// manage users
+use App\Http\Controllers\Admin\ManageUsers\ManageAccountController;
+use App\Http\Controllers\Admin\ManageUsers\InstructorEvaluationDetailsController;
+// manage report
+use App\Http\Controllers\Admin\ManageReports\AuditTrailController;
+use App\Http\Controllers\Admin\ManageReports\ManageReportController;
+use App\Http\Controllers\Admin\ManageReports\ReportController;
+// manage settings
+use App\Http\Controllers\Admin\ManageSettings\ManageSettingsController;
+// Questionair
+use App\Http\Controllers\Admin\Questionair\StudentQuestionairController;
+use App\Http\Controllers\Admin\Questionair\PeerToPeerQuestionairController;
+use App\Http\Controllers\Admin\Questionair\QuestionairController;
 // Evaluation Page
 use App\Http\Controllers\Admin\EvaluationPage\SetPeerEvaluationController;
-use App\Http\Controllers\Admin\Questionair\PeerToPeerQuestionairController;
 use App\Http\Controllers\Admin\EvaluationPage\SetStudentEvaluationController;
-use App\Http\Controllers\Admin\ManageReports\StudentEvaluationReportController;
-use App\Http\Controllers\Admin\ManageUsers\InstructorEvaluationDetailsController;
-use App\Http\Controllers\Admin\ManageReports\PeerToPeerEvaluationReportController;
 
 Route::group(['middleware' => 'auth'], function()
 {
@@ -53,6 +50,7 @@ Route::group(['middleware' => 'auth'], function()
             Route::get('/', [SummaryResultController::class, 'index'])->name('summary.result');
             Route::get('peer.to.peer.evaluation.result', [PeerToPeerController::class, 'index'])->name('peer-to-peer');
             Route::get('student.evaluation.result', [StudentEvaluationController::class, 'index'])->name('student-to-peer');
+            Route::get('result', [ResultController::class, 'index'])->name('result');
         });
         // -------------------------------------------------- manage questionair --------------------------------------------------
         Route::prefix('questionairs')->group(function () {
@@ -85,9 +83,8 @@ Route::group(['middleware' => 'auth'], function()
     });
     // -------------------------------------------------- Manage reports --------------------------------------------------
     Route::prefix('reports')->group(function () {
+        Route::get('/',[ReportController::class, 'index'])->name('report');
         Route::get('manage.reports',[ManageReportController::class, 'index'])->name('manage-reports');
-        Route::get('peer.to.peer.evaluation.report', [PeerToPeerEvaluationReportController::class, 'index'])->name('peer-to-peer-evaluation-report');
-        Route::get('student.evaluation.report', [StudentEvaluationReportController::class, 'index'])->name('student-evaluation-report');
         Route::get('audit.trail',[AuditTrailController::class, 'index'])->name('audit-trail');
     });
 });

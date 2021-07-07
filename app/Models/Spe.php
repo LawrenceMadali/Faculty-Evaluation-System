@@ -18,11 +18,11 @@ class Spe extends Model
     use LogsActivity;
 
     protected $fillable = [
-        'school_year_id',
-        'semester_id',
         'name',
-        'user_id',
         'evaluatee',
+        'semester_id',
+        'instructor_id',
+        'school_year_id',
     ];
 
     public function getActivitylogOptions(): LogOptions
@@ -46,7 +46,7 @@ class Spe extends Model
 
     public function instructors()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 
     public function semesters()
@@ -67,10 +67,5 @@ class Spe extends Model
     public function CourseCodes()
     {
         return $this->belongsTo(CourseCode::class, 'course_code_id');
-    }
-
-    public function prfs()
-    {
-        return $this->hasMany(PeerRatingForm::class, 'spe_id');
     }
 }

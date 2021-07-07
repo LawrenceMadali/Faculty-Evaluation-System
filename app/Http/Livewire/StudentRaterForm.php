@@ -39,7 +39,7 @@ class StudentRaterForm extends Component
     public $management_of_learning_5;
     public $management_of_learning_total;
 
-    public $instructor_id;
+    public $sse_id;
     public $comments;
     public $evaluator;
     public $total;
@@ -47,6 +47,7 @@ class StudentRaterForm extends Component
     public $srfModal = false;
 
     protected $rules = [
+        'sse_id' => 'required|unique:student_rating_forms',
         // validation error for commitment table
         'commitment_1' => 'required',
         'commitment_2' => 'required',
@@ -99,6 +100,9 @@ class StudentRaterForm extends Component
            'management_of_learning_3.required' => 'Management of Learning question 3 is required',
            'management_of_learning_4.required' => 'Management of Learning question 4 is required',
            'management_of_learning_5.required' => 'Management of Learning question 5 is required',
+           'unique' => 'The selected faculty has already evaluated.',
+
+            'spe_id.required' => 'The instructor field is required'
     ];
 
     public function submit()
@@ -155,6 +159,7 @@ class StudentRaterForm extends Component
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
             $this->management_of_learning_5,
+
             'scale' =>
             ($this->commitment_1 +
             $this->commitment_2 +
@@ -176,10 +181,11 @@ class StudentRaterForm extends Component
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
             $this->management_of_learning_5) / 20,
-            'instructor_id' => $this->instructor_id,
+            'sse_id' => $this->sse_id,
             'comments'      => $this->comments,
             'evaluator'     => Auth::user()->name,
-
+            'semester_id'   => $this->semester_id,
+            'school_year_id'=> $this->school_year_id
     ]);
 
 
@@ -187,11 +193,19 @@ class StudentRaterForm extends Component
         $this->reset();
     }
 
+    public function updatedSseId()
+    {
+        $sseId = Sse::find($this->sse_id);
+        $this->semester_id = $sseId->semester_id ?? null;
+        $this->school_year_id = $sseId->school_year_id ?? null;
+        $this->validate([
+            'sse_id' => 'required|unique:student_rating_forms,sse_id,NULL,id'
+        ]);
+    }
 
     public function render()
     {
         return view('livewire.student-rater-form.student-rater-form',[
-            // 'sse'   => Sse::count(),
             'questionairs'  => StudentQuestionairForm::all(),
             'assignStudents' => auth()->user()->sses,
         ]);

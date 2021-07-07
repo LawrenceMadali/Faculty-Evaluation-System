@@ -47,7 +47,6 @@ class PeerRaterForm extends Component
     public $evaluator;
     public $semester_id;
     public $school_year_id;
-    public $is_evaluated;
 
     protected $rules = [
         'spe_id' => 'required|unique:peer_rating_forms',
@@ -211,8 +210,6 @@ class PeerRaterForm extends Component
         return view('livewire.peer-rater-form.peer-rater-form',[
             'questionairs'  => PeerQuestionairForm::all(),
             'assignInstructors' => Auth::user()->spes,
-            'prfs' => PeerRatingForm::where(['is_evaluated' => 1])->get(),
-            'facultyCounts' => Auth::user()->spes()->count(),
         ]);
     }
 }

@@ -7,7 +7,7 @@ use App\Models\PeerRatingForm;
 use App\Models\StudentRatingForm;
 use Livewire\Component;
 
-class PeerToPeerEvaluationReport extends Component
+class Report extends Component
 {
     // public $totalPrfScale;
     // public $totalSrfScale;
@@ -30,10 +30,15 @@ class PeerToPeerEvaluationReport extends Component
 
     public function render()
     {
-        $totalPrfScale = PeerRatingForm::where('instructor_id', 1)->avg('scale');
-        $totalSrfScale = StudentRatingForm::where('instructor_id', 1)->avg('scale');
+        $totalPrfScale = PeerRatingForm::where([
+            'spe_id'        => 1,
+            'semester_id'   => 1,
+            'school_year_id'=> 1,
+            ])->avg('scale');
+        $totalSrfScale = StudentRatingForm::where('sse_id', 1)->avg('scale');
 
-        return view('livewire.administrator.manage-reports.peer-to-peer-evaluation-report', compact('totalPrfScale', 'totalSrfScale'),
+        return view('livewire.administrator.manage-reports.report',
+        compact('totalPrfScale', 'totalSrfScale'),
         [
             'prfs' => Instructor::all(),
         ]);

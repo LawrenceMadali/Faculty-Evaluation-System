@@ -17,7 +17,6 @@ class CreateSseUsersTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('sse_id')->constrained();
-            // $table->foreignId('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

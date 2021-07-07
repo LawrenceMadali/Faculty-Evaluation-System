@@ -43,6 +43,10 @@
             <x-jet-dropdown-link href="{{ route('student-to-peer') }}">
                 {{ __('Student Evaluation Result') }}
             </x-jet-dropdown-link>
+
+            <x-jet-dropdown-link href="{{ route('result') }}">
+                {{ __('Result') }}
+            </x-jet-dropdown-link>
         </x-slot>
     </x-jet-dropdown>
 

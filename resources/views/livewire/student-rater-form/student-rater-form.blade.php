@@ -80,13 +80,25 @@
                 <div class="space-y-2">
                     <div class="col-span-6 text-gray-600 font-medium p-2 rounded-md border-none bg-blue-100">
                         <label class="block text-sm">Evaluate Instructor <span class="text-red-500">*</span></label>
-                        <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                        <select wire:model="sse_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="null">-- choose instructor you want to evaluate first --</option>
-                            @foreach ($assignStudents as $ai)
-                            <option value="{{ $ai->id }}">{{ $ai->name }} </option>
+                            @foreach ($assignStudents as $as)
+                            @if ($as->is_active == 1)
+                            <option value="{{ $as->id }}">{{ $as->name }} </option>
+                            @endif
                             @endforeach
                         </select>
                         <x-jet-input-error for="sse_id"/>
+                        <div class="sr-only">
+                            <div>
+                                <label for="">Semester</label>
+                                <input wire:model="semester_id" type="text">
+                            </div>
+                            <div>
+                                <label for="">School Year</label>
+                                <input wire:model="school_year_id" type="text">
+                            </div>
+                        </div>
                     </div>
                     {{-------------------------------------------------- Commitment --------------------------------------------------}}
                     <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">

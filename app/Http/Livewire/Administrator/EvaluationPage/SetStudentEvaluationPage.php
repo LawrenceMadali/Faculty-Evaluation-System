@@ -24,7 +24,7 @@ class SetStudentEvaluationPage extends Component
     public $editModal = false;
     public $user_id = null;
     public $evaluatee;
-    
+
     public $user;
     // instructor
     public $instructors = null;
@@ -362,7 +362,7 @@ class SetStudentEvaluationPage extends Component
         if ($value) {
             $studentCount = User::where('year_and_section_id', $this->yearAndSection)->count();
             $percentage = $studentCount * .10;
-            
+
             $this->selectedStudents = User::where('year_and_section_id', $this->yearAndSection)->inRandomOrder()
             ->take($percentage)
             ->pluck('id')
@@ -441,46 +441,23 @@ class SetStudentEvaluationPage extends Component
         $this->reset();
     }
 
-    public $selectedEvaluator = [];
-    public $selectAll = false;
-
-    public function updatedSelectAll($value)
-    {
-        if ($value) {
-            $this->selectedEvaluator = Sse::where(['is_active' => 1])
-            ->pluck('id');
-        } else {
-            $this->selectedEvaluator = [];
-        }
-    }
-
-    public function updatedSelectedEvaluator()
-    {
-        $this->selectAll = false;
-    }
-    
     public function openEditModal()
     {
-        $this->selectedEvaluator;
         $this->editModal = true;
     }
 
     public function updateSelected()
     {
         Sse::where('is_active', 1)->update([
-            'is_active' => $this->is_active,
+            'is_active' => 0,
         ]);
         $this->reset();
         $this->emit('updated');
     }
-
-    public $bulkDisabled;
     public $is_active = true;
 
     public function render()
     {
-        $this->bulkDisabled = count($this->selectedEvaluator) < 1;
-
         if (in_array(!auth()->user()->role_id, [1,3])) {
             $this->instructors = Instructor::where(['college_id' => auth()->user()->college_id])->get() ?? null;
         } else {
@@ -500,7 +477,7 @@ class SetStudentEvaluationPage extends Component
                             'courses', 'yearSections', 'CourseCodes')
                             ->latest('id')
                             ->paginate(5),
-
+            'activeCount'   =>Sse::where('is_active', 1)->count(),
             ]);
     }
 }

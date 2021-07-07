@@ -16,7 +16,9 @@ class CreateStudentRatingFormsTable extends Migration
         Schema::create('student_rating_forms', function (Blueprint $table) {
             $table->id();
             $table->string('evaluator');
-            $table->foreignId('instructor_id')->constrained()->onUpdate('cascade');
+            $table->foreignId('sse_id')->constrained();
+            $table->foreignId('semester_id')->constrained();
+            $table->foreignId('school_year_id')->constrained();
             $table->integer('commitment_1');
             $table->integer('commitment_2');
             $table->integer('commitment_3');

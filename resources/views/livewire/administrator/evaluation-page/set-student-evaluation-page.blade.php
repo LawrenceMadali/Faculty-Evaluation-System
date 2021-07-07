@@ -22,14 +22,9 @@
                 </x-jet-button>
 
                 <button wire:click="openEditModal" class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150"
-                {{ $bulkDisabled ? 'disabled' : null }} >
-                    Edit Selected
+                {{ $activeCount < 1 ? 'disabled' : null }} >
+                    Disable
                 </button>
-                @if (!count($selectedEvaluator) == 0)
-                <div class="p-2 bg-green-200 text-green-700 rounded-lg">
-                    {{ count($selectedEvaluator) }} is selected.
-                </div>
-                @endif
             </div>
         </div>
 
@@ -40,11 +35,6 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="relative px-6 py-3">
-                                <div class="text-center">
-                                    <input wire:model="selectAll" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-400 rounded">
-                                </div>
-                            </th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School year</th>
                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
@@ -59,11 +49,6 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($sses as $sse)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap text-center">
-                            @if ($sse->is_active == 1)
-                            <input wire:model="selectedEvaluator" value=" {{ $sse->id }} " type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-400 rounded">
-                            @endif
-                        </td>
                         <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center">
                             <div class="text-sm font-medium text-gray-900">{{ $sse->instructors->name }}</div>
                         </div>
@@ -340,22 +325,9 @@
             </x-slot>
 
             <x-slot name="content">
-                <div class="space-y-4">
-                    <div class="flex items-center justify-center p-2 bg-yellow-200 text-yellow-700 rounded-lg text-sm">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-                        Warning: Are you sure? Once you disable the selected items you cannot reused it.
-                    </div>
-                    <form wire:submit.prevent="updateSelected">
-                        <div class="flex items-start">
-                            <div class="flex items-center h-5">
-                              <input wire:model="is_active" value="1" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                              <input wire:model="is_active" value="0" type="checkbox" class="hidden">
-                            </div>
-                            <div class="ml-3 text-sm">
-                              <label class="font-medium text-gray-700">Status</label>
-                            </div>
-                          </div>
-                    </form>
+                <div class="flex items-center justify-center p-2 bg-yellow-200 text-yellow-700 rounded-lg text-sm">
+                    <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    Are you sure you want to disable? {{$activeCount}} will be affected.
                 </div>
             </x-slot>
             <x-slot name="footer">
