@@ -21,7 +21,7 @@ class Spe extends Model
         'name',
         'evaluatee',
         'semester_id',
-        'instructor_id',
+        'user_id',
         'school_year_id',
     ];
 
@@ -46,7 +46,7 @@ class Spe extends Model
 
     public function instructors()
     {
-        return $this->belongsTo(Instructor::class, 'instructor_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function semesters()

@@ -26,8 +26,6 @@ class Sse extends Model
     {
         return $this->belongsToMany(User::class, 'sse_users')
         ->withTimestamps();
-        // ->withPivot(['']);
-        // ->using(EvaluationUser::class);
     }
 
     public function schoolYears()

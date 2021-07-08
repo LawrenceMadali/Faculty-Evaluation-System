@@ -22,7 +22,7 @@ class DatabaseSeeder extends Seeder
         $this->call(YearAndSectionSeeder::class);
         $this->call(CourseCodeseeder::class);
         $this->call(AdminSeeder::class);
-        $this->call(StudentSeeder::class);
+        // $this->call(StudentSeeder::class);
         $this->call(StudentRaterFormQuestionairSeeder::class);
         $this->call(PeerRaterFormQuestionairSeeder::class);
     }

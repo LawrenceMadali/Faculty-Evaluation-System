@@ -36,7 +36,7 @@
                 {{ $activeCount < 1 ? 'disabled' : null }}>
                     Disable
                 </button>
-                
+
             </div>
         </div>
         <div class="flex flex-col">
@@ -58,11 +58,6 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                         @forelse ($spes as $spe)
                             <tr>
-                                {{-- <td class="px-6 py-4 whitespace-nowrap text-center">
-                                    @if ($spe->is_active == 1)
-                                    <input wire:model="selectedEvaluator" value=" {{ $spe->id }} " type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-400 rounded">
-                                    @endif
-                                </td> --}}
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm font-medium text-gray-900">{{ $spe->instructors->name }}</div>
                                 </td>
