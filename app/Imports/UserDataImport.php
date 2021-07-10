@@ -32,6 +32,12 @@ SkipsOnFailure
         ];
 
     }
+
+    public function uniqueBy()
+    {
+        return 'id_number';
+    }
+
     /**
     * @param array $row
     *
@@ -40,12 +46,13 @@ SkipsOnFailure
     public function model(array $row)
     {
         return new User([
-            'id_number'             => $row['id_number'],
             'name'                  => $row['name'],
-            'college_id'            => $row['college_id'] ?? null,
-            'role_id'               => $row['role_id'],
             'email'                 => $row['email'],
             'password'              => Hash::make($row['password']),
+            'role_id'               => $row['role_id'],
+            'college_id'            => $row['college_id'] ?? null,
+            'year_and_section_id'            => $row['year_and_section_id'] ?? null,
+            'id_number'             => $row['id_number'],
         ]);
 
     }

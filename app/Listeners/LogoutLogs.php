@@ -31,12 +31,14 @@ class LogoutLogs
      */
     public function handle(Logout $event)
     {
-        $event->subject = 'Logout';
-        $event->description = 'Logout successful';
+        $description = Str::words($event->user->name, 1, ' is successfully logout');
 
-        // Session::flash('login-success', 'Hello ' . $event->user->name . ', welcome back!');
+        $event->subject = 'Logout';
+        $event->description = Str::replaceFirst(',', '', $description);
+        
         activity($event->subject)
-            ->by($event->user)
+            ->causedBy($event->user)
+            ->event('logout')
             ->withProperties(['attributes' => [
                 'name' => $event->user->name
                 ]])

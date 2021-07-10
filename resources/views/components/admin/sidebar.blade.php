@@ -8,7 +8,7 @@
         <x-slot name="trigger">
             <button type="button" class="w-full flex items-center px-3 py-2 border-l-4 border-transparent text-base font-medium text-gray-200 hover:text-gray-800 hover:bg-blue-100 hover:border-gray-300 focus:outline-none focus:text-blue-800 focus:bg-blue-100 focus:border-blue-400 transition duration-150 ease-in-out">
                 <svg class="inline w-5 h-5 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                {{__('Evaluation Page')}}
+                {{__('Set Evaluation')}}
                 <svg class="inline ml-auto w-5 h-5 transition-transform transform" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                 </svg>
@@ -36,16 +36,12 @@
             </button>
         </x-slot>
         <x-slot name="content">
-            <x-jet-dropdown-link href="{{ route('peer-to-peer') }}">
+            <x-jet-dropdown-link href="{{ route('peer-to-peer-evaluation-result') }}">
                 {{ __('Peer Evaluation Result') }}
             </x-jet-dropdown-link>
 
-            <x-jet-dropdown-link href="{{ route('student-to-peer') }}">
+            <x-jet-dropdown-link href="{{ route('student-evaluation-result') }}">
                 {{ __('Student Evaluation Result') }}
-            </x-jet-dropdown-link>
-
-            <x-jet-dropdown-link href="{{ route('result') }}">
-                {{ __('Result') }}
             </x-jet-dropdown-link>
         </x-slot>
     </x-jet-dropdown>
@@ -69,6 +65,10 @@
 
             <x-jet-dropdown-link href="{{ route('manage-reports') }}">
                 {{ __('Manage Reports') }}
+            </x-jet-dropdown-link>
+
+            <x-jet-dropdown-link href="{{ route('manage-results') }}">
+                {{ __('Manage Results') }}
             </x-jet-dropdown-link>
 
             <x-jet-dropdown-link href="{{ route('manage-settings') }}">

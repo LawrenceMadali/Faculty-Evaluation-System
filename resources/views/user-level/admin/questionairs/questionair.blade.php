@@ -1,7 +1,7 @@
 @extends('layouts.administrator')
 
 @section('adminContent')
-    <x-admin.head-title adminHeader="Questionairs"/>
+    <x-admin.head-title adminHeader="Manage Questionairs"/>
     <section class="text-gray-600 body-font">
         <div class="container px-5 py-5 mx-auto">
             <div class="flex flex-wrap -m-4">

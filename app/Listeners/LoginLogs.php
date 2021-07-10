@@ -32,11 +32,14 @@ class LoginLogs
      */
     public function handle(Login $event)
     {
-        // dd($event);
+        $description = Str::words($event->user->name, 1, ' is successfully login');
+
         $event->subject = 'Login';
-        $event->description = 'Login successful';
+        $event->description = Str::replaceFirst(',', '', $description);
+
         activity($event->subject)
-            ->by($event->user)
+            ->causedBy($event->user)
+            ->event('login')
             ->withProperties(['attributes' => [
                 'name' => $event->user->name
                 ]])

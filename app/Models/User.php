@@ -18,7 +18,6 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use Spatie\Activitylog\Traits\LogsActivity;
 class User extends Authenticatable
 {
     use HasApiTokens;
@@ -26,7 +25,6 @@ class User extends Authenticatable
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
-    use LogsActivity;
 
     /**
      * The attributes that are mass assignable.
@@ -44,15 +42,6 @@ class User extends Authenticatable
         'college_id',
         'year_and_section_id',
     ];
-
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults()
-        ->logFillable()
-        ->logOnlyDirty()
-        ->useLogName('Managing Accounts')
-        ->setDescriptionForEvent(fn(string $eventName) => "This user has been {$eventName}");
-    }
 
     /**
      * The attributes that should be hidden for arrays.

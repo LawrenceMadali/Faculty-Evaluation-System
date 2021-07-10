@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\ManageUsers;
+namespace App\Http\Controllers\Admin\SystemManagement\ManageUsers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;

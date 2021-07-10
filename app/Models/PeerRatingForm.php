@@ -46,7 +46,7 @@ class PeerRatingForm extends Model
         'comments',
         'spe_id',
         'scale',
-        'evaluator',
+        'user_id',
         'semester_id',
         'school_year_id',
         'is_evaluated',
@@ -55,9 +55,9 @@ class PeerRatingForm extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly(['evaluator'])
+        ->logOnly(['user_id'])
         ->useLogName('Peer to Peer Rating Form')
-        ->setDescriptionForEvent(fn(string $eventName) => "This user has been {$eventName}");
+        ->setDescriptionForEvent(fn(string $eventName) => "This user has been {$eventName} an evaluation");
     }
 
     public function user()

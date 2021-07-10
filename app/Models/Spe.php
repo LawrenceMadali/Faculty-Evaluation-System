@@ -29,9 +29,8 @@ class Spe extends Model
     {
         return LogOptions::defaults()
         ->logOnly(['name'])
-        ->logOnlyDirty()
         ->useLogName('Set Peer Evaluation')
-        ->setDescriptionForEvent(fn(string $eventName) => "This module has been {$eventName}");
+        ->setDescriptionForEvent(fn(string $eventName) => "Peer Evaluation has been {$eventName} by {}");
     }
 
     public function users()

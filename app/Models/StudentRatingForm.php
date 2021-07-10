@@ -42,7 +42,7 @@ class StudentRatingForm extends Model
         'comments',
         'instructor_id',
         'scale',
-        'evaluator',
+        'user_id',
     ];
 
     public function user()

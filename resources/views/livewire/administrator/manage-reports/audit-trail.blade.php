@@ -28,9 +28,9 @@
                                         <td class="px-6 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">{{ $activity->description }}</div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                            @foreach($activity->changes['attributes'] as $key => $value)
-                                                <b>{{ $key }}</b>: {{ $value }} <br/>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm capitalize">
+                                            @foreach($activity->changes['attributes'] ?? [] as $key => $value)
+                                                {{ $key }}: {{ $value }} <br/>
                                             @endforeach
                                         </td>
                                         <td class="px-6 py-4 whitespace-nowrap">

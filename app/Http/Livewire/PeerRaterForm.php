@@ -49,7 +49,7 @@ class PeerRaterForm extends Component
     public $school_year_id;
 
     protected $rules = [
-        'spe_id' => 'required|unique:peer_rating_forms',
+        // 'spe_id' => 'required|unique:peer_rating_forms',
         // validation for commitment
         'commitment_1' => 'required',
         'commitment_2' => 'required',
@@ -186,7 +186,7 @@ class PeerRaterForm extends Component
             $this->management_of_learning_5) / 20,
             'spe_id'        => $this->spe_id,
             'comments'      => $this->comments,
-            'evaluator'     => Auth::user()->name,
+            'evaluator'     => Auth::user()->id,
             'semester_id'   => $this->semester_id,
             'school_year_id'=> $this->school_year_id
         ]);
@@ -201,7 +201,7 @@ class PeerRaterForm extends Component
         $this->semester_id = $speId->semester_id ?? null;
         $this->school_year_id = $speId->school_year_id ?? null;
         $this->validate([
-            'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id'
+            'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,evaluator,'.Auth::user()->id.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         ]);
     }
 

@@ -6,10 +6,13 @@ use App\Models\User;
 use App\Models\Instructor;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Sse extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'school_year_id',
@@ -21,6 +24,14 @@ class Sse extends Model
         'year_and_section_id',
         'evaluatee',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name'])
+        ->useLogName('Set Student Evaluation')
+        ->setDescriptionForEvent(fn(string $eventName) => "Student Evaluation has been {$eventName}");
+    }
 
     public function users()
     {

@@ -3,17 +3,18 @@
 namespace App\Http\Livewire\Administrator\ManageUsers;
 
 use App;
+use Auth;
 use App\Models\User;
 use App\Models\Course;
 use App\Models\College;
 use Livewire\Component;
 use App\Models\CourseCode;
 use App\Models\Instructor;
+use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
 use App\Imports\UserDataImport;
-use Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ManageAccounts extends Component
@@ -77,7 +78,7 @@ class ManageAccounts extends Component
             ]);
         }
 
-        User::create([
+        $accounts = User::create([
             'role_id'       => $this->role_id,
             'id_number'     => $this->id_number,
             'name'          => $this->name,
@@ -89,6 +90,13 @@ class ManageAccounts extends Component
         $this->reset();
         $this->resetValidation();
         $this->emit('created');
+
+        activity()
+            ->causedBy(Auth::user())
+            ->performedOn($accounts)
+            ->event('created')
+            ->useLog('Manage account')
+            ->log('This user is created by '.Str::words(Auth::user()->name, 1).'.');
     }
 
 
@@ -159,11 +167,13 @@ class ManageAccounts extends Component
                 'college_id'    => $this->college_id,
                 'year_and_section_id'    => $this->year_and_section_id,
             ]);
+
             activity()
             ->causedBy(Auth::user())
             ->performedOn($updateUser)
             ->event('updated')
-            ->log('This model has been updated.');
+            ->useLog('Manage account')
+            ->log('This user is updated by '.Str::words(Auth::user()->name, 1).'.');
 
             if ($this->role_id = 4) {
                 $updateInstructor = Instructor::where('id_number', $this->accId);
@@ -207,6 +217,12 @@ class ManageAccounts extends Component
         }
         $this->resetValidation();
         $this->emit('import');
+
+        activity()
+            ->causedBy(Auth::user()->name)
+            ->event('imported')
+            ->useLog('User import')
+            ->log('This user is imported by '.Str::words(Auth::user()->name, 1).'.');
     }
 
     public function render()
