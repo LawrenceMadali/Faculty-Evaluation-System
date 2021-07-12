@@ -49,7 +49,6 @@ class PeerRatingForm extends Model
         'user_id',
         'semester_id',
         'school_year_id',
-        'is_evaluated',
     ];
 
     public function getActivitylogOptions(): LogOptions

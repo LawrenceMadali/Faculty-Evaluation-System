@@ -78,26 +78,31 @@
             @if ($questionair->is_enabled === 1)
             <form wire:submit.prevent="submit">
                 <div class="space-y-2">
-                    <div class="col-span-6 text-gray-600 font-medium p-2 rounded-md border-none bg-blue-100">
-                        <label class="block text-sm">Evaluate Instructor <span class="text-red-500">*</span></label>
-                        <select wire:model="sse_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
-                            <option value="null">-- choose instructor you want to evaluate first --</option>
+                    <div class="p-2 bg-yellow-200 rounded-md">
+                        <em class="text-sm text-yellow-700">
+                            Note: Choose Faculty you want to evaluate first... Be sure all chosen Faculty must be evaluated.
+                        </em>
+                    </div>
+                    <div class="flex items-center text-gray-700 font-medium p-2 rounded-md border-none bg-blue-100 space-x-2">
+                        <label class="text-sm font-bold">Name of Faculty: &nbsp;</label>
+                        <select wire:model="sse_id" class="mt-1 block w-52 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                            <option value="null">-- select --</option>
                             @foreach ($assignStudents as $as)
                             @if ($as->is_active == 1)
-                            <option value="{{ $as->id }}">{{ $as->name }} </option>
+                            <option value="{{ $as->id }}">{{ $as->name }}</option>
                             @endif
                             @endforeach
                         </select>
                         <x-jet-input-error for="sse_id"/>
-                        <div class="sr-only">
-                            <div>
-                                <label for="">Semester</label>
-                                <input wire:model="semester_id" type="text">
-                            </div>
-                            <div>
-                                <label for="">School Year</label>
-                                <input wire:model="school_year_id" type="text">
-                            </div>
+                    </div>
+                    <div class="sr-only">
+                        <div>
+                            <label for="">Semester</label>
+                            <input wire:model="semester_id" type="text">
+                        </div>
+                        <div>
+                            <label for="">School Year</label>
+                            <input wire:model="school_year_id" type="text">
                         </div>
                     </div>
                     {{-------------------------------------------------- Commitment --------------------------------------------------}}

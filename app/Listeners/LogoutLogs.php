@@ -31,11 +31,9 @@ class LogoutLogs
      */
     public function handle(Logout $event)
     {
-        $description = Str::words($event->user->name, 1, ' is successfully logout');
-
         $event->subject = 'Logout';
-        $event->description = Str::replaceFirst(',', '', $description);
-        
+        $event->description = $event->user->name.' is successfully logout';
+
         activity($event->subject)
             ->causedBy($event->user)
             ->event('logout')

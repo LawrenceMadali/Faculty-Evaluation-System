@@ -39,15 +39,17 @@ class StudentRaterForm extends Component
     public $management_of_learning_5;
     public $management_of_learning_total;
 
-    public $sse_id;
-    public $comments;
-    public $evaluator;
     public $total;
-    public $is_evaluated = false;
+    public $scale;
+    public $sse_id;
+    public $user_id;
+    public $comments;
+    public $semester_id;
+    public $school_year_id;
     public $srfModal = false;
 
     protected $rules = [
-        'sse_id' => 'required|unique:student_rating_forms',
+        // 'sse_id' => 'required|unique:student_rating_forms',
         // validation error for commitment table
         'commitment_1' => 'required',
         'commitment_2' => 'required',
@@ -60,7 +62,6 @@ class StudentRaterForm extends Component
         'knowledge_of_subject_3' => 'required',
         'knowledge_of_subject_4' => 'required',
         'knowledge_of_subject_5' => 'required',
-
         // validation error for Teaching for Independent Learning table
         'teaching_for_independent_learning_1' => 'required',
         'teaching_for_independent_learning_2' => 'required',
@@ -108,6 +109,7 @@ class StudentRaterForm extends Component
     public function submit()
     {
         $studentRaterForm = $this->validate();
+
         StudentRatingForm::create($studentRaterForm +
         [
             'commitment_total' =>
@@ -181,9 +183,9 @@ class StudentRaterForm extends Component
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
             $this->management_of_learning_5) / 20,
-            'sse_id' => $this->sse_id,
+            'sse_id'        => $this->sse_id,
             'comments'      => $this->comments,
-            'evaluator'     => Auth::user()->name,
+            'user_id'       => Auth::user()->id_number,
             'semester_id'   => $this->semester_id,
             'school_year_id'=> $this->school_year_id
     ]);
@@ -199,7 +201,7 @@ class StudentRaterForm extends Component
         $this->semester_id = $sseId->semester_id ?? null;
         $this->school_year_id = $sseId->school_year_id ?? null;
         $this->validate([
-            'sse_id' => 'required|unique:student_rating_forms,sse_id,NULL,id'
+            'sse_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,user_id,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         ]);
     }
 
@@ -207,7 +209,7 @@ class StudentRaterForm extends Component
     {
         return view('livewire.student-rater-form.student-rater-form',[
             'questionairs'  => StudentQuestionairForm::all(),
-            'assignStudents' => auth()->user()->sses,
+            'assignStudents' => Auth::user()->sses,
         ]);
     }
 

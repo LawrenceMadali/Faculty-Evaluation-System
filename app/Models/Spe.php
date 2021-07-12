@@ -4,13 +4,14 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Course;
-use App\Models\SchoolYear;
 use App\Models\CourseCode;
+use App\Models\SchoolYear;
 use App\Models\YearAndSection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Spatie\Activitylog\LogOptions;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Spe extends Model
 {
@@ -30,7 +31,7 @@ class Spe extends Model
         return LogOptions::defaults()
         ->logOnly(['name'])
         ->useLogName('Set Peer Evaluation')
-        ->setDescriptionForEvent(fn(string $eventName) => "Peer Evaluation has been {$eventName} by {}");
+        ->setDescriptionForEvent(fn(string $eventName) => "Peer Evaluation has been {$eventName} by ".Auth::user()->name);
     }
 
     public function users()

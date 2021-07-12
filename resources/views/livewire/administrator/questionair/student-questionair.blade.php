@@ -302,10 +302,16 @@
             <x-slot name="content">
                 <form wire:submit.prevent="update">
                     <div class="col-span-6">
-                        <label class="block text-sm font-medium text-gray-700">Status</label>
-                        <input wire:model="is_enabled" name="is_enabled" type="checkbox" value="1" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                        <input type="hidden" name="is_enabled" value="0">
-                        <x-jet-input-error for="is_enabled"/>
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input wire:model="is_enabled" value="1" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                <input wire:model="is_enabled" value="0" type="hidden" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label class="font-medium text-gray-700">Status</label>
+                                <p class="text-gray-500">Manage status of selected questionair.</p>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </x-slot>

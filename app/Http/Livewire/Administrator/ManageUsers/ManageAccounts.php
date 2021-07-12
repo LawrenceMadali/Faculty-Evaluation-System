@@ -24,7 +24,7 @@ class ManageAccounts extends Component
 
     public $search = '';
     public $perPage = 5;
-    public $sortField = 'created_at';
+    public $sortField = 'name';
     public $sortAsc = true;
 
     public $createModal = false;
@@ -44,9 +44,9 @@ class ManageAccounts extends Component
     public $status = true;
 
     protected $messages = [
-        'role_id.required' => 'The role field is required',
-        'course_code_id.required' => 'The course code field is required',
-        'year_and_section_id.required' => 'The year and section field is required',
+        'role_id.required'              => 'The role field is required',
+        'course_code_id.required'       => 'The course code field is required',
+        'year_and_section_id.required'  => 'The year and section field is required',
     ];
 
     public function create()
@@ -90,13 +90,6 @@ class ManageAccounts extends Component
         $this->reset();
         $this->resetValidation();
         $this->emit('created');
-
-        activity()
-            ->causedBy(Auth::user())
-            ->performedOn($accounts)
-            ->event('created')
-            ->useLog('Manage account')
-            ->log('This user is created by '.Str::words(Auth::user()->name, 1).'.');
     }
 
 
@@ -168,13 +161,6 @@ class ManageAccounts extends Component
                 'year_and_section_id'    => $this->year_and_section_id,
             ]);
 
-            activity()
-            ->causedBy(Auth::user())
-            ->performedOn($updateUser)
-            ->event('updated')
-            ->useLog('Manage account')
-            ->log('This user is updated by '.Str::words(Auth::user()->name, 1).'.');
-
             if ($this->role_id = 4) {
                 $updateInstructor = Instructor::where('id_number', $this->accId);
                 $updateInstructor->update([
@@ -206,23 +192,11 @@ class ManageAccounts extends Component
             'studentFile' => 'required|mimes:xlsx, xls'
         ]);
 
-        $import = new UserDataImport();
-        $import->import($this->studentFile);
-        $import->failures();
-        if ($import->failures()->isNotEmpty()) {
-            session()->flash('errorMessage', $import->failures());
-        }
-        else{
-            $this->reset();
-        }
+        Excel::import(new UserDataImport, $this->studentFile);
+        $this->reset();
         $this->resetValidation();
         $this->emit('import');
 
-        activity()
-            ->causedBy(Auth::user()->name)
-            ->event('imported')
-            ->useLog('User import')
-            ->log('This user is imported by '.Str::words(Auth::user()->name, 1).'.');
     }
 
     public function render()
@@ -233,10 +207,11 @@ class ManageAccounts extends Component
             'courseCodes'       => CourseCode::all(),
             'yearAndSections'   => YearAndSection::all(),
             'users'             => User::search($this->search)
-                                ->with('yearAndSections', 'colleges', 'roles', 'courses')
-                                ->where('id' , '!=', auth()->id())
-                                ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
-                                ->paginate($this->perPage)
+                                    ->with('yearAndSections', 'colleges', 'roles', 'courses')
+                                    ->where('id' , '!=', auth()->id())
+                                    ->latest()
+                                    ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
+                                    ->paginate($this->perPage)
         ]);
     }
 }

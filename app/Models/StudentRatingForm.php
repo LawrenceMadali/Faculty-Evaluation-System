@@ -39,10 +39,12 @@ class StudentRatingForm extends Model
         'teaching_for_independent_learning_total',
         'management_of_learning_total',
         'total',
-        'comments',
-        'instructor_id',
         'scale',
+        'sse_id',
         'user_id',
+        'comments',
+        'semester_id',
+        'school_year_id',
     ];
 
     public function user()

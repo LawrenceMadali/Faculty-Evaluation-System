@@ -40,13 +40,12 @@ class PeerRaterForm extends Component
 
     public $total;
     public $scale;
-    public $prfModal = false;
-    public $id_number;
-    public $comments;
     public $spe_id;
-    public $evaluator;
+    public $comments;
+    public $id_number;
     public $semester_id;
     public $school_year_id;
+    public $prfModal = false;
 
     protected $rules = [
         // 'spe_id' => 'required|unique:peer_rating_forms',
@@ -62,7 +61,6 @@ class PeerRaterForm extends Component
         'knowledge_of_subject_3' => 'required',
         'knowledge_of_subject_4' => 'required',
         'knowledge_of_subject_5' => 'required',
-
         // validation error for Teaching for Independent Learning table
         'teaching_for_independent_learning_1' => 'required',
         'teaching_for_independent_learning_2' => 'required',
@@ -186,7 +184,7 @@ class PeerRaterForm extends Component
             $this->management_of_learning_5) / 20,
             'spe_id'        => $this->spe_id,
             'comments'      => $this->comments,
-            'evaluator'     => Auth::user()->id,
+            'id_number'     => Auth::user()->id_number,
             'semester_id'   => $this->semester_id,
             'school_year_id'=> $this->school_year_id
         ]);
@@ -201,7 +199,7 @@ class PeerRaterForm extends Component
         $this->semester_id = $speId->semester_id ?? null;
         $this->school_year_id = $speId->school_year_id ?? null;
         $this->validate([
-            'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,evaluator,'.Auth::user()->id.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
+            'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,id_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         ]);
     }
 

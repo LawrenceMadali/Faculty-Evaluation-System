@@ -66,6 +66,7 @@
                             <div class="relative inline-flex">
                                 <select wire:model="sortField" class="text-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                                     <option value="created_at">Created at</option>
+                                    <option value="updated_at">Updated at</option>
                                     <option value="id_number">Id number</option>
                                     <option value="name">Name</option>
                                     <option value="role_id">Role</option>
@@ -132,8 +133,14 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> {{ $user->roles->name }} </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> {{ $user->year_and_section_id === null ? '-' : $user->yearAndSections->year_and_section }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div> </td>
-                                    <td class="px-6 py-4 whitespace-nowrap"> <div class="text-sm text-gray-900">{{ $user->updated_at->ToFormattedDateString() }}</div> </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div>
+                                        <div class="text-sm text-gray-500">{{ $user->created_at->diffForHumans() }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $user->updated_at->ToFormattedDateString() }}</div>
+                                        <div class="text-sm text-gray-500">{{ $user->updated_at->diffForHumans() }}</div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-2">
                                         @if (in_array(auth()->user()->role_id, [2, 3]))
                                             @if ($user->role_id === 1)
@@ -393,73 +400,21 @@
             <x-slot name="content">
                 <form wire:submit.prevent="importStudent">
                     <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
-                    <div class="flex flex-col justify-center items-center space-y-1">
-                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                        <div class="flex text-sm text-gray-600">
-                        <label for="studentFile" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
-                            <span>Import a file</span>
-                            <input wire:model="studentFile" id="studentFile" type="file" class="sr-only">
-                        </label>
-                        <p class="pl-1">or drag and drop</p>
-                        </div>
-                        <x-jet-validation-errors class="mb-4" />
-                        @if (session()->has('errorMessage'))
-                        <div class="mx-5">
-                            <div class="flex flex-col">
-                                <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                    <div class="shadow border-b border-gray-200 sm:rounded-lg">
-                                    <table class="min-w-full">
-                                        <thead class="bg-red-50">
-                                        <tr>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-red-500 uppercase tracking-wider">Row number</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-red-500 uppercase tracking-wider">Values</th>
-                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-red-500 uppercase tracking-wider">Errors</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody class="bg-red-100">
-                                            @foreach (session()->get('errorMessage') as $validation)
-                                            <tr>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="text-sm font-medium text-red-900">
-                                                        {{ $validation->row() }}
-                                                    </div>
-                                                </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="text-sm font-medium text-red-900">
-                                                        {{ $validation->values() [$validation->attribute()] }}
-                                                    </div>
-                                                </div>
-                                                </td>
-                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="flex items-center">
-                                                    <div class="text-sm font-medium text-red-900">
-                                                        <ul>
-                                                            @foreach ($validation->errors() as $e)
-                                                                <li>{{ $e }}</li>
-                                                            @endforeach
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                    </div>
-                                </div>
-                                </div>
+                        <div class="flex flex-col justify-center items-center space-y-2">
+                            <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            <div class="flex text-sm text-gray-600">
+                                <label for="studentFile" class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-indigo-500">
+                                    <span>Import a file</span>
+                                    <input wire:model="studentFile" id="studentFile" type="file" class="sr-only">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <x-jet-validation-errors class="mb-4" />
+                            <div wire:loading class="text-sm text-green-700 px-2 bg-green-200 rounded-md">
+                                Please wait
+                                <svg class="text-green-700 inline" width="32px" height="32px" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="currentColor" color="#000000"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" fill-opacity=".3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from=".5" to=".5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>
                             </div>
                         </div>
-                        @endif
-                        <div wire:loading class="text-sm text-green-700 px-2 bg-green-200 rounded-md">
-                            Please wait
-                            <svg class="text-green-700 inline" width="32px" height="32px" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="currentColor" color="#000000"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" fill-opacity=".3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from=".5" to=".5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>
-                        </div>
-                    </div>
                     </div>
                 </form>
             </x-slot>

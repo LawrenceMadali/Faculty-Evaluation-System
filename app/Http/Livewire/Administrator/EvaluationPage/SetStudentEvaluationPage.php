@@ -73,17 +73,20 @@ class SetStudentEvaluationPage extends Component
     // year and section
     public $yearAndSections = null;
     public $yearAndSection = null;
-    public function updatedYearAndSection($yearAndSection, $course)
+    public function updatedYearAndSection($yearAndSection)
     {
         if ($yearAndSection) {
             $this->students = User::where([
                 'role_id' => 5,
                 'year_and_section_id' => $this->yearAndSection,
-                ])->get() ?? null;
+                ])
+                ->inRandomOrder()
+                ->get() ?? null;
 
             $this->courseCodes = CourseCode::where([
                 'course_id' => $this->course,
-                'year_and_section_id' => $this->yearAndSection
+                'year_and_section_id' => $this->yearAndSection,
+                'instructor_id' => $this->instructor,
                 ])->get() ?? null;
                 $this->resetSelect();
         } else {
