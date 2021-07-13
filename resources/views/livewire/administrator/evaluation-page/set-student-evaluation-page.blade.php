@@ -156,17 +156,11 @@
                                                     </select>
                                                 </div>
                                                 @endif
-                                                @if (!empty($semester) && $semester != null)
-                                                <div class="col-span-6 sm:col-span-3 sr-only">
-                                                    <label class="block text-sm font-medium text-gray-700">Instructor</label>
-                                                    <select wire:model="name" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                                        <option value="">-- choose instructor --</option>
-                                                        @foreach ($instructors as $instructor)
-                                                        <option value="{{ $instructor->name }}">{{ $instructor->name }}</option>
-                                                        @endforeach
-                                                    </select>
+                                                <div class="hidden">
+                                                    <input wire:model="name" type="text">
+                                                    <input wire:model="id_number" type="text">
                                                 </div>
-                                                @endif
+
                                                 @if (!empty($courses) && !empty($instructor))
                                                     <div class="col-span-6 sm:col-span-3">
                                                         <label class="block text-sm font-medium text-gray-700">Course</label>

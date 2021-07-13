@@ -46,6 +46,7 @@ class SetStudentEvaluationPage extends Component
 
         $instructor = Instructor::find($this->instructor);
         $this->name = $instructor->name ?? null;
+        $this->id_number = $instructor->id_number ?? null;
     }
     // course
     public $courses = null;
@@ -408,14 +409,15 @@ class SetStudentEvaluationPage extends Component
         $this->select10 = false;
     }
 
-    public $school_year;
-    public $semester;
-    public $year_and_section;
     public $name;
+    public $id_number;
+    public $semester;
+    public $school_year;
+    public $year_and_section;
 
     public function create()
     {
-        $validateEvaluation = $this->validate([
+        $this->validate([
             'school_year'       => 'required|unique:sses,school_year_id,NULL,id,course_code_id,'.$this->courseCode.',semester_id,'.$this->semester.',course_id,'.$this->course.',year_and_section_id,'.$this->yearAndSection,
             'semester'          => 'required',
             'instructor'        => 'required',
@@ -429,14 +431,15 @@ class SetStudentEvaluationPage extends Component
         ]);
 
         $evaluator = Sse::create([
-            'school_year_id'        => $this->school_year,
+            'name'                  => $this->name,
+            'id_number'             => $this->id_number,
+            'evaluatee'             => count($this->selectedStudents),
+            'course_id'             => $this->course,
             'semester_id'           => $this->semester,
             'instructor_id'         => $this->instructor,
-            'name'                  => $this->name,
-            'course_id'             => $this->course,
-            'year_and_section_id'   => $this->yearAndSection,
+            'school_year_id'        => $this->school_year,
             'course_code_id'        => $this->courseCode,
-            'evaluatee'             => $this->evaluatee = count($this->selectedStudents),
+            'year_and_section_id'   => $this->yearAndSection,
         ]);
         $this->emit('created');
         $evaluator->users()->sync($this->selectedStudents);

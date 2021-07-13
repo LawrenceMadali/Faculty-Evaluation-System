@@ -42,7 +42,7 @@ class StudentRaterForm extends Component
     public $total;
     public $scale;
     public $sse_id;
-    public $user_id;
+    public $id_number;
     public $comments;
     public $semester_id;
     public $school_year_id;
@@ -183,11 +183,11 @@ class StudentRaterForm extends Component
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
             $this->management_of_learning_5) / 20,
-            'sse_id'        => $this->sse_id,
-            'comments'      => $this->comments,
-            'user_id'       => Auth::user()->id_number,
-            'semester_id'   => $this->semester_id,
-            'school_year_id'=> $this->school_year_id
+            'sse_id'            => $this->sse_id,
+            'comments'          => $this->comments,
+            'evaluator_number'  => Auth::user()->id_number,
+            'semester_id'       => $this->semester_id,
+            'school_year_id'    => $this->school_year_id
     ]);
 
 
@@ -198,10 +198,11 @@ class StudentRaterForm extends Component
     public function updatedSseId()
     {
         $sseId = Sse::find($this->sse_id);
-        $this->semester_id = $sseId->semester_id ?? null;
-        $this->school_year_id = $sseId->school_year_id ?? null;
+        $this->semester_id      = $sseId->semester_id ?? null;
+        $this->school_year_id   = $sseId->school_year_id ?? null;
+        $this->id_number        = $sseId->id_number ?? null;
         $this->validate([
-            'sse_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,user_id,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
+            'sse_id' => 'required|unique:student_rating_forms,sse_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         ]);
     }
 

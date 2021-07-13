@@ -16,7 +16,8 @@ class CreateSsesTable extends Migration
         Schema::create('sses', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('instructor_id')->constrained()->onUpdate('cascade');
+            $table->bigInteger('id_number');
+            $table->foreignId('instructor_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
             $table->foreignId('semester_id')->constrained();
             $table->foreignId('course_id')->constrained();

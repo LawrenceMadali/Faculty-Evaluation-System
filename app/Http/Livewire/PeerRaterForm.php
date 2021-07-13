@@ -184,7 +184,7 @@ class PeerRaterForm extends Component
             $this->management_of_learning_5) / 20,
             'spe_id'        => $this->spe_id,
             'comments'      => $this->comments,
-            'id_number'     => Auth::user()->id_number,
+            'evaluator_number'     => Auth::user()->id_number,
             'semester_id'   => $this->semester_id,
             'school_year_id'=> $this->school_year_id
         ]);
@@ -198,8 +198,9 @@ class PeerRaterForm extends Component
         $speId = Spe::find($this->spe_id);
         $this->semester_id = $speId->semester_id ?? null;
         $this->school_year_id = $speId->school_year_id ?? null;
+        $this->id_number = $speId->id_number ?? null;
         $this->validate([
-            'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,id_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
+            'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         ]);
     }
 

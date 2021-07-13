@@ -20,9 +20,10 @@ class Spe extends Model
 
     protected $fillable = [
         'name',
-        'evaluatee',
-        'semester_id',
         'user_id',
+        'evaluatee',
+        'id_number',
+        'semester_id',
         'school_year_id',
     ];
 

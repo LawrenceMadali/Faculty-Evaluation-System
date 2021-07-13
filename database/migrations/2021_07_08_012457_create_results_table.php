@@ -15,14 +15,14 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('spe_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->foreignId('semester_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
-            $table->integer('peer_evaluation_result')->nullable();
-            $table->integer('student_evaluation_result')->nullable();
-            $table->integer('supervisor')->nullable();
-            $table->integer('ipcr')->nullable();
-            $table->integer('total')->nullable();
+            $table->float('peer_evaluation_result');
+            $table->float('student_evaluation_result');
+            $table->float('supervisor');
+            $table->float('ipcr');
+            $table->float('total');
             $table->timestamps();
         });
     }

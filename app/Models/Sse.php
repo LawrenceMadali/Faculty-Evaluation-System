@@ -17,6 +17,7 @@ class Sse extends Model
 
     protected $fillable = [
         'name',
+        'id_number',
         'evaluatee',
         'course_id',
         'semester_id',

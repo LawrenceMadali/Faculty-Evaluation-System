@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class StudentRatingForm extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'commitment_1',
@@ -41,11 +44,20 @@ class StudentRatingForm extends Model
         'total',
         'scale',
         'sse_id',
-        'user_id',
         'comments',
+        'id_number',
+        'evaluator_number',
         'semester_id',
         'school_year_id',
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['evaluator_number'])
+        ->useLogName('Student Rating Form')
+        ->setDescriptionForEvent(fn(string $eventName) => "This user has been {$eventName} an evaluation");
+    }
 
     public function user()
     {

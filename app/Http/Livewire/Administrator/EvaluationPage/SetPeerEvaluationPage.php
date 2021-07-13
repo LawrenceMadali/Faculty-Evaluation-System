@@ -396,6 +396,7 @@ class SetPeerEvaluationPage extends Component
     }
 
     public $name;
+    public $id_number;
     public $school_year;
     public $semester;
     public $year_and_section;
@@ -415,9 +416,10 @@ class SetPeerEvaluationPage extends Component
         $evaluator = Spe::create([
             'school_year_id'    => $this->school_year,
             'semester_id'       => $this->semester,
+            'evaluatee'         => count($this->selectedInstructor),
             'user_id'           => $this->faculty,
             'name'              => $this->name,
-            'evaluatee'         => $this->evaluatee = count($this->selectedInstructor),
+            'id_number'         => $this->id_number,
         ]);
         $this->emit('created');
         $evaluator->users()->sync($this->selectedInstructor);
@@ -433,6 +435,7 @@ class SetPeerEvaluationPage extends Component
 
         $name = User::find($this->faculty);
         $this->name = $name->name ?? null;
+        $this->id_number = $name->id_number ?? null;
     }
 
     public function openEditModal()

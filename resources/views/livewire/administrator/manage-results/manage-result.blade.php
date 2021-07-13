@@ -11,42 +11,60 @@
                     </div>
                 </div>
                 <div class="mt-5 md:mt-0 md:col-span-2">
-                    <form action="#" method="POST">
+                    <form wire:submit.prevent="submitResult">
                         <div class="shadow overflow-hidden sm:rounded-md">
                             <div class="px-4 py-5 bg-white sm:p-6">
                                 <div class="grid grid-cols-6 gap-6">
-
                                     <div class="col-span-6">
-                                        <label for="country" class="block text-sm font-medium text-gray-700">Instructor</label>
-                                        <select id="country" name="country" autocomplete="country" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option value=""></option>
+                                        <x-jet-validation-errors/>
+                                    </div>
+                                    <div class="col-span-6">
+                                        <label class="block text-sm font-medium text-gray-700">Instructor</label>
+                                        <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                        <option value="">-- select --</option>
+                                        @foreach ($instructors as $instructor)
+                                        <option value=" {{ $instructor->id }} "> {{ $instructor->name }} </option>
+                                        @endforeach
                                         </select>
+                                    </div>
+                                    <div class="col-span-6 sm:col-span-6 lg:col-span-3 sr-only">
+                                        <input wire:model="semester_id" type="text">
+                                        <input wire:model="school_year_id" type="text">
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-6 lg:col-span-3">
-                                        <label for="city" class="block text-sm font-medium text-gray-700">Peer Rater Form</label>
-                                        <input type="text" name="city" id="city" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                        <label class="block text-sm font-medium text-gray-700">Peer Rater Form</label>
+                                        <input wire:model="totalPrfScale" disabled type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                        <label for="state" class="block text-sm font-medium text-gray-700">Student Rater Form</label>
-                                        <input type="text" name="state" id="state" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                        <label class="block text-sm font-medium text-gray-700">Student Rater Form</label>
+                                        <input wire:model="totalSrfScale" disabled type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     </div>
 
                                     <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                        <label for="postal-code" class="block text-sm font-medium text-gray-700">Supervisor</label>
-                                        <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                        <label class="block text-sm font-medium text-gray-700">Supervisor</label>
+                                        <input wire:model="supervisor" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     </div>
                                     <div class="col-span-6 sm:col-span-3 lg:col-span-3">
-                                        <label for="postal-code" class="block text-sm font-medium text-gray-700">IPCR</label>
-                                        <input type="text" name="postal-code" id="postal-code" autocomplete="postal-code" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                        <label class="block text-sm font-medium text-gray-700">IPCR</label>
+                                        <input wire:model="ipcr" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    </div>
+                                    <div class="col-span-6 sm:col-span-3 lg:col-span-3">
+                                        <label class="block text-sm font-medium text-gray-700">Total</label>
+                                        <input wire:model="total" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                     </div>
                                 </div>
                             </div>
                             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Save
-                                </button>
+                                <div class="flex justify-between">
+                                    <button wire:click.prevent="computation" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Compute
+                                    </button>
+                                    <button wire:click="submitResult" type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Save
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </form>

@@ -16,9 +16,10 @@ class CreateSpesTable extends Migration
         Schema::create('spes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->bigInteger('id_number');
             $table->foreignId('user_id')->constrained();
-            $table->foreignId('school_year_id')->constrained();
             $table->foreignId('semester_id')->constrained();
+            $table->foreignId('school_year_id')->constrained();
             $table->boolean('is_active')->default(true);
             $table->integer('evaluatee');
             $table->timestamps();
