@@ -46,10 +46,11 @@ class StudentRaterForm extends Component
     public $comments;
     public $semester_id;
     public $school_year_id;
+    public $evaluator_number;
     public $srfModal = false;
 
     protected $rules = [
-        // 'sse_id' => 'required|unique:student_rating_forms',
+        // 'sse_id' => 'required|unique:student_rating_forms,sse_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         // validation error for commitment table
         'commitment_1' => 'required',
         'commitment_2' => 'required',
@@ -108,9 +109,9 @@ class StudentRaterForm extends Component
 
     public function submit()
     {
-        $studentRaterForm = $this->validate();
+        $validatedData = $this->validate();
 
-        StudentRatingForm::create($studentRaterForm +
+        StudentRatingForm::create($validatedData +
         [
             'commitment_total' =>
             $this->commitment_1 +
@@ -185,9 +186,10 @@ class StudentRaterForm extends Component
             $this->management_of_learning_5) / 20,
             'sse_id'            => $this->sse_id,
             'comments'          => $this->comments,
-            'evaluator_number'  => Auth::user()->id_number,
+            'id_number'         => $this->id_number,
             'semester_id'       => $this->semester_id,
-            'school_year_id'    => $this->school_year_id
+            'school_year_id'    => $this->school_year_id,
+            'evaluator_number'  => Auth::user()->id_number,
     ]);
 
 

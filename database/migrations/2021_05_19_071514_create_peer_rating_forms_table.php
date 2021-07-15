@@ -19,6 +19,7 @@ class CreatePeerRatingFormsTable extends Migration
             $table->foreignId('semester_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
             $table->bigInteger('id_number');
+            $table->bigInteger('evaluator_number');
             $table->integer('commitment_1');
             $table->integer('commitment_2');
             $table->integer('commitment_3');

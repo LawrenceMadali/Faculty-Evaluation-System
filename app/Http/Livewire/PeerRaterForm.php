@@ -45,10 +45,11 @@ class PeerRaterForm extends Component
     public $id_number;
     public $semester_id;
     public $school_year_id;
+    public $evaluator_number;
     public $prfModal = false;
 
     protected $rules = [
-        // 'spe_id' => 'required|unique:peer_rating_forms',
+        // 'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         // validation for commitment
         'commitment_1' => 'required',
         'commitment_2' => 'required',
@@ -182,11 +183,12 @@ class PeerRaterForm extends Component
             $this->management_of_learning_3 +
             $this->management_of_learning_4 +
             $this->management_of_learning_5) / 20,
-            'spe_id'        => $this->spe_id,
-            'comments'      => $this->comments,
-            'evaluator_number'     => Auth::user()->id_number,
-            'semester_id'   => $this->semester_id,
-            'school_year_id'=> $this->school_year_id
+            'spe_id'            => $this->spe_id,
+            'comments'          => $this->comments,
+            'id_number'         => $this->id_number,
+            'semester_id'       => $this->semester_id,
+            'school_year_id'    => $this->school_year_id,
+            'evaluator_number'  => Auth::user()->id_number,
         ]);
 
         session()->flash('message', 'Thank you! Your response will be recorded.');

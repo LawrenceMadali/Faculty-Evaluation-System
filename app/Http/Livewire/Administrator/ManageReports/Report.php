@@ -2,45 +2,60 @@
 
 namespace App\Http\Livewire\Administrator\ManageReports;
 
-use App\Models\Instructor;
-use App\Models\PeerRatingForm;
-use App\Models\StudentRatingForm;
+use App\Exports\ResultExport;
+use App\Models\ReportGroupList;
+use App\Models\Results;
 use Livewire\Component;
+use Maatwebsite\Excel\Facades\Excel;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
 
 class Report extends Component
 {
-    // public $totalPrfScale;
-    // public $totalSrfScale;
-
-    // public function mount()
-    // {
-    //     $this->totalPrfScale = PeerRatingForm::where('instructor_id', 1)->avg('scale');
-    //     $this->totalSrfScale = StudentRatingForm::where('instructor_id', 1)->avg('scale');
-    // }
-
+    public $viewModal = false;
+    public $semester;
+    public $school_year;
     public $resultId;
-    public function getResult($id)
+
+    public function openViewModal($id)
     {
         $this->resultId = $id;
-        $result = PeerRatingForm::find($this->resultId);
-        $totalPrfScale = $result->totalPrfScale;
-        $totalSrfScale = $result->totalSrfScale;
-        dd($this->resultId);
+        $reportList = ReportGroupList::find($this->resultId);
+        $this->semester = $reportList->semester_id;
+        $this->school_year = $reportList->school_year_id;
+
+        $this->viewModal = true;
+    }
+
+    public function closeModal()
+    {
+        $this->viewModal = false;
+    }
+
+    public function getId()
+    {
+        return $this->resultId;
+    }
+
+    public function generate()
+    {
+        return Excel::download(new ResultExport($this->getId()), 'report.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+
+        activity()
+            ->causedBy(Auth::user())
+            ->event('export')
+            ->log('Report exported by '.Auth::user()->name);
     }
 
     public function render()
     {
-        $totalPrfScale = PeerRatingForm::where([
-            'spe_id'        => 1,
-            'semester_id'   => 1,
-            'school_year_id'=> 1,
-            ])->avg('scale');
-        $totalSrfScale = StudentRatingForm::where('sse_id', 1)->avg('scale');
-
-        return view('livewire.administrator.manage-reports.report',
-        compact('totalPrfScale', 'totalSrfScale'),
-        [
-            'prfs' => Instructor::all(),
+        return view('livewire.administrator.manage-reports.report', [
+            'results' => Results::where([
+                        'semester_id' => $this->semester,
+                        'school_year_id' => $this->school_year])
+                        ->with('semesters','school_years')
+                        ->latest('total')
+                        ->get(),
+            'resultList' => ReportGroupList::with('semesters', 'school_years')->get(),
         ]);
     }
 }

@@ -98,7 +98,7 @@
                                     </select>
                                     <x-jet-input-error for="spe_id"/>
                                 </div>
-                                <div class="sr-only">
+                                <div class="hidden">
                                     <div>
                                         <label for="">Semester</label>
                                         <input wire:model="semester_id" type="text">
@@ -106,6 +106,10 @@
                                     <div>
                                         <label for="">School Year</label>
                                         <input wire:model="school_year_id" type="text">
+                                    </div>
+                                    <div>
+                                        <label for="">Id number</label>
+                                        <input wire:model="id_number" type="text">
                                     </div>
                                 </div>
                                 {{-------------------------------------------------- Commitment --------------------------------------------------}}
