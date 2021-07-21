@@ -6,7 +6,6 @@
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> evaluated instructor </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> semester </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> school year </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> status </th>
                 <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> submitted at </th>
                 <th scope="col" class="relative px-6 py-3"><span class="sr-only">Edit</span></th>
             </tr>
@@ -17,18 +16,9 @@
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->spes->name }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->semesters->name }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->schoolYears->name }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap">
-                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                        {{ $instructor->is_evaluated === 0
-                        ? 'bg-red-100 text-red-800'
-                        : 'bg-green-100 text-green-800'}}">
-                        {{ $instructor->is_evaluated === 0 ? 'Inactive' : 'Active' }}
-                        </span>
-                    </td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->created_at->toFormattedDateString() }}</td>
                     <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-4">
-                        <button wire:click.prevent="" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>View</em></button>
-                        <button wire:click.prevent="" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
+                        <button wire:click="openViewModal({{ $instructor->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>View</em></button>
                     </td>
                 </tr>
                 @empty
@@ -47,13 +37,55 @@
 
 
         {{-------------------------------------------------- Update Modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="warningModal">
+        <x-jet-dialog-modal maxWidth="3xl" wire:model.defer="viewModal">
             <x-slot name="title">
-                {{ __('Disabled') }}
+                {{ __('Peer Evaluation Results') }}
             </x-slot>
 
             <x-slot name="content">
-                
+                <div class="flex flex-col">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Commitment</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Knowledge of Subject</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Teaching for independent learning</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Management of learning</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Scale</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $commitment_total }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $knowledge_of_subject_total }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $teaching_for_independent_learning_total }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $management_of_learning_total }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $total }}</div>
+                                            </td>
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $scale }}</div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </x-slot>
 
             <x-slot name="footer">

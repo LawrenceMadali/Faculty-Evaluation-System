@@ -8,8 +8,6 @@ use Livewire\Component;
 use App\Models\CourseCode;
 use App\Models\Instructor;
 use Livewire\WithPagination;
-use App\Models\YearAndSection;
-use App\Models\CourseCodeAndTitle;
 
 class InstructorEvaluationDetails extends Component
 {
@@ -24,14 +22,7 @@ class InstructorEvaluationDetails extends Component
     public $id_number;
     public $name;
 
-    // public $instructors;
-    // public $colleges;
     public $instructor;
-    public function mount()
-    {
-        // $this->instructors = User::where('role_id', 4)->get();
-        // $this->colleges = College::all();
-    }
 
     public function updatedInstructor()
     {
@@ -39,7 +30,7 @@ class InstructorEvaluationDetails extends Component
         $this->name     = $instructor->name ?? null;
         $this->id_number = $instructor->id_number ?? null;
         $this->college_id = $instructor->college_id ?? null;
-        
+
     }
 
     public function submit()
@@ -60,14 +51,11 @@ class InstructorEvaluationDetails extends Component
 
     public $instructorId;
     public $user;
-    public function openEditModal($id_number)
+    public function openEditModal($id)
     {
-        $this->instructorId = $id_number;
-        $instructorId = Instructor::where('id_number', $this->instructorId)->first();
-        // dd($instructorId);
-        $this->name = $instructorId->name;
-        $this->id_number = $instructorId->id_number;
-        $this->college_id = $instructorId->college_id;
+        $this->instructorId = $id;
+        $instructorId = Instructor::find($this->instructorId);
+        $this->is_regular = $instructorId->is_regular;
         $this->resetValidation();
         $this->editModal = true;
         $this->user = $instructorId;
@@ -75,15 +63,8 @@ class InstructorEvaluationDetails extends Component
 
     public function update()
     {
-        Instructor::where('id_number', $this->instructorId)->update([
-        'name'       => $this->name,
-        'id_number'  => $this->id_number,
-        'college_id' => $this->college_id,
-        ]);
-        User::where('id_number', $this->instructorId)->update([
-        'name'       => $this->name,
-        'id_number'  => $this->id_number,
-        'college_id' => $this->college_id,
+        Instructor::find($this->instructorId)->update([
+        'is_regular' => $this->is_regular
         ]);
         $this->reset();
         $this->resetValidation();

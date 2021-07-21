@@ -15,16 +15,12 @@ class CollegeProperty extends Component
     public $createModal = false;
     public $editModal = false;
 
-    protected $rules = [
-        'name' => 'required|unique:colleges',
-    ];
-
     public function create()
     {
-        $college = $this->validate([
-            'name' => 'required'
-        ]);
-
+        $college = $this->validate(
+        ['name' => 'required|unique:colleges'],
+        ['unique' => 'The :input is already exist.']
+    );
         College::create($college);
         $this->reset();
         $this->emit('added');
@@ -51,13 +47,13 @@ class CollegeProperty extends Component
 
     public function update()
     {
-        $college = $this->validate([
-            'name' => 'required'
-            ]);
-            College::find($this->collegeId)->update($college);
-            $this->reset();
-            $this->resetValidation();
-            $this->emit('updated');
+        $college = $this->validate(
+            ['name' => 'required|unique:colleges,name,'.$this->collegeId],
+            ['unique' => 'The :input is already exist.']);
+        College::find($this->collegeId)->update($college);
+        $this->reset();
+        $this->resetValidation();
+        $this->emit('updated');
     }
 
     public function closeModal()
@@ -72,7 +68,7 @@ class CollegeProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.college-property',[
-            'colleges' => College::paginate(5),
+            'colleges' => College::latest('id')->paginate(5),
         ]);
     }
 }

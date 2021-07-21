@@ -6,6 +6,7 @@ use App\Models\Instructor;
 use App\Models\PeerRatingForm;
 use App\Models\ReportGroupList;
 use App\Models\Results;
+use App\Models\Spe;
 use App\Models\StudentRatingForm;
 use Livewire\Component;
 
@@ -20,6 +21,8 @@ class ManageResult extends Component
     public $totalPrfScale;
     public $totalSrfScale;
     public $school_year_id;
+
+    public $Totals;
 
     public function updatedInstructor()
     {
@@ -46,7 +49,8 @@ class ManageResult extends Component
 
     public function computation()
     {
-        $this->total = ($this->totalPrfScale + $this->totalSrfScale + $this->supervisor + $this->ipcr) / 4 ?? null;
+        $totalItem = ($this->totalPrfScale + $this->totalSrfScale + $this->supervisor + $this->ipcr) / 4 ?? null;
+        $this->total = number_format(($totalItem), 2);
     }
 
     public function submitResult()
@@ -84,7 +88,7 @@ class ManageResult extends Component
     {
         return view('livewire.administrator.manage-results.manage-result',
         [
-            'instructors'   => Instructor::all(),
+            'instructors'   => Spe::with('schoolYears', 'semesters')->get(),
             'results'       => Results::with('semesters', 'school_years')->get(),
         ]);
     }

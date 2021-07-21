@@ -2,9 +2,8 @@
 
 namespace App\Http\Livewire\Administrator\ManageSettings;
 
-use App\Models\User;
+use App\Models\Course;
 use Livewire\Component;
-use App\Models\CourseCode;
 use App\Models\Instructor;
 use Livewire\WithPagination;
 use App\Models\YearAndSection;
@@ -13,15 +12,11 @@ class YearSectionProperty extends Component
 {
     use WithPagination;
 
-    public $name;
-    public $course_code_id;
+    public $course_id;
+    public $instructor_id;
+    public $year_and_section;
     public $createModal = false;
     public $editModal = false;
-
-    protected $rules = [
-        'name'      => 'required',
-        'instructor_id'   => 'required',
-    ];
 
     protected $messages = [
         'instructor_id.required' => 'The instructor field is required',
@@ -29,12 +24,14 @@ class YearSectionProperty extends Component
 
     public function create()
     {
-        $this->validate();
+        $validated = $this->validate([
+            'year_and_section'  => 'required|unique:year_and_sections,year_and_section',
+            'instructor_id'     => 'required',
+            'course_id'         => 'required',
+        ],
+        ['unique' => 'The :input is already exist.']);
 
-        YearAndSection::create([
-            'name'      => $this->name,
-            'instructor_id'   => $this->instructor_id,
-        ]);
+        YearAndSection::create($validated);
         $this->reset();
         $this->resetValidation();
         $this->emit('added');
@@ -53,8 +50,9 @@ class YearSectionProperty extends Component
     {
         $this->yearAndSectionId = $id;
         $yearAndSectionId       = YearAndSection::find($this->yearAndSectionId);
-        $this->name             = $yearAndSectionId->name;
+        $this->year_and_section = $yearAndSectionId->year_and_section;
         $this->instructor_id    = $yearAndSectionId->instructor_id;
+        $this->course_id    = $yearAndSectionId->course_id;
         $this->resetValidation();
 
         $this->editModal = true;
@@ -62,11 +60,13 @@ class YearSectionProperty extends Component
 
     public function update()
     {
-        $yearNsection = $this->validate([
-            'name'          => 'required',
-            'instructor_id' => 'required'
-        ]);
-        YearAndSection::find($this->yearAndSectionId)->update($yearNsection);
+        $validated = $this->validate([
+            'year_and_section'  => 'required|unique:year_and_sections,year_and_section,'.$this->yearAndSectionId,
+            'instructor_id'     => 'required',
+            'course_id'         => 'required',
+        ],
+        ['unique' => 'The :input is already exist.']);
+        YearAndSection::find($this->yearAndSectionId)->update($validated);
         $this->reset();
         $this->resetValidation();
         $this->emit('updated');
@@ -80,29 +80,14 @@ class YearSectionProperty extends Component
         $this->resetValidation();
     }
 
-    public $courseCodes;
-    public $courseCode;
-    public $course_code;
-    public $instructor_id;
-
-    public function mount()
-    {
-        // $this->courseCodes = CourseCode::with('instructors')->get();
-    }
-
-    public function updatedInstructorId()
-    {
-        // $instructor_id = CourseCode::find($this->instructor_id);
-        // $this->course_code = $instructor_id->course_code ?? null;
-    }
-
-
     public function render()
     {
-        // dd(CourseCode::with('instructors')->get());
         return view('livewire.administrator.manage-settings.year-section-property', [
-            'yrSecs'=> YearAndSection::with('instructors', 'course_codes')->paginate(5),
-            'courseCodes' => CourseCode::with('instructors'),
+            'yrSecs'    => YearAndSection::with('instructors', 'courses')
+            ->latest('id')
+            ->paginate(5),
+            'courses'       => Course::all(),
+            'instructors'   => Instructor::all(),
         ]);
     }
 }

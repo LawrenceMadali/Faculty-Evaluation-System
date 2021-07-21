@@ -2,7 +2,6 @@
 
 namespace App\Http\Livewire\Administrator\ManageSettings;
 
-use App\Models\User;
 use App\Models\Course;
 use Livewire\Component;
 use App\Models\CourseCode;
@@ -16,26 +15,27 @@ class CourseCodeProperty extends Component
 
     public $course_code;
     public $instructor_id;
+    public $course_id;
+    public $year_and_section_id;
     public $createModal = false;
     public $editModal = false;
 
-    protected $rules = [
-        'course_code'   => 'required|unique:course_codes',
-        'instructor_id' => 'required',
-    ];
-
-    protected $messages = [
-        'instructor_id.required' => 'The instructor field is required.'
-    ];
-
     public function create()
     {
-        $this->validate();
-
-        CourseCode::create([
-            'course_code'   => $this->course_code,
-            'instructor_id' => $this->instructor_id,
+        $validated = $this->validate([
+            'course_code'           => 'required|unique:course_codes',
+            'instructor_id'         => 'required',
+            'course_id'             => 'required',
+            'year_and_section_id'   => 'required',
+        ],
+        [
+            'instructor_id.required'        => 'The instructor field is required.',
+            'course_id.required'            => 'The course field is required.',
+            'year_and_section_id.required'  => 'The year and section field is required.',
+            'unique' => 'The :input is already exist.',
         ]);
+
+        CourseCode::create($validated);
         $this->reset();
         $this->resetValidation();
         $this->emit('added');
@@ -52,70 +52,49 @@ class CourseCodeProperty extends Component
 
     public function editOpenModal($id)
     {
-        $this->CourseCodeId = $id;
-        $CourseCodeId       = CourseCode::find($this->CourseCodeId);
-        $this->course_code  = $CourseCodeId->course_code;
-        $this->course_code_id  = $CourseCodeId->course_code_id;
-        $this->instructor_id= $CourseCodeId->instructor_id;
+        $this->CourseCodeId         = $id;
+        $CourseCodeId               = CourseCode::find($this->CourseCodeId);
+        $this->course_id            = $CourseCodeId->course_id;
+        $this->course_code          = $CourseCodeId->course_code;
+        $this->instructor_id        = $CourseCodeId->instructor_id;
+        $this->year_and_section_id  = $CourseCodeId->year_and_section_id;
         $this->resetValidation();
-
         $this->editModal = true;
     }
 
     public function update()
     {
         $validated = $this->validate([
-            'course_code'   => 'required',
-            'instructor_id' => 'required',
-            ]);
+            'course_code'           => 'required|unique:course_codes,course_code,'.$this->CourseCodeId,
+            'instructor_id'         => 'required',
+            'course_id'             => 'required',
+            'year_and_section_id'   => 'required',
+        ],
+        ['unique' => 'The :input is already exist.']);
+
             CourseCode::find($this->CourseCodeId)->update($validated);
             $this->resetValidation();
             $this->emit('updated');
+
+            $this->reset();
+            $this->resetValidation();
     }
 
     public function closeModal()
     {
         $this->createModal = false;
         $this->editModal = false;
-        $this->reset();
-        $this->resetValidation();
-    }
-
-    // year and section
-    public $year_and_section;
-    public $course_code_id;
-    public function submitYearAndSection()
-    {
-        $this->validate([
-            'year_and_section' => 'required',
-            'course_code_id' => 'required',
-        ]);
-
-        YearAndSection::updateOrCreate([
-            'instructor_id' => $this->instructor_id,
-            'course_code_id' => $this->course_code_id,
-            'year_and_section' => $this->year_and_section,
-
-        ]);
-        $this->year_and_section = '';
-        $this->resetValidation();
-        $this->emit('saved');
-    }
-
-    public function remove($id)
-    {
-        $this->CourseCodeId = $id;
-        $CourseCodeId = YearAndSection::find($this->CourseCodeId)->destroy($this->CourseCodeId);
-        $this->emit('deleted');
     }
 
     public function render()
     {
         return view('livewire.administrator.manage-settings.course-code-property',[
-            'ccs'           => CourseCode::with('instructors')->paginate(5),
-            'courseCodes'   => CourseCode::all(),
-            'instructors'   => User::where('role_id', 4)->get(),
-            'yearAndSections'=> YearAndSection::where('course_code_id', $this->CourseCodeId)->get(),
+            'ccs'           => CourseCode::with('instructors', 'courses', 'year_and_sections')
+            ->latest('id')
+            ->paginate(5),
+            'instructors'   => Instructor::all(),
+            'courses'       => Course::all(),
+            'year_and_sections' => YearAndSection::all(),
         ]);
     }
 }

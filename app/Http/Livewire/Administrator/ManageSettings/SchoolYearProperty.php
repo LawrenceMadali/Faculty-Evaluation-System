@@ -14,17 +14,14 @@ class SchoolYearProperty extends Component
     public $createModal = false;
     public $editModal = false;
 
-    protected $rules = [
-        'name' => 'required|min:4|unique:school_years',
-    ];
-
     public function create()
     {
-        $this->validate();
+        $validated = $this->validate([
+            'name' => 'required|min:4|unique:school_years',
+        ],
+        ['unique' => 'The :input is already exist.']);
 
-        SchoolYear::create([
-            'name' => $this->name,
-        ]);
+        SchoolYear::create($validated);
         $this->reset();
         $this->emit('added');
         $this->resetValidation();
@@ -52,7 +49,7 @@ class SchoolYearProperty extends Component
     public function update()
     {
         $schoolYear = $this->validate([
-            'name' => 'required|min:4'
+            'name' => 'required|min:4|unique:school_years,name,'.$this->syId,
         ]);
         SchoolYear::find($this->syId)->update($schoolYear);
         $this->reset();
@@ -71,7 +68,7 @@ class SchoolYearProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.school-year-property',[
-            'sys' => SchoolYear::paginate(5),
+            'sys' => SchoolYear::latest('id')->paginate(5),
         ]);
     }
 }

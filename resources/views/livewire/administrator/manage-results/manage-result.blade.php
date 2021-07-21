@@ -14,7 +14,7 @@
                                     <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                     <option value="">-- select --</option>
                                     @foreach ($instructors as $instructor)
-                                    <option value=" {{ $instructor->id }} "> {{ $instructor->name }} </option>
+                                    <option value=" {{ $instructor->id }} "> {{ $instructor->name }} ({{ $instructor->semesters->name }} | {{ $instructor->schoolYears->name }})  </option>
                                     @endforeach
                                     </select>
                                 </div>
@@ -23,7 +23,6 @@
                                     <input wire:model="school_year_id" type="text">
                                     <input wire:model="id_number" type="text">
                                 </div>
-
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block text-sm font-medium text-gray-700">Peer Rater Form</label>
                                     <input wire:model="totalPrfScale" disabled type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
@@ -36,11 +35,11 @@
 
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700">Supervisor</label>
-                                    <input wire:model="supervisor" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input wire:model="supervisor" placeholder="max: 5" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700">IPCR</label>
-                                    <input wire:model="ipcr" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    <input wire:model="ipcr" placeholder="max: 5" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                 </div>
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700">Total</label>

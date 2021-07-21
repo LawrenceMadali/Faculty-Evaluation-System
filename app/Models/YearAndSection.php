@@ -14,7 +14,7 @@ class YearAndSection extends Model
     protected $fillable = [
         'year_and_section',
         'instructor_id',
-        'course_code_id',
+        'course_id',
     ];
 
     public function instructors()
@@ -22,8 +22,8 @@ class YearAndSection extends Model
         return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 
-    public function course_codes()
+    public function courses()
     {
-        return $this->belongsTo(CourseCode::class, 'course_code_id');
+        return $this->belongsTo(Course::class, 'course_id');
     }
 }

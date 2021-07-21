@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\CourseCode;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -10,10 +9,10 @@ class Course extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'user_id'];
+    protected $fillable = ['course', 'instructor_id'];
 
-    public function colleges()
+    public function instructors()
     {
-        return $this->belongsTo(College::class, 'college_id');
+        return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 }

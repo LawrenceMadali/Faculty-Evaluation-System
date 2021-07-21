@@ -42,7 +42,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> ID </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> College </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Instructor </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created At </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated At </th>
                                 <th scope="col" class="relative px-6 py-3">
@@ -54,10 +54,16 @@
                                 @forelse ($courses as $course)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $course->id }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $course->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $course->colleges->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $course->created_at->ToFormattedDateString() }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $course->updated_at->ToFormattedDateString() }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $course->course }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $course->instructors->name }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $course->created_at->ToFormattedDateString() }}</div>
+                                        <div class="text-sm text-gray-500">{{ $course->created_at->diffForHumans() }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $course->updated_at->ToFormattedDateString() }}</div>
+                                        <div class="text-sm text-gray-500">{{ $course->updated_at->diffForHumans() }}</div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                     <button wire:click="editOpenModal({{$course->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
                                     </td>
@@ -92,20 +98,20 @@
                 <form wire:submit.prevent="create">
                     <div class="space-y-4">
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">College</label>
-                            <select wire:model="college_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose college --</option>
-                                @foreach ($colleges as $college)
-                                <option value="{{ $college->id }}">{{ $college->name }}</option>
+                            <label class="block text-sm font-medium text-gray-700">Instructor</label>
+                            <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose instructor --</option>
+                                @foreach ($faculties as $instructor)
+                                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="college_id"/>
+                            <x-jet-input-error for="instructor_id"/>
                         </div>
 
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <input wire:model.lazy="name" type="text" placeholder="e.g. Bachelor of Science in Information System" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="name"/>
+                            <input wire:model.lazy="course" type="text" placeholder="e.g. Bachelor of Science in Information System" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="course"/>
                         </div>
                     </div>
                 </form>
@@ -132,20 +138,20 @@
                 <form wire:submit.prevent="update">
                     <div class="space-y-4">
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">College</label>
-                            <select wire:model="college_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- choose college --</option>
-                                @foreach ($colleges as $college)
-                                <option value="{{ $college->id }}">{{ $college->name }}</option>
+                            <label class="block text-sm font-medium text-gray-700">instructor</label>
+                            <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="null">-- choose instructor --</option>
+                                @foreach ($faculties as $instructor)
+                                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
                                 @endforeach
                             </select>
-                            <x-jet-input-error for="college_id"/>
+                            <x-jet-input-error for="instructor_id"/>
                         </div>
 
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Course name</label>
-                            <input wire:model.lazy="name" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="name"/>
+                            <input wire:model.lazy="course" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="course"/>
                         </div>
                     </div>
                 </form>

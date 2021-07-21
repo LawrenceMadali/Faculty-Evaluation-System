@@ -4,7 +4,6 @@ namespace App\Http\Livewire\Administrator\ManageSettings;
 
 use Livewire\Component;
 use App\Models\Semester;
-use App\Models\SchoolYear;
 use Livewire\WithPagination;
 
 class SemesterProperty extends Component
@@ -15,17 +14,14 @@ class SemesterProperty extends Component
     public $createModal = false;
     public $editModal = false;
 
-    protected $rules = [
-        'name' => 'required|unique:semesters'
-    ];
-
     public function create()
     {
-        $this->validate();
+        $validated = $this->validate([
+            'name' => 'required|unique:semesters'
+        ],
+        ['unique' => 'The :input is already exist.']);
 
-        Semester::create([
-            'name' => $this->name
-        ]);
+        Semester::create($validated);
         $this->reset();
         $this->resetValidation();
         $this->emit('added');
@@ -53,8 +49,9 @@ class SemesterProperty extends Component
     public function update()
     {
         $semester = $this->validate([
-            'name' => 'required'
-        ]);
+            'name' => 'required|unique:semesters,name,'.$this->sem
+        ],
+        ['unique' => 'The :input is already exist.']);
         Semester::find($this->sem)->update($semester);
         $this->reset();
         $this->resetValidation();
@@ -72,7 +69,7 @@ class SemesterProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.semester-property',[
-            'sems'  => Semester::paginate(5),
+            'sems'  => Semester::latest('id')->paginate(5),
         ]);
     }
 }

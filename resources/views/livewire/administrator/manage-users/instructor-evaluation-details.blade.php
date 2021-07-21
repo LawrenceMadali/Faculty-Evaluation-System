@@ -10,11 +10,9 @@
                                     <label class="block text-sm font-medium text-gray-700">Instructor</label>
                                     <select wire:model="instructor" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="">-- choose instructor --</option>
-                                        @if (is_array($instructors) || is_object($instructors))
                                             @foreach ($instructors as $instructor)
                                             <option value="{{ $instructor->id }}"> {{ $instructor->name }} </option>
                                             @endforeach
-                                        @endif
                                     </select>
                                     <x-jet-input-error for="name"/>
                                 </div>
@@ -36,11 +34,9 @@
                                     <label class="block text-sm font-medium text-gray-700">College</label>
                                     <select wire:model="college_id" disabled class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="">-- --</option>
-                                        @if (is_array($colleges) || is_object($colleges))
                                             @foreach ($colleges as $college)
                                             <option value="{{ $college->id }}"> {{ $college->name }} </option>
                                             @endforeach
-                                        @endif
                                     </select>
                                 </div>
 
@@ -75,7 +71,7 @@
         </section>
 
         <x-jet-section-border/>
-        {{-- Created evaluate instructor --}}
+
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 space-y-2">
@@ -121,7 +117,7 @@
                                         {{ $user->is_regular === 0 ? 'Part time' : 'Regular' }}</span>
                                     </td>
                                     <td class="flex items-center py-6 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        <button wire:click.prevent="openEditModal({{ $user->id_number }})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
+                                        <button wire:click.prevent="openEditModal({{ $user->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -132,7 +128,7 @@
                 </div>
             </div>
         </div>
-        {{-------------------------------------------------- Edit Modal --------------------------------------------------}}
+        {{-- ------------------------------------------------ Edit Modal ------------------------------------------------ --}}
         <x-jet-dialog-modal wire:model.defer="editModal">
             <x-slot name="title">
                 {{ __('Edit') }}
@@ -140,27 +136,16 @@
 
             <x-slot name="content">
                 <form wire:submit.prevent="update">
-                    <x-jet-validation-errors class="mb-4" />
-                    <div class="space-y-4">
-                        <div class="col-span-6 sm:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Name</label>
-                            <input wire:model.lazy="name" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="name"/>
-                        </div>
-                        <div class="col-span-6 sm:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">Id number</label>
-                            <input wire:model.lazy="id_number" type="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="id_number"/>
-                        </div>
-                        <div class="col-span-6 sm:col-span-2">
-                            <label class="block text-sm font-medium text-gray-700">College</label>
-                            <select wire:model="college_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value=""> - </option>
-                                @foreach ($colleges as $college)
-                                <option value="{{ $college->id }}"> {{ $college->name }} </option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="college_id"/>
+                    <div class="col-span-6">
+                        <div class="flex items-start">
+                            <div class="flex items-center h-5">
+                                <input wire:model="is_regular" value="1" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                                <input wire:model="is_regular" value="0" type="hidden" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label class="font-medium text-gray-700">Status</label>
+                                <p class="text-gray-500">Manage status of selcted instructor.</p>
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -404,7 +404,7 @@ class SetPeerEvaluationPage extends Component
     public function create()
     {
         $this->validate([
-            'faculty'            => 'required',
+            'faculty'            => 'required|unique:spes,user_id,NULL,id,school_year_id,'.$this->school_year.',semester_id,'.$this->semester,
             'school_year'        => 'required',
             'semester'           => 'required',
             'selectedInstructor' => 'required',
@@ -459,10 +459,11 @@ class SetPeerEvaluationPage extends Component
         if (in_array(!auth()->user()->role_id, [1,3])) {
             $instructors = User::where([
                 'college_id' => auth()->user()->college_id,
-                'role_id' => 4,
-            ])->get() ?? null;
+                'role_id' => 4])
+            ->get() ?? null;
         } else {
-            $instructors = User::where('role_id', 4)->get();
+            $instructors = User::where('role_id', 4)
+            ->get();
         }
 
         return view('livewire.administrator.evaluation-page.set-peer-evaluation-page', compact(['instructors']),

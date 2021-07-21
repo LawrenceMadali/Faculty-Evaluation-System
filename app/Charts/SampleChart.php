@@ -18,10 +18,12 @@ class SampleChart extends BaseChart
      */
     public function handler(Request $request): Chartisan
     {
-        $results = Results::count();
+        $results = Results::pluck('total');
+        $id_number = Results::pluck('id_number');
+        // $results;
         return Chartisan::build()
-            ->labels(['First', 'Second', 'Third'])
-            // ->dataset('Sample', [1, 2, 3])
-            ->dataset('Sample 2', [$results]);
+            ->labels(['One', 'Two', 'Three'])
+            ->dataset('Sample', [1, 2, 3])
+            ->dataset('Sample 2', [1 ,2, 3]);
     }
 }

@@ -68,4 +68,19 @@ class StudentRatingForm extends Model
     {
         return $this->belongsTo(Instructor::class, 'instructor_id');
     }
+
+    public function sses()
+    {
+        return $this->belongsTo(Sse::class, 'sse_id');
+    }
+
+    public function semesters()
+    {
+        return $this->belongsTo(Semester::class, 'semester_id');
+    }
+
+    public function school_years()
+    {
+        return $this->belongsTo(SchoolYear::class, 'school_year_id');
+    }
 }
