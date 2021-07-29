@@ -47,6 +47,7 @@ class SetStudentEvaluationPage extends Component
         $instructor = Instructor::find($this->instructor);
         $this->name = $instructor->name ?? null;
         $this->id_number = $instructor->id_number ?? null;
+        $this->college_id = $instructor->college_id ?? null;
     }
     // course
     public $courses = null;
@@ -411,6 +412,7 @@ class SetStudentEvaluationPage extends Component
 
     public $name;
     public $id_number;
+    public $college_id;
     public $semester;
     public $school_year;
     public $year_and_section;
@@ -427,7 +429,7 @@ class SetStudentEvaluationPage extends Component
             'selectedStudents'  => 'required',
         ],[
             'selectedStudents.required' => 'This student number checkbox field is required.',
-            'unique' => 'The :attribute has already exist.'
+            'unique' => ':input has already exist.'
         ]);
 
         $evaluator = Sse::create([
@@ -435,6 +437,7 @@ class SetStudentEvaluationPage extends Component
             'id_number'             => $this->id_number,
             'evaluatee'             => count($this->selectedStudents),
             'course_id'             => $this->course,
+            'college_id'            => $this->college_id,
             'semester_id'           => $this->semester,
             'instructor_id'         => $this->instructor,
             'school_year_id'        => $this->school_year,

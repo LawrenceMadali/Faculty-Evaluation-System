@@ -23,6 +23,7 @@ class Spe extends Model
         'user_id',
         'evaluatee',
         'id_number',
+        'college_id',
         'semester_id',
         'school_year_id',
     ];

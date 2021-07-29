@@ -37,6 +37,8 @@ class InstructorEvaluationDetails extends Component
     {
         $this->validate([
             'name' => 'required|unique:instructors,name',
+        ],[
+            'unique' => ':input is already exist.'
         ]);
 
         Instructor::updateOrCreate([
@@ -67,7 +69,6 @@ class InstructorEvaluationDetails extends Component
         'is_regular' => $this->is_regular
         ]);
         $this->reset();
-        $this->resetValidation();
         $this->emit('updated');
     }
 

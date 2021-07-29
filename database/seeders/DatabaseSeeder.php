@@ -25,5 +25,9 @@ class DatabaseSeeder extends Seeder
         // $this->call(StudentSeeder::class);
         $this->call(StudentRaterFormQuestionairSeeder::class);
         $this->call(PeerRaterFormQuestionairSeeder::class);
+        $this->call(SetPeerEvaluationSeeder::class);
+        $this->call(SetStudentEvaluationSeeder::class);
+        $this->call(SpeUserSeeder::class);
+        $this->call(SseUserSeeder::class);
     }
 }

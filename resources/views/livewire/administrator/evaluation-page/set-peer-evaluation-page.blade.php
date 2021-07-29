@@ -75,7 +75,7 @@
                                     {{ $spe->is_active === 0
                                     ? 'bg-red-100 text-red-800'
                                     : 'bg-green-100 text-green-800'}}">
-                                    {{ $spe->is_active === 0 ? 'Disabled' : 'Enable' }}
+                                    {{ $spe->is_active === 0 ? 'Disabled' : 'Enabled' }}
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
@@ -161,6 +161,7 @@
                                                 <div class="hidden">
                                                     <input wire:model="name" type="text">
                                                     <input wire:model="id_number" type="text">
+                                                    <input wire:model="college_id" type="text">
                                                 </div>
                                             </div>
                                         </div>

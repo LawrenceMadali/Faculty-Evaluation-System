@@ -20,6 +20,7 @@ class Sse extends Model
         'id_number',
         'evaluatee',
         'course_id',
+        'college_id',
         'semester_id',
         'instructor_id',
         'school_year_id',

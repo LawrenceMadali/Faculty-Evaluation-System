@@ -159,6 +159,7 @@
                                                 <div class="hidden">
                                                     <input wire:model="name" type="text">
                                                     <input wire:model="id_number" type="text">
+                                                    <input wire:model="college_id" type="text">
                                                 </div>
 
                                                 @if (!empty($courses) && !empty($instructor))

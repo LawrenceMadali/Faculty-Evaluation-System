@@ -15,6 +15,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
 use App\Imports\UserDataImport;
+use App\Imports\UserUpdate;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ManageAccounts extends Component
@@ -30,6 +31,7 @@ class ManageAccounts extends Component
     public $createModal = false;
     public $editModal = false;
     public $importModal = false;
+    public $UserImportUpdate = false;
     public $viewModal = false;
 
     public $role_id;
@@ -192,11 +194,28 @@ class ManageAccounts extends Component
             'studentFile' => 'required|mimes:xlsx, xls'
         ]);
 
-        Excel::import(new UserDataImport, $this->studentFile);
-        $this->reset();
+        $import = new UserDataImport();
+        $import->import($this->studentFile);
+        if ($import->failures()->isNotEmpty()) {
+                session()->flash('errorMessage', $import->failures());
+        }
+        else{
+            $this->reset();
+            $this->emit('import');
+        }
         $this->resetValidation();
-        $this->emit('import');
+    }
 
+    public $updateUsers;
+
+    public function importUpdate()
+    {
+        $this->validate([
+            'updateUsers' => 'required|mimes:xlsx, xls'
+        ]);
+
+        $updateImport = new UserUpdate();
+        $updateImport->import($this->updateUsers);
     }
 
     public function render()

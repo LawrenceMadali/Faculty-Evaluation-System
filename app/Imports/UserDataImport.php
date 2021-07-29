@@ -7,6 +7,8 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\Importable;
+use Maatwebsite\Excel\Concerns\SkipsErrors;
+use Maatwebsite\Excel\Concerns\SkipsOnError;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\SkipsFailures;
 use Maatwebsite\Excel\Concerns\SkipsOnFailure;
@@ -14,11 +16,16 @@ use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\WithValidation;
 use Validator;
 
-class UserDataImport implements WithHeadingRow, SkipsOnFailure, ToCollection
-
+class UserDataImport implements WithHeadingRow,
+    // ToCollection,
+    WithValidation,
+    ToModel,
+    SkipsOnError,
+    SkipsOnFailure
 {
-    use SkipsFailures;
+    use SkipsErrors;
     use Importable;
+    use SkipsFailures;
 
     /**
     * @param array $row
@@ -26,39 +33,36 @@ class UserDataImport implements WithHeadingRow, SkipsOnFailure, ToCollection
     * @return \Illuminate\Database\Eloquent\Model|null
     */
 
-    public function collection(Collection $rows)
+    public function model(array $row)
     {
-        $rules = [
-            '*.name'              => 'required',
-            '*.email'             => 'required|email',
+        return new User([
+            'name'                  => $row['name'],
+            'email'                 => $row['email'],
+            'role_id'               => $row['role_id'],
+            'password'              => Hash::make('password'),
+            'id_number'             => $row['id_number'],
+            'college_id'            => $row['college_id'] ?? null,
+            'year_and_section_id'   => $row['year_and_section_id'] ?? null,
+        ]);
+    }
+
+    public function rules(): array
+    {
+        return [
+            '*.name'              => 'required|unique:users',
+            '*.email'             => 'required|unique:users|email',
             '*.role_id'           => 'required',
             '*.password'          => 'required',
-            '*.id_number'         => 'required',
+            '*.id_number'         => 'required|unique:users',
         ];
+    }
 
-        $messages = [
-            '*.name.required' => 'The row :attribute field is required.',
-            '*.email.required' => 'The row :attribute field is required.',
-            '*.role_id.required' => 'The row :attribute field is required.',
-            '*.password.required' => 'The row :attribute field is required.',
-            '*.id_number.required' => 'The row :attribute field is required.',
+    public function customValidationMessages()
+    {
+        return [
+            'name.unique'       => ':input is already exist',
+            'email.unique'      => ':input is already exist',
+            'id_number.unique'  => ':input is already exist',
         ];
-
-        Validator::make($rows->toArray(), $rules, $messages)->validate();
-
-        foreach ($rows as $row)
-        {
-            User::where('id_number', $row['id_number'])
-            ->updateOrCreate([
-                'id_number'             => $row['id_number'],
-            ],[
-                'name'                  => $row['name'],
-                'email'                 => $row['email'],
-                'role_id'               => $row['role_id'],
-                'password'              => Hash::make($row['password']),
-                'college_id'            => $row['college_id'] ?? null,
-                'year_and_section_id'   => $row['year_and_section_id'] ?? null,
-            ]);
-        }
     }
 }

@@ -17,6 +17,7 @@ class CreateSsesTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('id_number');
+            $table->foreignId('college_id')->constrained();
             $table->foreignId('instructor_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
             $table->foreignId('semester_id')->constrained();

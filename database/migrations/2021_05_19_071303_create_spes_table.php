@@ -17,6 +17,7 @@ class CreateSpesTable extends Migration
             $table->id();
             $table->string('name');
             $table->bigInteger('id_number');
+            $table->foreignId('college_id')->constrained();
             $table->foreignId('user_id')->constrained();
             $table->foreignId('semester_id')->constrained();
             $table->foreignId('school_year_id')->constrained();

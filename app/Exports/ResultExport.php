@@ -22,9 +22,8 @@ ShouldAutoSize, WithHeadings, WithMapping,
 WithColumnFormatting, WithStyles, WithEvents,
 WithColumnWidths
 {
-    public $semester;
-    // public $count;
-    public $school_year;
+    // public $semester;
+    // public $school_year;
 
     public function __construct($resultId)
     {

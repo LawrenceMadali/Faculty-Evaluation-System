@@ -397,6 +397,7 @@ class SetPeerEvaluationPage extends Component
 
     public $name;
     public $id_number;
+    public $college_id;
     public $school_year;
     public $semester;
     public $year_and_section;
@@ -410,16 +411,18 @@ class SetPeerEvaluationPage extends Component
             'selectedInstructor' => 'required',
         ],[
             'selectedInstructor.required' => 'The instructor number checkbox field is required.',
-            'faculty.required' => 'The instructor field is required.'
+            'faculty.required' => 'The instructor field is required.',
+            'unique' => ':input is already exist.'
         ]);
 
         $evaluator = Spe::create([
-            'school_year_id'    => $this->school_year,
-            'semester_id'       => $this->semester,
-            'evaluatee'         => count($this->selectedInstructor),
-            'user_id'           => $this->faculty,
             'name'              => $this->name,
+            'user_id'           => $this->faculty,
             'id_number'         => $this->id_number,
+            'evaluatee'         => count($this->selectedInstructor),
+            'college_id'        => $this->college_id,
+            'semester_id'       => $this->semester,
+            'school_year_id'    => $this->school_year,
         ]);
         $this->emit('created');
         $evaluator->users()->sync($this->selectedInstructor);
@@ -434,8 +437,9 @@ class SetPeerEvaluationPage extends Component
         $this->resetSelect();
 
         $name = User::find($this->faculty);
-        $this->name = $name->name ?? null;
-        $this->id_number = $name->id_number ?? null;
+        $this->name         = $name->name ?? null;
+        $this->id_number    = $name->id_number ?? null;
+        $this->college_id   = $name->college_id ?? null;
     }
 
     public function openEditModal()
@@ -470,7 +474,7 @@ class SetPeerEvaluationPage extends Component
         [
             'evaluatees'        => User::where('role_id',4)->get(),
             'instructorCount'   => User::where('role_id', 4)
-            ->where('id', '!=', $this->faculty)
+                                ->where('id', '!=', $this->faculty)
                                 ->count(),
             'sems'              => Semester::all(),
             'schoolYears'       => SchoolYear::all(),
