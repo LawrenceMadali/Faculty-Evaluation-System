@@ -15,10 +15,12 @@ class CreateStudentRatingFormsTable extends Migration
     {
         Schema::create('student_rating_forms', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->bigInteger('id_number');
             $table->foreignId('sse_id')->constrained();
+            $table->foreignId('college_id')->constrained();
             $table->foreignId('semester_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
-            $table->bigInteger('id_number');
             $table->bigInteger('evaluator_number');
             $table->integer('commitment_1');
             $table->integer('commitment_2');

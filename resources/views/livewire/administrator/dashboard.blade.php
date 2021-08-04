@@ -1,5 +1,5 @@
 <div>
-    <div class="space-y-5 mt-5">
+    <div class="mt-5">
         <section class="text-gray-600 bg-white rounded-md body-font">
             <div class="container px-5 py-10 mx-auto">
                 <div class="flex flex-wrap -m-4 text-center">
@@ -26,21 +26,38 @@
                 </div>
             </div>
         </section>
-
-         <!-- Chart's container -->
-        <div id="chart" style="height: 300px;"></div>
-
-    @push('chart.js')
-        <!-- Your application script -->
-        <script>
-        const chart = new Chartisan({
-            el: '#chart',
-            url: "@chart('sample_chart')",
-            hooks: new ChartisanHooks()
-            .beginAtZero()
-            .colors(),
-        });
-        </script>
-    @endpush
+        <x-jet-section-border/>
+        <div class="space-y-56">
+            @if (auth()->user()->college_id == 1 || in_array(auth()->user()->role_id, [1,3,6]))
+            <div class="space-y-56">
+                <div>
+                    @livewire('administrator.charts.college-of-computer-studies.first-semester')
+                </div>
+                <div>
+                    @livewire('administrator.charts.college-of-computer-studies.second-semester')
+                </div>
+            </div>
+            @endif
+            @if (auth()->user()->college_id == 2 || in_array(auth()->user()->role_id, [1,3,6]))
+            <div class="space-y-56">
+                <div>
+                    @livewire('administrator.charts.college-of-accountancy.first-semester')
+                </div>
+                <div>
+                    @livewire('administrator.charts.college-of-accountancy.second-semester')
+                </div>
+            </div>
+            @endif
+            @if (auth()->user()->college_id == 3 || in_array(auth()->user()->role_id, [1,3,6]))
+            <div class="space-y-56">
+                <div>
+                    @livewire('administrator.charts.college-of-business.first-semester')
+                </div>
+                <div>
+                    @livewire('administrator.charts.college-of-business.second-semester')
+                </div>
+            </div>
+            @endif
+        </div>
     </div>
 </div>

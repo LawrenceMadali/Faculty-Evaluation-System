@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Spatie\Activitylog\LogOptions;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,9 +13,12 @@ class Results extends Model
     use LogsActivity;
 
     protected $fillable = [
+        'name',
         'ipcr',
         'total',
         'id_number',
+        'is_release',
+        'college_id',
         'supervisor',
         'semester_id',
         'instructor_id',
@@ -45,5 +47,10 @@ class Results extends Model
     public function school_years()
     {
         return $this->belongsTo(SchoolYear::class, 'school_year_id');
+    }
+
+    public function colleges()
+    {
+        return $this->belongsTo(College::class, 'college_id');
     }
 }

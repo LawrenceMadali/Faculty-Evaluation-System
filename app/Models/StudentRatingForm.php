@@ -41,14 +41,15 @@ class StudentRatingForm extends Model
         'knowledge_of_subject_total',
         'teaching_for_independent_learning_total',
         'management_of_learning_total',
+        'name',
         'total',
         'scale',
         'sse_id',
         'comments',
         'id_number',
-        'evaluator_number',
         'semester_id',
         'school_year_id',
+        'evaluator_number',
     ];
 
     public function getActivitylogOptions(): LogOptions

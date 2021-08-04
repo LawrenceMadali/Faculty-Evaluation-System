@@ -29,5 +29,8 @@ class DatabaseSeeder extends Seeder
         $this->call(SetStudentEvaluationSeeder::class);
         $this->call(SpeUserSeeder::class);
         $this->call(SseUserSeeder::class);
+        $this->call(PrfSeeder::class);
+        $this->call(SrfSeeder::class);
+        $this->call(ResultSeeder::class);
     }
 }

@@ -108,6 +108,10 @@
                             <label for="">Id number</label>
                             <input wire:model="id_number" type="text">
                         </div>
+                        <div>
+                            <label for="">Name</label>
+                            <input wire:model="name" type="text">
+                        </div>
                     </div>
                     {{-------------------------------------------------- Commitment --------------------------------------------------}}
                     <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">

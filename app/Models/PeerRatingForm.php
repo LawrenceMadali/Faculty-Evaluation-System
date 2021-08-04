@@ -42,14 +42,15 @@ class PeerRatingForm extends Model
         'knowledge_of_subject_total',
         'teaching_for_independent_learning_total',
         'management_of_learning_total',
-        'total',
-        'comments',
-        'spe_id',
         'scale',
+        'name',
+        'total',
+        'spe_id',
+        'comments',
         'id_number',
-        'evaluator_number',
         'semester_id',
         'school_year_id',
+        'evaluator_number',
     ];
 
     public function getActivitylogOptions(): LogOptions
