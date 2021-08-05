@@ -28,8 +28,8 @@ class AuditTrailExport implements
     {
         $count = Activity::count();
 
-        $sheet->getStyle('A1:F'. $count+1)->getAlignment()->setVertical('center');
-        $sheet->getStyle('A1:F'. $count+1)->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A1:F'. $count+2)->getAlignment()->setVertical('center');
+        $sheet->getStyle('A1:F'. $count+2)->getAlignment()->setHorizontal('center');
 
         return [
             1 => [ 'font' => ['bold' => true,]],

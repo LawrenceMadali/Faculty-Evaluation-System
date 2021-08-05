@@ -12,6 +12,7 @@ class ReportGroupList extends Model
     protected $fillable = [
         'semester_id',
         'school_year_id',
+        'college_id',
     ];
 
     public function semesters()
@@ -22,5 +23,10 @@ class ReportGroupList extends Model
     public function school_years()
     {
         return $this->belongsTo(SchoolYear::class, 'school_year_id');
+    }
+
+    public function colleges()
+    {
+        return $this->belongsTo(College::class, 'college_id');
     }
 }

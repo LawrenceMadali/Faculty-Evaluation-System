@@ -117,6 +117,7 @@ class ManageResult extends Component
         ReportGroupList::updateOrCreate([
             'semester_id'   => $this->semester_id,
             'school_year_id'=> $this->school_year_id,
+            'college_id'    => $this->college_id,
         ]);
         $this->emit('created');
         $this->reset();

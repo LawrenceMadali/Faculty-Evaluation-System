@@ -33,6 +33,6 @@ class SchoolYearSeeder extends Seeder
         SchoolYear::create(['name'=>'2036 - 2037']);
         SchoolYear::create(['name'=>'2037 - 2038']);
         SchoolYear::create(['name'=>'2038 - 2039']);
-        SchoolYear::create(['name'=>'2049 - 2040']);
+        SchoolYear::create(['name'=>'2039 - 2040']);
     }
 }

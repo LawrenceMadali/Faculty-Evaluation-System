@@ -16,6 +16,7 @@ class CreateReportGroupListsTable extends Migration
         Schema::create('report_group_lists', function (Blueprint $table) {
             $table->id();
             $table->foreignId('semester_id')->constrained();
+            $table->foreignId('college_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
             $table->timestamps();
         });

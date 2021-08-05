@@ -22,9 +22,6 @@ ShouldAutoSize, WithHeadings, WithMapping,
 WithColumnFormatting, WithStyles, WithEvents,
 WithColumnWidths
 {
-    // public $semester;
-    // public $school_year;
-
     public function __construct($resultId)
     {
         $this->resultId = $resultId;
