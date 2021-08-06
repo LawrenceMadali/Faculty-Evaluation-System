@@ -1,9 +1,6 @@
 <table>
     <thead>
         <tr>
-            <th colspan="6">Date Exported: {{ $currentTime }}</th>
-        </tr>
-        <tr>
             <th>ID</th>
             <th>Log Name</th>
             <th>Description</th>
@@ -41,6 +38,9 @@
                 </td>
             </tr>
         @endforeach
+            <tr>
+                <td colspan="3">Date Exported: {{ $currentTime }}</td>
+                <td colspan="3">Exported By: {{ auth()->user()->name }} </td>
+            </tr>
     </tbody>
 </table>
-                

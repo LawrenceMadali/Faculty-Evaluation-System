@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class StudentQuestionairForm extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'name',
@@ -39,4 +42,12 @@ class StudentQuestionairForm extends Model
         'D_Question_4',
         'D_Question_5'
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name'])
+        ->useLogName('Student Questionair')
+        ->setDescriptionForEvent(fn(string $eventName) => "The questionair has been {$eventName} by: ".Auth::user()->name);
+    }
 }

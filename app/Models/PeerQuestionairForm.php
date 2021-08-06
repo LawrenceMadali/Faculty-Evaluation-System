@@ -4,10 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
+use Str;
 
 class PeerQuestionairForm extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'name',
@@ -39,4 +43,12 @@ class PeerQuestionairForm extends Model
         'D_Question_4',
         'D_Question_5'
     ];
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name'])
+        ->useLogName('Peer to Peer Questionair')
+        ->setDescriptionForEvent(fn(string $eventName) => "The questionair has been {$eventName} by: ".Auth::user()->name);
+    }
 }

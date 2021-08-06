@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use App\Models\CourseCode;
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Instructor extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'name',
@@ -37,5 +41,13 @@ class Instructor extends Model
     public function prfs()
     {
         return $this->belongsTo(PeerRatingForm::class, 'instructor_id');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['name'])
+        ->useLogName('Register Instructor')
+        ->setDescriptionForEvent(fn(string $eventName) => "New instructor has been register by: ".Auth::user()->name);
     }
 }

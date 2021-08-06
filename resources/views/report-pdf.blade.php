@@ -1,9 +1,6 @@
 <table>
     <thead>
         <tr>
-            <th colspan="10">Date Exported: {{ $currentDate }}</th>
-        </tr>
-        <tr>
             <th>Name</th>
             <th>Id Number</th>
             <th>College</th>
@@ -32,6 +29,10 @@
             <td>{{ $report->total }}</td>
             <td>{{ $report->created_at }}</td>
         </tr>
-    @endforeach
+        @endforeach
+        <tr>
+            <td colspan="6">Date Exported: {{ $currentDate }}</td>
+            <td colspan="5">Exported By: {{ auth()->user()->name }} </td>
+        </tr>
     </tbody>
 </table>

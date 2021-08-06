@@ -20,7 +20,7 @@ class AuditTrailExport implements
     {
         return view('audit-trail-pdf', [
             'activities' => Activity::latest('id')->get(),
-            'currentTime' => now(),
+            'currentTime' => now()->format('F d, Y h:ia'),
         ]);
     }
 
@@ -32,8 +32,7 @@ class AuditTrailExport implements
         $sheet->getStyle('A1:F'. $count+2)->getAlignment()->setHorizontal('center');
 
         return [
-            1 => [ 'font' => ['bold' => true,]],
-            2 => [ 'font' => ['bold' => true,]],
+            1 => [ 'font' => ['bold' => true,]]
         ];
     }
 

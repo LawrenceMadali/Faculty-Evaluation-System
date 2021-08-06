@@ -27,7 +27,7 @@ class ResultsFactory extends Factory
             'college_id'                => 1,
             'semester_id'               => 1,
             'instructor_id'             => rand(1,4),
-            'school_year_id'            => $this->faker->numberBetween(1,4),
+            'school_year_id'            => 1,
             'student_evaluation_result' => rand(1, 5),
             'peer_evaluation_result'    => rand(1, 5),
             'supervisor'                => rand(1, 5),

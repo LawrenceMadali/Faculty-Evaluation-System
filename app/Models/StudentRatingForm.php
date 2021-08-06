@@ -57,7 +57,7 @@ class StudentRatingForm extends Model
         return LogOptions::defaults()
         ->logOnly(['evaluator_number'])
         ->useLogName('Student Rating Form')
-        ->setDescriptionForEvent(fn(string $eventName) => "This user has been {$eventName} an evaluation");
+        ->setDescriptionForEvent(fn(string $eventName) => "New evaluation has been {$eventName}");
     }
 
     public function user()

@@ -58,12 +58,12 @@
                     <div>
                         {{ __('Report') }}
                     </div>
-                    
+
                     @if (!$count == 0)
                     <div class="px-2 py-1 rounded-md bg-blue-200 text-blue-700 text-sm">
                         <span>Selected: {{ $count }} </span>
                     </div>
-                    @endif 
+                    @endif
                 </div>
 
             </x-slot>

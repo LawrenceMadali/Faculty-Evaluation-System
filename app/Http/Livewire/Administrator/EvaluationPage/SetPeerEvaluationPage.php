@@ -472,7 +472,7 @@ class SetPeerEvaluationPage extends Component
 
         return view('livewire.administrator.evaluation-page.set-peer-evaluation-page', compact(['instructors']),
         [
-            'evaluatees'        => User::where('role_id',4)->get(),
+            'evaluatees'        => User::where('role_id', 4)->get(),
             'instructorCount'   => User::where('role_id', 4)
                                 ->where('id', '!=', $this->faculty)
                                 ->count(),

@@ -30,8 +30,9 @@ class Results extends Model
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()
-        ->logOnly(['total']);
-        // ->setDescriptionForEvent(fn(string $eventName) => '');
+        ->logOnly(['name'])
+        ->useLogName('Manage Results')
+        ->setDescriptionForEvent(fn(string $eventName) => "New result has been {$eventName} by: ".Auth::user()->name);
     }
 
     public function instructors()

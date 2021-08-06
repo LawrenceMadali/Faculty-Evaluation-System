@@ -3,12 +3,16 @@
 namespace App\Models;
 
 use App\Models\Course;
+use Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Activitylog\LogOptions;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class CourseCode extends Model
 {
     use HasFactory;
+    use LogsActivity;
 
     protected $fillable = [
         'course_id',
@@ -30,5 +34,13 @@ class CourseCode extends Model
     public function year_and_sections()
     {
         return $this->belongsTo(YearAndSection::class, 'year_and_section_id');
+    }
+
+    public function getActivitylogOptions(): LogOptions
+    {
+        return LogOptions::defaults()
+        ->logOnly(['course_code'])
+        ->useLogName('Course Code')
+        ->setDescriptionForEvent(fn(string $eventName) => "The course code has been {$eventName} by: ".Auth::user()->name);
     }
 }

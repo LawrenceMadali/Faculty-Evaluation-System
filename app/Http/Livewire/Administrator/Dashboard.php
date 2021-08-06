@@ -14,6 +14,7 @@ class Dashboard extends Component
             'secretaries'   => User::where('role_id', 3)->count(),
             'instructors'   => User::where('role_id', 4)->count(),
             'students'      => User::where('role_id', 5)->count(),
+            'hrs'           => User::where('role_id', 6)->count(),
             'users'         => User::count(),
         ]);
     }
