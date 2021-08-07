@@ -69,13 +69,13 @@
 
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
-                                <button wire:click="openViewModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900">View</button>
-
-                                @if (!$count >= 1 || $q->is_enabled == 1)
-                                <button wire:click="editOpenModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline">Edit</button>
+                                <button wire:click="openViewModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 italic">View</button>
+                                @if ($q->is_enabled == 0)
+                                <button wire:click="openStatusModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline italic">Enable</button>
                                 @else
-                                <button wire:click="$toggle('warningModal')" class="text-indigo-600 hover:text-indigo-900 hover:underline">Edit</button>
+                                <button wire:click="openStatusModal({{ $q->id }})" class="text-red-600 hover:text-red-900 hover:underline italic">Disable</button>
                                 @endif
+                                {{-- <button wire:click="openEditModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline italic">Edit</button> --}}
 
                             </td>
                             @empty
@@ -95,10 +95,10 @@
             </div>
             </div>
         </div>
-        {{-------------------------------------------------- Create Questionair Open Modal --------------------------------------------------}}
+        {{-------------------------------------------------- Create Questionair --------------------------------------------------}}
         <x-jet-dialog-modal wire:model.defer="openModal">
             <x-slot name="title">
-                Create new questionair
+                Create New Questionair
             </x-slot>
             <x-slot name="content">
                 <div class="mt-10 sm:mt-0">
@@ -143,31 +143,31 @@
                                 @elseif ($currentPage === 2)
                                     <div class="col-span-6">
                                     <x-jet-label for="A_Question_1" value="{{ __('Question number 1') }}" />
-                                    <x-jet-input wire:model.lazy="A_Question_1" id="A_Question_1"  name="A_Question_1" type="text"  class="block mt-1 w-full" :value="old('A_Question_1')" />
+                                    <x-jet-input wire:model.lazy="A_Question_1" id="A_Question_1"  name="A_Question_1" type="text" class="block mt-1 w-full" :value="old('A_Question_1')" />
                                     <x-jet-input-error for="A_Question_1"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="A_Question_2" value="{{ __('Question number 2') }}" />
-                                    <x-jet-input wire:model.lazy="A_Question_2" id="A_Question_2"  name="A_Question_2" type="text"  class="block mt-1 w-full" :value="old('A_Question_2')" />
+                                    <x-jet-input wire:model.lazy="A_Question_2" id="A_Question_2"  name="A_Question_2" type="text" class="block mt-1 w-full" :value="old('A_Question_2')" />
                                     <x-jet-input-error for="A_Question_2"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="A_Question_3" value="{{ __('Question number 3') }}" />
-                                    <x-jet-input wire:model.lazy="A_Question_3" id="A_Question_3"  name="A_Question_3" type="text"  class="block mt-1 w-full" :value="old('A_Question_3')" />
+                                    <x-jet-input wire:model.lazy="A_Question_3" id="A_Question_3"  name="A_Question_3" type="text" class="block mt-1 w-full" :value="old('A_Question_3')" />
                                     <x-jet-input-error for="A_Question_3"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="A_Question_4" value="{{ __('Question number 4') }}" />
-                                    <x-jet-input wire:model.lazy="A_Question_4" id="A_Question_4"  name="A_Question_4" type="text"  class="block mt-1 w-full" :value="old('A_Question_4')" />
+                                    <x-jet-input wire:model.lazy="A_Question_4" id="A_Question_4"  name="A_Question_4" type="text" class="block mt-1 w-full" :value="old('A_Question_4')" />
                                     <x-jet-input-error for="A_Question_4"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="A_Question_5" value="{{ __('Question number 5') }}" />
-                                    <x-jet-input wire:model.lazy="A_Question_5" id="A_Question_5"  name="A_Question_5" type="text"  class="block mt-1 w-full" :value="old('A_Question_5')" />
+                                    <x-jet-input wire:model.lazy="A_Question_5" id="A_Question_5"  name="A_Question_5" type="text" class="block mt-1 w-full" :value="old('A_Question_5')" />
                                     <x-jet-input-error for="A_Question_5"/>
                                     </div>
 
@@ -175,31 +175,31 @@
                                 {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
                                     <div class="col-span-6">
                                     <x-jet-label for="B_Question_1" value="{{ __('Question number 1') }}" />
-                                    <x-jet-input wire:model.lazy="B_Question_1" id="B_Question_1"  name="B_Question_1" type="text"  class="block mt-1 w-full" :value="old('B_Question_1')" />
+                                    <x-jet-input wire:model.lazy="B_Question_1" id="B_Question_1"  name="B_Question_1" type="text" class="block mt-1 w-full" :value="old('B_Question_1')" />
                                     <x-jet-input-error for="B_Question_1"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="B_Question_2" value="{{ __('Question number 2') }}" />
-                                    <x-jet-input wire:model.lazy="B_Question_2" id="B_Question_2"  name="B_Question_2" type="text"  class="block mt-1 w-full" :value="old('B_Question_2')" />
+                                    <x-jet-input wire:model.lazy="B_Question_2" id="B_Question_2"  name="B_Question_2" type="text" class="block mt-1 w-full" :value="old('B_Question_2')" />
                                     <x-jet-input-error for="B_Question_2"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="B_Question_3" value="{{ __('Question number 3') }}" />
-                                    <x-jet-input wire:model.lazy="B_Question_3" id="B_Question_3"  name="B_Question_3" type="text"  class="block mt-1 w-full" :value="old('B_Question_3')" />
+                                    <x-jet-input wire:model.lazy="B_Question_3" id="B_Question_3"  name="B_Question_3" type="text" class="block mt-1 w-full" :value="old('B_Question_3')" />
                                     <x-jet-input-error for="B_Question_3"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="B_Question_4" value="{{ __('Question number 4') }}" />
-                                    <x-jet-input wire:model.lazy="B_Question_4" id="B_Question_4"  name="B_Question_4" type="text"  class="block mt-1 w-full" :value="old('B_Question_4')" />
+                                    <x-jet-input wire:model.lazy="B_Question_4" id="B_Question_4"  name="B_Question_4" type="text" class="block mt-1 w-full" :value="old('B_Question_4')" />
                                     <x-jet-input-error for="B_Question_4"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="B_Question_5" value="{{ __('Question number 5') }}" />
-                                    <x-jet-input wire:model.lazy="B_Question_5" id="B_Question_5"  name="B_Question_5" type="text"  class="block mt-1 w-full" :value="old('B_Question_5')" />
+                                    <x-jet-input wire:model.lazy="B_Question_5" id="B_Question_5"  name="B_Question_5" type="text" class="block mt-1 w-full" :value="old('B_Question_5')" />
                                     <x-jet-input-error for="B_Question_5"/>
                                     </div>
 
@@ -207,31 +207,31 @@
                                 {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
                                     <div class="col-span-6">
                                     <x-jet-label for="C_Question_1" value="{{ __('Question number 1') }}" />
-                                    <x-jet-input wire:model.lazy="C_Question_1" id="C_Question_1"  name="C_Question_1" type="text"  class="block mt-1 w-full" :value="old('C_Question_1')" />
+                                    <x-jet-input wire:model.lazy="C_Question_1" id="C_Question_1"  name="C_Question_1" type="text" class="block mt-1 w-full" :value="old('C_Question_1')" />
                                     <x-jet-input-error for="C_Question_1"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="C_Question_2" value="{{ __('Question number 2') }}" />
-                                    <x-jet-input wire:model.lazy="C_Question_2" id="C_Question_2"  name="C_Question_2" type="text"  class="block mt-1 w-full" :value="old('C_Question_2')" />
+                                    <x-jet-input wire:model.lazy="C_Question_2" id="C_Question_2"  name="C_Question_2" type="text" class="block mt-1 w-full" :value="old('C_Question_2')" />
                                     <x-jet-input-error for="C_Question_2"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="C_Question_3" value="{{ __('Question number 3') }}" />
-                                    <x-jet-input wire:model.lazy="C_Question_3" id="C_Question_3"  name="C_Question_3" type="text"  class="block mt-1 w-full" :value="old('C_Question_3')" />
+                                    <x-jet-input wire:model.lazy="C_Question_3" id="C_Question_3"  name="C_Question_3" type="text" class="block mt-1 w-full" :value="old('C_Question_3')" />
                                     <x-jet-input-error for="C_Question_3"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="C_Question_4" value="{{ __('Question number 4') }}" />
-                                    <x-jet-input wire:model.lazy="C_Question_4" id="C_Question_4"  name="C_Question_4" type="text"  class="block mt-1 w-full" :value="old('C_Question_4')" />
+                                    <x-jet-input wire:model.lazy="C_Question_4" id="C_Question_4"  name="C_Question_4" type="text" class="block mt-1 w-full" :value="old('C_Question_4')" />
                                     <x-jet-input-error for="C_Question_4"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="C_Question_5" value="{{ __('Question number 5') }}" />
-                                    <x-jet-input wire:model.lazy="C_Question_5" id="C_Question_5"  name="C_Question_5" type="text"  class="block mt-1 w-full" :value="old('C_Question_5')" />
+                                    <x-jet-input wire:model.lazy="C_Question_5" id="C_Question_5"  name="C_Question_5" type="text" class="block mt-1 w-full" :value="old('C_Question_5')" />
                                     <x-jet-input-error for="C_Question_5"/>
                                     </div>
 
@@ -239,31 +239,31 @@
                                 {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
                                     <div class="col-span-6">
                                     <x-jet-label for="D_Question_1" value="{{ __('Question number 1') }}" />
-                                    <x-jet-input wire:model.lazy="D_Question_1" id="D_Question_1"  name="D_Question_1" type="text"  class="block mt-1 w-full" :value="old('D_Question_1')" />
+                                    <x-jet-input wire:model.lazy="D_Question_1" id="D_Question_1"  name="D_Question_1" type="text" class="block mt-1 w-full" :value="old('D_Question_1')" />
                                     <x-jet-input-error for="D_Question_1"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="D_Question_2" value="{{ __('Question number 2') }}" />
-                                    <x-jet-input wire:model.lazy="D_Question_2" id="D_Question_2"  name="D_Question_2" type="text"  class="block mt-1 w-full" :value="old('D_Question_2')" />
+                                    <x-jet-input wire:model.lazy="D_Question_2" id="D_Question_2"  name="D_Question_2" type="text" class="block mt-1 w-full" :value="old('D_Question_2')" />
                                     <x-jet-input-error for="D_Question_2"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="D_Question_3" value="{{ __('Question number 3') }}" />
-                                    <x-jet-input wire:model.lazy="D_Question_3" id="D_Question_3"  name="D_Question_3" type="text"  class="block mt-1 w-full" :value="old('D_Question_3')" />
+                                    <x-jet-input wire:model.lazy="D_Question_3" id="D_Question_3"  name="D_Question_3" type="text" class="block mt-1 w-full" :value="old('D_Question_3')" />
                                     <x-jet-input-error for="D_Question_3"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="D_Question_4" value="{{ __('Question number 4') }}" />
-                                    <x-jet-input wire:model.lazy="D_Question_4" id="D_Question_4"  name="D_Question_4" type="text"  class="block mt-1 w-full" :value="old('D_Question_4')" />
+                                    <x-jet-input wire:model.lazy="D_Question_4" id="D_Question_4"  name="D_Question_4" type="text" class="block mt-1 w-full" :value="old('D_Question_4')" />
                                     <x-jet-input-error for="D_Question_4"/>
                                     </div>
 
                                     <div class="col-span-6">
                                     <x-jet-label for="D_Question_5" value="{{ __('Question number 5') }}" />
-                                    <x-jet-input wire:model.lazy="D_Question_5" id="D_Question_5"  name="D_Question_5" type="text"  class="block mt-1 w-full" :value="old('D_Question_5')" />
+                                    <x-jet-input wire:model.lazy="D_Question_5" id="D_Question_5"  name="D_Question_5" type="text" class="block mt-1 w-full" :value="old('D_Question_5')" />
                                     <x-jet-input-error for="D_Question_5"/>
                                     </div>
                                 @endif
@@ -298,27 +298,223 @@
             </x-slot>
         </x-jet-dialog-modal>
 
-        {{-------------------------------------------------- Edit Status Modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="editModal">
+        {{-------------------------------------------------- Edit Questionair --------------------------------------------------}}
+        <x-jet-dialog-modal maxWidth="4xl" wire:model.defer="editModal">
             <x-slot name="title">
-                {{ __('Edit Status') }}
+                Edit Questionair
+            </x-slot>
+            <x-slot name="content">
+                <div class="mt-10 sm:mt-0">
+                    <div class="md:col-span-1">
+                        <div class="px-4 sm:px-0">
+                        <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $pages[$currentPage]['heading'] }}</h3>
+                        <p class="mt-1 text-sm text-gray-600">
+                            {{ $pages[$currentPage]['subHeading'] }}
+                        </p>
+                        </div>
+                    </div>
+                    <div class="mt-5 md:mt-0 md:col-span-2">
+                        <form wire:submit.prevent="create">
+                            <div class="shadow overflow-hidden sm:rounded-md">
+                                <div class="px-4 py-5 bg-white sm:p-6">
+                                    <div class="grid grid-cols-6 gap-2">
+                                        @if ($currentPage === 1)
+                                        <div class="col-span-6">
+                                            <x-jet-validation-errors class="mb-4" />
+                                        </div>
+                                        {{-- <div class="col-span-6 sm:col-span-3">
+                                            <label class="block text-sm font-medium text-gray-700 pr-2">School year</label>
+                                            <div class=" flex items-center">
+                                                <select wire:model="school_year" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                    <option value="null">-- choose school year --</option>
+                                                    @foreach ($schoolYears as $Sy)
+                                                    <option value="{{ $Sy->name }}">{{ $Sy->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-6 sm:col-span-3">
+                                            <label class="block text-sm font-medium text-gray-700 pr-2">Semester</label>
+                                            <select wire:model="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                                <option value="null">-- choose semester --</option>
+                                                @foreach ($sems as $sem)
+                                                <option value="{{ $sem->name }}">{{ $sem->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        @elseif ($currentPage === 2) --}}
+                                            <div class="col-span-6">
+                                            <x-jet-label for="A_Question_1" value="{{ __('Question number 1') }}" />
+                                            <x-jet-input wire:model.lazy="A_Question_1" id="A_Question_1"  name="A_Question_1" type="text" class="block mt-1 w-full" :value="old('A_Question_1')" />
+                                            <x-jet-input-error for="A_Question_1"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="A_Question_2" value="{{ __('Question number 2') }}" />
+                                            <x-jet-input wire:model.lazy="A_Question_2" id="A_Question_2"  name="A_Question_2" type="text" class="block mt-1 w-full" :value="old('A_Question_2')" />
+                                            <x-jet-input-error for="A_Question_2"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="A_Question_3" value="{{ __('Question number 3') }}" />
+                                            <x-jet-input wire:model.lazy="A_Question_3" id="A_Question_3"  name="A_Question_3" type="text" class="block mt-1 w-full" :value="old('A_Question_3')" />
+                                            <x-jet-input-error for="A_Question_3"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="A_Question_4" value="{{ __('Question number 4') }}" />
+                                            <x-jet-input wire:model.lazy="A_Question_4" id="A_Question_4"  name="A_Question_4" type="text" class="block mt-1 w-full" :value="old('A_Question_4')" />
+                                            <x-jet-input-error for="A_Question_4"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="A_Question_5" value="{{ __('Question number 5') }}" />
+                                            <x-jet-input wire:model.lazy="A_Question_5" id="A_Question_5"  name="A_Question_5" type="text" class="block mt-1 w-full" :value="old('A_Question_5')" />
+                                            <x-jet-input-error for="A_Question_5"/>
+                                            </div>
+
+                                        @elseif ($currentPage === 3)
+                                        {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
+                                            <div class="col-span-6">
+                                            <x-jet-label for="B_Question_1" value="{{ __('Question number 1') }}" />
+                                            <x-jet-input wire:model.lazy="B_Question_1" id="B_Question_1"  name="B_Question_1" type="text" class="block mt-1 w-full" :value="old('B_Question_1')" />
+                                            <x-jet-input-error for="B_Question_1"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="B_Question_2" value="{{ __('Question number 2') }}" />
+                                            <x-jet-input wire:model.lazy="B_Question_2" id="B_Question_2"  name="B_Question_2" type="text" class="block mt-1 w-full" :value="old('B_Question_2')" />
+                                            <x-jet-input-error for="B_Question_2"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="B_Question_3" value="{{ __('Question number 3') }}" />
+                                            <x-jet-input wire:model.lazy="B_Question_3" id="B_Question_3"  name="B_Question_3" type="text" class="block mt-1 w-full" :value="old('B_Question_3')" />
+                                            <x-jet-input-error for="B_Question_3"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="B_Question_4" value="{{ __('Question number 4') }}" />
+                                            <x-jet-input wire:model.lazy="B_Question_4" id="B_Question_4"  name="B_Question_4" type="text" class="block mt-1 w-full" :value="old('B_Question_4')" />
+                                            <x-jet-input-error for="B_Question_4"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="B_Question_5" value="{{ __('Question number 5') }}" />
+                                            <x-jet-input wire:model.lazy="B_Question_5" id="B_Question_5"  name="B_Question_5" type="text" class="block mt-1 w-full" :value="old('B_Question_5')" />
+                                            <x-jet-input-error for="B_Question_5"/>
+                                            </div>
+
+                                        @elseif ($currentPage === 4)
+                                        {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
+                                            <div class="col-span-6">
+                                            <x-jet-label for="C_Question_1" value="{{ __('Question number 1') }}" />
+                                            <x-jet-input wire:model.lazy="C_Question_1" id="C_Question_1"  name="C_Question_1" type="text" class="block mt-1 w-full" :value="old('C_Question_1')" />
+                                            <x-jet-input-error for="C_Question_1"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="C_Question_2" value="{{ __('Question number 2') }}" />
+                                            <x-jet-input wire:model.lazy="C_Question_2" id="C_Question_2"  name="C_Question_2" type="text" class="block mt-1 w-full" :value="old('C_Question_2')" />
+                                            <x-jet-input-error for="C_Question_2"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="C_Question_3" value="{{ __('Question number 3') }}" />
+                                            <x-jet-input wire:model.lazy="C_Question_3" id="C_Question_3"  name="C_Question_3" type="text" class="block mt-1 w-full" :value="old('C_Question_3')" />
+                                            <x-jet-input-error for="C_Question_3"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="C_Question_4" value="{{ __('Question number 4') }}" />
+                                            <x-jet-input wire:model.lazy="C_Question_4" id="C_Question_4"  name="C_Question_4" type="text" class="block mt-1 w-full" :value="old('C_Question_4')" />
+                                            <x-jet-input-error for="C_Question_4"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="C_Question_5" value="{{ __('Question number 5') }}" />
+                                            <x-jet-input wire:model.lazy="C_Question_5" id="C_Question_5"  name="C_Question_5" type="text" class="block mt-1 w-full" :value="old('C_Question_5')" />
+                                            <x-jet-input-error for="C_Question_5"/>
+                                            </div>
+
+                                        @elseif ($currentPage === 5)
+                                        {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
+                                            <div class="col-span-6">
+                                            <x-jet-label for="D_Question_1" value="{{ __('Question number 1') }}" />
+                                            <x-jet-input wire:model.lazy="D_Question_1" id="D_Question_1"  name="D_Question_1" type="text" class="block mt-1 w-full" :value="old('D_Question_1')" />
+                                            <x-jet-input-error for="D_Question_1"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="D_Question_2" value="{{ __('Question number 2') }}" />
+                                            <x-jet-input wire:model.lazy="D_Question_2" id="D_Question_2"  name="D_Question_2" type="text" class="block mt-1 w-full" :value="old('D_Question_2')" />
+                                            <x-jet-input-error for="D_Question_2"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="D_Question_3" value="{{ __('Question number 3') }}" />
+                                            <x-jet-input wire:model.lazy="D_Question_3" id="D_Question_3"  name="D_Question_3" type="text" class="block mt-1 w-full" :value="old('D_Question_3')" />
+                                            <x-jet-input-error for="D_Question_3"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="D_Question_4" value="{{ __('Question number 4') }}" />
+                                            <x-jet-input wire:model.lazy="D_Question_4" id="D_Question_4"  name="D_Question_4" type="text" class="block mt-1 w-full" :value="old('D_Question_4')" />
+                                            <x-jet-input-error for="D_Question_4"/>
+                                            </div>
+
+                                            <div class="col-span-6">
+                                            <x-jet-label for="D_Question_5" value="{{ __('Question number 5') }}" />
+                                            <x-jet-input wire:model.lazy="D_Question_5" id="D_Question_5"  name="D_Question_5" type="text" class="block mt-1 w-full" :value="old('D_Question_5')" />
+                                            <x-jet-input-error for="D_Question_5"/>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </x-slot>
+            <x-slot name="footer">
+                <div class="flex justify-between items-center px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    @if ($currentPage === 1)
+                    <x-jet-secondary-button wire:click="closeModal">
+                        Cancel
+                    </x-jet-secondary-button>
+                    @else
+                        <x-jet-secondary-button wire:click="goToPreviousPage">
+                            Back
+                        </x-jet-secondary-button>
+                    @endif
+                    @if ($currentPage === count($pages))
+                        <x-jet-button wire:click="create">
+                            Submit
+                        </x-jet-button>
+                    @else
+                        <x-jet-button wire:click="goToNextPage">
+                            Next
+                        </x-jet-button>
+                    @endif
+                </div>
+            </x-slot>
+        </x-jet-dialog-modal>
+
+        {{-------------------------------------------------- Status Modal --------------------------------------------------}}
+        <x-jet-dialog-modal wire:model.defer="statusModal">
+            <x-slot name="title">
+                @if (!$is_enabled == 1)
+                {{ __('Enable status') }}
+                @else
+                {{ __('Disable status') }}
+                @endif
             </x-slot>
 
             <x-slot name="content">
-                <form wire:submit.prevent="update">
-                    <div class="col-span-6">
-                        <div class="flex items-start">
-                            <div class="flex items-center h-5">
-                                <input wire:model="is_enabled" value="1" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                <input wire:model="is_enabled" value="0" type="hidden" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                            </div>
-                            <div class="ml-3 text-sm">
-                                <label class="font-medium text-gray-700">Status</label>
-                                <p class="text-gray-500">Manage status of selected questionair.</p>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <div>
+                    Are you sure?
+                </div>
             </x-slot>
 
             <x-slot name="footer">
@@ -326,28 +522,15 @@
                     {{ __('Cancel') }}
                 </x-jet-secondary-button>
 
-                <x-jet-button class="ml-2" wire:click="update" wire:loading.attr="disabled">
-                    {{ __('Update') }}
-                </x-jet-button>
-            </x-slot>
-        </x-jet-dialog-modal>
-
-        {{-------------------------------------------------- Warning Modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="warningModal">
-            <x-slot name="title">
-                {{ __('Oops!') }}
-            </x-slot>
-
-            <x-slot name="content">
-                <div class="p-2 bg-red-100 text-red-700 rounded-md text-sm text-center">
-                    <span>Only one question must be enabled... Please disable first the enabled one.</span>
-                </div>
-            </x-slot>
-
-            <x-slot name="footer">
-                <x-jet-button wire:click="closeModal" wire:loading.attr="disabled">
+                @if (!$is_enabled == 1)
+                <x-jet-button class="ml-2" wire:click="updateEnable" wire:loading.attr="disabled">
                     {{ __('Okay') }}
                 </x-jet-button>
+                @else
+                <x-jet-button class="ml-2" wire:click="updateDisable" wire:loading.attr="disabled">
+                    {{ __('Okay') }}
+                </x-jet-button>
+                @endif
             </x-slot>
         </x-jet-dialog-modal>
 

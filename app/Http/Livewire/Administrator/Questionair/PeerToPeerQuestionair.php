@@ -6,13 +6,14 @@ use Livewire\Component;
 use App\Models\Semester;
 use App\Models\SchoolYear;
 use App\Models\PeerQuestionairForm;
+use Illuminate\Support\Facades\Auth;
 
 class PeerToPeerQuestionair extends Component
 {
     public $openModal = false;
-    public $editModal = false;
-    public $warningModal = false;
     public $viewModal = false;
+    public $editModal = false;
+    public $statusModal = false;
 
     public $currentPage = 1;
 
@@ -141,6 +142,33 @@ class PeerToPeerQuestionair extends Component
         $this->emit('created');
     }
 
+    public function openEditModal($id)
+    {
+        $questionair = PeerQuestionairForm::find($id);
+        $this->A_Question_1 = $questionair->A_Question_1;
+        $this->A_Question_2 = $questionair->A_Question_2;
+        $this->A_Question_3 = $questionair->A_Question_3;
+        $this->A_Question_4 = $questionair->A_Question_4;
+        $this->A_Question_5 = $questionair->A_Question_5;
+        $this->B_Question_1 = $questionair->B_Question_1;
+        $this->B_Question_2 = $questionair->B_Question_2;
+        $this->B_Question_3 = $questionair->B_Question_3;
+        $this->B_Question_4 = $questionair->B_Question_4;
+        $this->B_Question_5 = $questionair->B_Question_5;
+        $this->C_Question_1 = $questionair->C_Question_1;
+        $this->C_Question_2 = $questionair->C_Question_2;
+        $this->C_Question_3 = $questionair->C_Question_3;
+        $this->C_Question_4 = $questionair->C_Question_4;
+        $this->C_Question_5 = $questionair->C_Question_5;
+        $this->D_Question_1 = $questionair->D_Question_1;
+        $this->D_Question_2 = $questionair->D_Question_2;
+        $this->D_Question_3 = $questionair->D_Question_3;
+        $this->D_Question_4 = $questionair->D_Question_4;
+        $this->D_Question_5 = $questionair->D_Question_5;
+
+        $this->editModal = true;
+    }
+
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName, $this->validationRules[$this->currentPage]);
@@ -159,32 +187,43 @@ class PeerToPeerQuestionair extends Component
 
     public $questionairId;
 
-    public function editOpenModal($id)
+    public function openStatusModal($id)
     {
         $this->questionairId = $id;
         $questionairId = PeerQuestionairForm::find($this->questionairId);
         $this->is_enabled = $questionairId->is_enabled;
         $this->resetValidation();
 
-        $this->editModal = true;
+        $this->statusModal = true;
+    }
+    // Enable
+    public function updateEnable()
+    {
+        PeerQuestionairForm::find($this->questionairId)
+        ->where('id', '!=', $this->questionairId)
+        ->update(['is_enabled' => 0]);
+
+        PeerQuestionairForm::find($this->questionairId)
+        ->update(['is_enabled' => 1]);
+
+        $this->statusModal = false;
+        $this->emit('updated');
+    }
+    // Disable
+    public function updateDisable()
+    {
+        PeerQuestionairForm::find($this->questionairId)
+        ->update(['is_enabled' => 0]);
+
+        $this->statusModal = false;
+        $this->emit('updated');
     }
 
-    public function update()
-    {
-        $updateQuestionair = $this->validate([
-            'is_enabled' => 'required'
-            ]);
-            PeerQuestionairForm::find($this->questionairId)->update($updateQuestionair);
-            $this->reset();
-            $this->resetValidation();
-            $this->emit('updated');
-    }
 
     public function closeModal()
     {
         $this->openModal = false;
-        $this->editModal = false;
-        $this->warningModal = false;
+        $this->statusModal = false;
         $this->viewModal = false;
     }
 
