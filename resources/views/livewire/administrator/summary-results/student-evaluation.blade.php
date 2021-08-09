@@ -16,14 +16,17 @@
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $student->sses->name }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $student->semesters->name }}</td>
                     <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $student->school_years->name }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $student->created_at->toFormattedDateString() }}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <div class="text-sm text-gray-900">{{ $student->created_at->toFormattedDateString() }}</div>
+                        <div class="text-sm text-gray-500">{{ $student->created_at->diffForHumans() }}</div>
+                    </td>
                     <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-4">
                         <button wire:click="openViewModal({{ $student->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>View</em></button>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8">
+                    <td colspan="5">
                         <div class="flex justify-center items-center space-x-2">
                             <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                             <span class="text-xl text-gray-400 font-medium py-8">No results yet...</span>
@@ -36,7 +39,7 @@
     </div>
 
 
-        {{-------------------------------------------------- Update Modal --------------------------------------------------}}
+        {{-------------------------------------------------- View Modal --------------------------------------------------}}
         <x-jet-dialog-modal maxWidth="3xl" wire:model.defer="viewModal">
             <x-slot name="title">
                 {{ __('Student Evaluation Results') }}

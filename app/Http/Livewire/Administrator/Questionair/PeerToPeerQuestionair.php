@@ -142,33 +142,6 @@ class PeerToPeerQuestionair extends Component
         $this->emit('created');
     }
 
-    public function openEditModal($id)
-    {
-        $questionair = PeerQuestionairForm::find($id);
-        $this->A_Question_1 = $questionair->A_Question_1;
-        $this->A_Question_2 = $questionair->A_Question_2;
-        $this->A_Question_3 = $questionair->A_Question_3;
-        $this->A_Question_4 = $questionair->A_Question_4;
-        $this->A_Question_5 = $questionair->A_Question_5;
-        $this->B_Question_1 = $questionair->B_Question_1;
-        $this->B_Question_2 = $questionair->B_Question_2;
-        $this->B_Question_3 = $questionair->B_Question_3;
-        $this->B_Question_4 = $questionair->B_Question_4;
-        $this->B_Question_5 = $questionair->B_Question_5;
-        $this->C_Question_1 = $questionair->C_Question_1;
-        $this->C_Question_2 = $questionair->C_Question_2;
-        $this->C_Question_3 = $questionair->C_Question_3;
-        $this->C_Question_4 = $questionair->C_Question_4;
-        $this->C_Question_5 = $questionair->C_Question_5;
-        $this->D_Question_1 = $questionair->D_Question_1;
-        $this->D_Question_2 = $questionair->D_Question_2;
-        $this->D_Question_3 = $questionair->D_Question_3;
-        $this->D_Question_4 = $questionair->D_Question_4;
-        $this->D_Question_5 = $questionair->D_Question_5;
-
-        $this->editModal = true;
-    }
-
     public function updated($propertyName)
     {
         $this->validateOnly($propertyName, $this->validationRules[$this->currentPage]);

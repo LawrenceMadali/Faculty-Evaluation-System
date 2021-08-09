@@ -63,14 +63,16 @@
                             <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center">{{ $q->semester }}</div></td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $q->school_year }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $q->name }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $q->created_at->toFormattedDateString() }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ $q->created_at->toFormattedDateString() }}</div>
+                                <div class="text-sm text-gray-500">{{ $q->created_at->diffForHumans() }}</div>
+                            </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-4">
-                                <button wire:click="openViewModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900">View</button>
-
-                                @if (!$count >= 1 || $q->is_enabled == 1)
-                                <button wire:click="editOpenModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline">Edit</button>
+                                <button wire:click="openViewModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 italic">View</button>
+                                @if ($q->is_enabled == 0)
+                                <button wire:click="openStatusModal({{ $q->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline italic">Enable</button>
                                 @else
-                                <button wire:click="$toggle('warningModal')" class="text-indigo-600 hover:text-indigo-900 hover:underline">Edit</button>
+                                <button wire:click="openStatusModal({{ $q->id }})" class="text-red-600 hover:text-red-900 hover:underline italic">Disable</button>
                                 @endif
                             </td>
                             @empty
@@ -293,27 +295,20 @@
             </x-slot>
         </x-jet-dialog-modal>
 
-        {{-------------------------------------------------- Edit Status Modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="editModal">
+        {{-------------------------------------------------- Status Modal --------------------------------------------------}}
+        <x-jet-dialog-modal wire:model.defer="statusModal">
             <x-slot name="title">
-                {{ __('Edit Course') }}
+                @if (!$is_enabled == 1)
+                {{ __('Enable status') }}
+                @else
+                {{ __('Disable status') }}
+                @endif
             </x-slot>
 
             <x-slot name="content">
-                <form wire:submit.prevent="update">
-                    <div class="col-span-6">
-                        <div class="flex items-start">
-                            <div class="flex items-center h-5">
-                                <input wire:model="is_enabled" value="1" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                                <input wire:model="is_enabled" value="0" type="hidden" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-                            </div>
-                            <div class="ml-3 text-sm">
-                                <label class="font-medium text-gray-700">Status</label>
-                                <p class="text-gray-500">Manage status of selected questionair.</p>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                <div>
+                    Are you sure?
+                </div>
             </x-slot>
 
             <x-slot name="footer">
@@ -321,28 +316,15 @@
                     {{ __('Cancel') }}
                 </x-jet-secondary-button>
 
-                <x-jet-button class="ml-2" wire:click="update" wire:loading.attr="disabled">
-                    {{ __('Update') }}
-                </x-jet-button>
-            </x-slot>
-        </x-jet-dialog-modal>
-
-        {{-------------------------------------------------- Warning Modal --------------------------------------------------}}
-        <x-jet-dialog-modal wire:model.defer="warningModal">
-            <x-slot name="title">
-                {{ __('Oops!') }}
-            </x-slot>
-
-            <x-slot name="content">
-                <div class="p-2 bg-red-100 text-red-700 rounded-md text-sm text-center">
-                    <span>Only one question must be enabled... Please disable first the enabled one.</span>
-                </div>
-            </x-slot>
-
-            <x-slot name="footer">
-                <x-jet-button wire:click="closeModal" wire:loading.attr="disabled">
+                @if (!$is_enabled == 1)
+                <x-jet-button class="ml-2" wire:click="updateEnable" wire:loading.attr="disabled">
                     {{ __('Okay') }}
                 </x-jet-button>
+                @else
+                <x-jet-button class="ml-2" wire:click="updateDisable" wire:loading.attr="disabled">
+                    {{ __('Okay') }}
+                </x-jet-button>
+                @endif
             </x-slot>
         </x-jet-dialog-modal>
 

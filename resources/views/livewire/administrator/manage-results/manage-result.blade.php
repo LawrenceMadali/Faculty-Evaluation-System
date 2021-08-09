@@ -59,19 +59,13 @@
                                 <div class="col-span-6 sm:col-span-2">
                                     <label class="block text-sm font-medium text-gray-700">Total</label>
                                     <span class="mt-1 sm:text-sm"> {{ $total }} </span>
-                                    {{-- <input wire:model="total" disabled type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"> --}}
                                 </div>
                             </div>
                         </div>
                         <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                            {{-- <div class="flex justify-between"> --}}
-                                {{-- <button wire:click.prevent="computation" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Compute
-                                </button> --}}
                                 <button wire:click.prevent="submitResult" wire:loading.attr="disabled" type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                                 Save
                                 </button>
-                            {{-- </div> --}}
                         </div>
                     </div>
                 </form>
@@ -107,8 +101,8 @@
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ipcr</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th scope="col" class="relative px-6 py-3"><span class="sr-only">Edit</span></th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created at</th>
+                                    <th scope="col" class="relative px-6 py-3"><span class="sr-only">Edit</span></th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -143,19 +137,19 @@
                                         {{ $result->is_release === 0 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}}">
                                         {{ $result->is_release === 0 ? 'Not release' : 'Released' }}</span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
-                                        <button wire:click="openEditModal({{ $result->id}})" class="text-indigo-600 hover:text-indigo-900 italic">Release</button>
-                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->created_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $result->created_at->diffForHumans() }}</div>
                                     </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                        <button wire:click="openEditModal({{ $result->id}})" class="text-indigo-600 hover:text-indigo-900 italic">Release</button>
+                                    </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="10">
+                                    <td colspan="11">
                                         <div class="flex justify-center items-center space-x-2">
-                                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
                                             <span class="text-xl text-gray-400 font-medium py-8">No results found...</span>
                                         </div>
                                     </td>

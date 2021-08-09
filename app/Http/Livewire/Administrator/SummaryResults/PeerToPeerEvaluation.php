@@ -18,12 +18,12 @@ class PeerToPeerEvaluation extends Component
     public function openViewModal($id)
     {
         $per = PeerRatingForm::find($id);
-        $this->commitment_total = $per->commitment_total;
-        $this->knowledge_of_subject_total = $per->knowledge_of_subject_total;
-        $this->teaching_for_independent_learning_total = $per->teaching_for_independent_learning_total;
-        $this->management_of_learning_total = $per->management_of_learning_total;
         $this->total = $per->total;
         $this->scale = $per->scale;
+        $this->commitment_total = $per->commitment_total;
+        $this->knowledge_of_subject_total = $per->knowledge_of_subject_total;
+        $this->management_of_learning_total = $per->management_of_learning_total;
+        $this->teaching_for_independent_learning_total = $per->teaching_for_independent_learning_total;
 
         $this->viewModal = true;
     }
@@ -37,7 +37,7 @@ class PeerToPeerEvaluation extends Component
     {
         return view('livewire.administrator.summary-results.peer-to-peer-evaluation', [
             'instructors' => PeerRatingForm::with('spes', 'semesters', 'schoolYears')
-                            ->latest()
+                            ->latest('id')
                             ->get()
         ]);
     }

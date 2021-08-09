@@ -32,9 +32,6 @@
         </section>
         <x-jet-section-border/>
         <div class="space-y-56">
-                {{-- <div>
-                    @livewire('administrator.charts.users-chart')
-                </div> --}}
             @if (auth()->user()->college_id == 1)
             <div class="space-y-56">
                 <div>

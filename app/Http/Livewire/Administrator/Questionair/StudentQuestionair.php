@@ -10,9 +10,9 @@ use App\Models\StudentQuestionairForm;
 class StudentQuestionair extends Component
 {
     public $openModal = false;
-    public $editModal = false;
-    public $warningModal = false;
     public $viewModal = false;
+    public $editModal = false;
+    public $statusModal = false;
 
     public $currentPage = 1;
 
@@ -159,32 +159,43 @@ class StudentQuestionair extends Component
 
     public $questionairId;
 
-    public function editOpenModal($id)
+    public function openStatusModal($id)
     {
         $this->questionairId = $id;
         $questionairId = StudentQuestionairForm::find($this->questionairId);
         $this->is_enabled = $questionairId->is_enabled;
         $this->resetValidation();
 
-        $this->editModal = true;
+        $this->statusModal = true;
     }
 
-    public function update()
+    // Enable
+    public function updateEnable()
     {
-        $updateQuestionair = $this->validate([
-            'is_enabled' => 'required'
-            ]);
-            StudentQuestionairForm::find($this->questionairId)->update($updateQuestionair);
-            $this->reset();
-            $this->resetValidation();
-            $this->emit('updated');
+        StudentQuestionairForm::find($this->questionairId)
+        ->where('id', '!=', $this->questionairId)
+        ->update(['is_enabled' => 0]);
+
+        StudentQuestionairForm::find($this->questionairId)
+        ->update(['is_enabled' => 1]);
+
+        $this->statusModal = false;
+        $this->emit('updated');
+    }
+    // Disable
+    public function updateDisable()
+    {
+        StudentQuestionairForm::find($this->questionairId)
+        ->update(['is_enabled' => 0]);
+
+        $this->statusModal = false;
+        $this->emit('updated');
     }
 
     public function closeModal()
     {
         $this->openModal = false;
-        $this->editModal = false;
-        $this->warningModal = false;
+        $this->statusModal = false;
         $this->viewModal = false;
     }
 

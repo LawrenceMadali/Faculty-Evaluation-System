@@ -216,6 +216,8 @@ class ManageAccounts extends Component
 
         $updateImport = new UserUpdate();
         $updateImport->import($this->updateUsers);
+        $this->reset();
+        $this->emit('updated');
     }
 
     public function render()
@@ -228,7 +230,7 @@ class ManageAccounts extends Component
             'users'             => User::search($this->search)
                                     ->with('yearAndSections', 'colleges', 'roles', 'courses')
                                     ->where('id' , '!=', auth()->id())
-                                    ->latest()
+                                    ->latest('id')
                                     ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                                     ->paginate($this->perPage)
         ]);
