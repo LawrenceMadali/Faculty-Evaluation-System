@@ -18,6 +18,8 @@ namespace App\Models{
  * @property string $name
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|College newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|College newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|College query()
@@ -34,7 +36,9 @@ namespace App\Models{
  * @property string $course
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\College $colleges
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Instructor $instructors
  * @method static \Illuminate\Database\Eloquent\Builder|Course newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Course newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Course query()
@@ -48,43 +52,21 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $course_code
- * @property int $year_and_section_id
+ * @property int $instructor_id
  * @property int $course_id
+ * @property int $year_and_section_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Course $courses
  * @property-read \App\Models\Instructor $instructors
+ * @property-read \App\Models\YearAndSection $year_and_sections
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCode newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCode newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|CourseCode query()
  */
 	class CourseCode extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\CourseCodeAndTitle
- *
- * @property int $id
- * @property string $course_code_title
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @method static \Illuminate\Database\Eloquent\Builder|CourseCodeAndTitle newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CourseCodeAndTitle newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|CourseCodeAndTitle query()
- */
-	class CourseCodeAndTitle extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\EvaluationUser
- *
- * @property-read \App\Models\User $users
- * @method static \Illuminate\Database\Eloquent\Builder|EvaluationUser newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|EvaluationUser newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|EvaluationUser query()
- */
-	class EvaluationUser extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -99,24 +81,16 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\CourseCode $CourseCodes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read \App\Models\College $colleges
+ * @property-read \App\Models\PeerRatingForm $prfs
  * @property-read \App\Models\User $users
  * @method static \Illuminate\Database\Eloquent\Builder|Instructor newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Instructor newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Instructor query()
  */
 	class Instructor extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\InstructorClassList
- *
- * @method static \Illuminate\Database\Eloquent\Builder|InstructorClassList newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|InstructorClassList newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|InstructorClassList query()
- */
-	class InstructorClassList extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -150,6 +124,8 @@ namespace App\Models{
  * @property string $D_Question_5
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|PeerQuestionairForm newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PeerQuestionairForm newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PeerQuestionairForm query()
@@ -162,7 +138,13 @@ namespace App\Models{
  * App\Models\PeerRatingForm
  *
  * @property int $id
+ * @property string $name
+ * @property int $id_number
  * @property int $spe_id
+ * @property int $college_id
+ * @property int $semester_id
+ * @property int $school_year_id
+ * @property int $evaluator_number
  * @property int $commitment_1
  * @property int $commitment_2
  * @property int $commitment_3
@@ -187,16 +169,75 @@ namespace App\Models{
  * @property int $knowledge_of_subject_total
  * @property int $teaching_for_independent_learning_total
  * @property int $management_of_learning_total
- * @property int $total
  * @property string|null $comments
+ * @property int $total
+ * @property int $scale
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\SchoolYear $schoolYears
+ * @property-read \App\Models\Semester $semesters
+ * @property-read \App\Models\Spe $spes
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|PeerRatingForm newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PeerRatingForm newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PeerRatingForm query()
  */
 	class PeerRatingForm extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\ReportGroupList
+ *
+ * @property int $id
+ * @property int $semester_id
+ * @property int $college_id
+ * @property int $school_year_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\College $colleges
+ * @property-read \App\Models\SchoolYear $school_years
+ * @property-read \App\Models\Semester $semesters
+ * @method static \Illuminate\Database\Eloquent\Builder|ReportGroupList newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ReportGroupList newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|ReportGroupList query()
+ */
+	class ReportGroupList extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * App\Models\Results
+ *
+ * @property int $id
+ * @property string $name
+ * @property int $id_number
+ * @property int $college_id
+ * @property int $semester_id
+ * @property int $instructor_id
+ * @property int $school_year_id
+ * @property int $is_release
+ * @property float $student_evaluation_result
+ * @property float $peer_evaluation_result
+ * @property float $supervisor
+ * @property float $ipcr
+ * @property float $total
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\College $colleges
+ * @property-read \App\Models\Instructor $instructors
+ * @property-read \App\Models\SchoolYear $school_years
+ * @property-read \App\Models\Semester $semesters
+ * @method static \Database\Factories\ResultsFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Results newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Results newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Results query()
+ */
+	class Results extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -256,14 +297,18 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
- * @property int $school_year_id
+ * @property int $id_number
+ * @property int $college_id
+ * @property int $user_id
  * @property int $semester_id
- * @property int $course_id
- * @property int $course_code_id
- * @property int $year_and_section_id
+ * @property int $school_year_id
+ * @property int $is_active
+ * @property int $evaluatee
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\CourseCode $CourseCodes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read \App\Models\Course $courses
  * @property-read \App\Models\User $instructors
  * @property-read \App\Models\SchoolYear $schoolYears
@@ -300,16 +345,21 @@ namespace App\Models{
  *
  * @property int $id
  * @property string $name
+ * @property int $id_number
+ * @property int $college_id
+ * @property int $instructor_id
  * @property int $school_year_id
  * @property int $semester_id
- * @property int $instructor_id
  * @property int $course_id
  * @property int $year_and_section_id
  * @property int $course_code_id
  * @property int $is_active
+ * @property int $evaluatee
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\CourseCode $CourseCodes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read \App\Models\Course $courses
  * @property-read \App\Models\Instructor $instructors
  * @property-read \App\Models\SchoolYear $schoolYears
@@ -338,39 +388,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|SseUser query()
  */
 	class SseUser extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
- * App\Models\Student
- *
- * @property int $id
- * @property int $id_number
- * @property string $name
- * @property string $email
- * @property int $user_id
- * @property int $year_and_section_id
- * @property int $course_id
- * @property int $is_enrolled
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\College $colleges
- * @property-read \App\Models\CourseCode $course_codes
- * @property-read \App\Models\Course $courses
- * @property-read string $profile_photo_url
- * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
- * @property-read int|null $notifications_count
- * @property-read \App\Models\Role $roles
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Sse[] $sses
- * @property-read int|null $sses_count
- * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Sanctum\PersonalAccessToken[] $tokens
- * @property-read int|null $tokens_count
- * @property-read \App\Models\YearAndSection $yearAndSections
- * @method static \Illuminate\Database\Eloquent\Builder|Student newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Student newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Student query()
- */
-	class Student extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -404,6 +421,8 @@ namespace App\Models{
  * @property string $D_Question_5
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @method static \Illuminate\Database\Eloquent\Builder|StudentQuestionairForm newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StudentQuestionairForm newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StudentQuestionairForm query()
@@ -416,7 +435,13 @@ namespace App\Models{
  * App\Models\StudentRatingForm
  *
  * @property int $id
- * @property int $instructor_id
+ * @property string $name
+ * @property int $id_number
+ * @property int $sse_id
+ * @property int $college_id
+ * @property int $semester_id
+ * @property int $school_year_id
+ * @property int $evaluator_number
  * @property int $commitment_1
  * @property int $commitment_2
  * @property int $commitment_3
@@ -441,11 +466,17 @@ namespace App\Models{
  * @property int $knowledge_of_subject_total
  * @property int $teaching_for_independent_learning_total
  * @property int $management_of_learning_total
- * @property int $total
  * @property string|null $comments
+ * @property int $total
+ * @property int $scale
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read \App\Models\Instructor $instructors
+ * @property-read \App\Models\SchoolYear $school_years
+ * @property-read \App\Models\Semester $semesters
+ * @property-read \App\Models\Sse $sses
  * @property-read \App\Models\User $user
  * @method static \Illuminate\Database\Eloquent\Builder|StudentRatingForm newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|StudentRatingForm newQuery()
@@ -473,8 +504,8 @@ namespace App\Models{
  * @property string|null $profile_photo_path
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Student[] $children
- * @property-read int|null $children_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
  * @property-read \App\Models\College|null $colleges
  * @property-read \App\Models\Course $courses
  * @property-read string $profile_photo_url
@@ -500,19 +531,6 @@ namespace App\Models{
 
 namespace App\Models{
 /**
- * App\Models\UserStatus
- *
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\User[] $users
- * @property-read int|null $users_count
- * @method static \Illuminate\Database\Eloquent\Builder|UserStatus newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|UserStatus newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|UserStatus query()
- */
-	class UserStatus extends \Eloquent {}
-}
-
-namespace App\Models{
-/**
  * App\Models\YearAndSection
  *
  * @property int $id
@@ -521,7 +539,9 @@ namespace App\Models{
  * @property int $course_id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\CourseCode $course_codes
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Activitylog\Models\Activity[] $activities
+ * @property-read int|null $activities_count
+ * @property-read \App\Models\Course $courses
  * @property-read \App\Models\Instructor $instructors
  * @method static \Illuminate\Database\Eloquent\Builder|YearAndSection newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|YearAndSection newQuery()
