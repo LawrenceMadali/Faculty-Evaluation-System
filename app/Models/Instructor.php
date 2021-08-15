@@ -43,11 +43,13 @@ class Instructor extends Model
         return $this->belongsTo(PeerRatingForm::class, 'instructor_id');
     }
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['name'];
+    protected static $logName = 'Manage Instructor';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['name'])
-        ->useLogName('Register Instructor')
-        ->setDescriptionForEvent(fn(string $eventName) => "New instructor has been register by: ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 }

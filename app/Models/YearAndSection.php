@@ -29,11 +29,14 @@ class YearAndSection extends Model
     {
         return $this->belongsTo(Course::class, 'course_id');
     }
-    public function getActivitylogOptions(): LogOptions
+
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['year_and_section'];
+    protected static $logName = 'Manage Year and Section';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['year_and_section'])
-        ->useLogName('Year and Section')
-        ->setDescriptionForEvent(fn(string $eventName) => "The year and section has been {$eventName} by: ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 }

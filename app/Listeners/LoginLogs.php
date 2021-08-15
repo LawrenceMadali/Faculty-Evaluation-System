@@ -2,15 +2,7 @@
 
 namespace App\Listeners;
 
-use Illuminate\Support\Str;
-use IlluminateAuthEventsLogin;
 use Illuminate\Auth\Events\Login;
-
-use Illuminate\Support\Facades\Session;
-use Spatie\Activitylog\Models\Activity;
-use Illuminate\Queue\InteractsWithQueue;
-use Illuminate\Contracts\Queue\ShouldQueue;
-
 
 class LoginLogs
 {
@@ -32,15 +24,11 @@ class LoginLogs
      */
     public function handle(Login $event)
     {
-        $event->subject = 'Login';
-        $event->description = $event->user->name.' is successfully login';
-
-        activity($event->subject)
+        activity('Login')
             ->causedBy($event->user)
-            ->event('login')
             ->withProperties(['attributes' => [
                 'name' => $event->user->name
                 ]])
-            ->log($event->description);
+            ->log($event->user->name.' is successfully login');
     }
 }

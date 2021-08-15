@@ -44,11 +44,13 @@ class StudentQuestionairForm extends Model
         'D_Question_5'
     ];
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['name'];
+    protected static $logName = 'Student Questionair Form';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['name'])
-        ->useLogName('Student Questionair')
-        ->setDescriptionForEvent(fn(string $eventName) => "The questionair has been {$eventName} by: ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 }

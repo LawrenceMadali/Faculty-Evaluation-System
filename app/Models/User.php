@@ -45,15 +45,16 @@ class User extends Authenticatable
         'year_and_section_id',
     ];
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['role_id', 'id_number', 'name',
+                                       'email'  , 'status'   , 'college_id',
+                                       'year_and_section_id' , ];
+    protected static $logName = 'Manage User';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['role_id', 'id_number', 'name',
-                   'email'  , 'status'   , 'college_id',
-                   'year_and_section_id' , ])
-        ->logOnlyDirty()
-        ->useLogName('Manage account')
-        ->setDescriptionForEvent(fn(string $eventName) => "{$eventName} by ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 
     /**

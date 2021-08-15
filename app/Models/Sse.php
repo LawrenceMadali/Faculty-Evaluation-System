@@ -28,12 +28,14 @@ class Sse extends Model
         'year_and_section_id',
     ];
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['name'];
+    protected static $logName = 'Set Student Evaluation';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['name'])
-        ->useLogName('Set Student Evaluation')
-        ->setDescriptionForEvent(fn(string $eventName) => "Student Evaluation has been {$eventName} by ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 
     public function users()

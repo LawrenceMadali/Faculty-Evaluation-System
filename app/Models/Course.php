@@ -19,11 +19,13 @@ class Course extends Model
         return $this->belongsTo(Instructor::class, 'instructor_id');
     }
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['course'];
+    protected static $logName = 'Manage Course';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['course'])
-        ->useLogName('Course')
-        ->setDescriptionForEvent(fn(string $evenName) => "The course has been {$eventName} by: ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 }

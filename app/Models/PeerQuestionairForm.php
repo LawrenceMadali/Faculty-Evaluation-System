@@ -44,11 +44,13 @@ class PeerQuestionairForm extends Model
         'D_Question_5'
     ];
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['name'];
+    protected static $logName = 'Peer to Peer Questionair';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['name'])
-        ->useLogName('Peer to Peer Questionair')
-        ->setDescriptionForEvent(fn(string $eventName) => "The questionair has been {$eventName} by: ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use Auth;
 use Spatie\Activitylog\LogOptions;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
@@ -53,12 +54,14 @@ class PeerRatingForm extends Model
         'evaluator_number',
     ];
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['evaluator_number'];
+    protected static $logName = 'Peer to Peer Rating Form';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['evaluator_number'])
-        ->useLogName('Peer to Peer Rating Form')
-        ->setDescriptionForEvent(fn(string $eventName) => "New evaluation has been {$eventName}");
+        return "New evaluation has been {$eventName}";
     }
 
     public function user()

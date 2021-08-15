@@ -27,12 +27,14 @@ class Results extends Model
         'student_evaluation_result',
     ];
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['name'];
+    protected static $logName = 'Manage Result';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['name'])
-        ->useLogName('Manage Results')
-        ->setDescriptionForEvent(fn(string $eventName) => "New result has been {$eventName} by: ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 
     public function instructors()

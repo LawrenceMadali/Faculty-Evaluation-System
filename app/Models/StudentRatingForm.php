@@ -52,12 +52,14 @@ class StudentRatingForm extends Model
         'evaluator_number',
     ];
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['evaluator_number'];
+    protected static $logName = 'Student Rating Form';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['evaluator_number'])
-        ->useLogName('Student Rating Form')
-        ->setDescriptionForEvent(fn(string $eventName) => "New evaluation has been {$eventName}");
+        return "New evaluation has been {$eventName}";
     }
 
     public function user()

@@ -31,15 +31,11 @@ class LogoutLogs
      */
     public function handle(Logout $event)
     {
-        $event->subject = 'Logout';
-        $event->description = $event->user->name.' is successfully logout';
-
-        activity($event->subject)
+        activity('Logout')
             ->causedBy($event->user)
-            ->event('logout')
             ->withProperties(['attributes' => [
                 'name' => $event->user->name
                 ]])
-            ->log($event->description);
+            ->log($event->user->name.' is successfully logout');
     }
 }

@@ -36,11 +36,13 @@ class CourseCode extends Model
         return $this->belongsTo(YearAndSection::class, 'year_and_section_id');
     }
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['course_code'];
+    protected static $logName = 'Manage College Code';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['course_code'])
-        ->useLogName('Course Code')
-        ->setDescriptionForEvent(fn(string $eventName) => "The course code has been {$eventName} by: ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 }

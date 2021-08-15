@@ -86,14 +86,32 @@ class SetStudentEvaluationPage extends Component
                 ->inRandomOrder()
                 ->get() ?? null;
 
+                $this->selectedStudents = [];
+
             $this->courseCodes = CourseCode::where([
                 'course_id' => $this->course,
-                'year_and_section_id' => $this->yearAndSection,
+                'semester_id' => $this->semester,
                 'instructor_id' => $this->instructor,
+                'year_and_section_id' => $this->yearAndSection,
                 ])->get() ?? null;
                 $this->resetSelect();
         } else {
             $this->students = null;
+            $this->resetSelect();
+            $this->courseCodes = null;
+        }
+    }
+
+    public function updatedSemester($semester)
+    {
+        if ($semester) {
+            $this->courseCodes = CourseCode::where([
+                'course_id' => $this->course,
+                'semester_id' => $this->semester,
+                'instructor_id' => $this->instructor,
+                'year_and_section_id' => $this->yearAndSection,
+            ])->get();
+        } else {
             $this->courseCodes = null;
         }
     }
@@ -111,7 +129,6 @@ class SetStudentEvaluationPage extends Component
     public function openCreateModal()
     {
         $this->openModal = true;
-        $this->resetFields();
         $this->resetValidation();
     }
     public function closeModal()
@@ -468,16 +485,15 @@ class SetStudentEvaluationPage extends Component
     public function create()
     {
         $this->validate([
-            'school_year'       => 'required|unique:sses,school_year_id,NULL,id,course_code_id,'.$this->courseCode.',semester_id,'.$this->semester.',course_id,'.$this->course.',year_and_section_id,'.$this->yearAndSection,
+            'school_year'       => 'required|unique:sses,school_year_id,NULL,id,course_code_id,'.$this->courseCode.',semester_id,'.$this->semester.'instructor_id'.$this->instructor,
             'semester'          => 'required',
-            'instructor'        => 'required',
-            'courseCode'        => 'required|unique:sses,course_code_id,NULL,id,instructor_id,'.$this->instructor.',school_year_id,'.$this->school_year,
+            'instructor'        => 'required|unique:sses,instructor_id,NULL,id,course_code_id,'.$this->courseCode.',school_year_id,'.$this->school_year.',semester_id,'.$this->semester,
+            'courseCode'        => 'required|unique:sses,course_code_id,NULL,id,school_year_id,'.$this->school_year.',semester_id,'.$this->semester.'instructor_id'.$this->instructor,
             'course'            => 'required',
             'yearAndSection'    => 'required',
             'selectedStudents'  => 'required',
         ],[
-            'selectedStudents.required' => 'This student number checkbox field is required.',
-            'unique' => ':input has already exist.'
+            'selectedStudents.required' => 'This student checkbox field is required.',
         ]);
 
         $evaluator = Sse::create([

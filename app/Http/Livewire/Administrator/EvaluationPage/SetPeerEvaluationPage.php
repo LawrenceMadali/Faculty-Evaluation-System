@@ -405,14 +405,13 @@ class SetPeerEvaluationPage extends Component
     public function create()
     {
         $this->validate([
-            'faculty'            => 'required|unique:spes,user_id,NULL,id,school_year_id,'.$this->school_year.',semester_id,'.$this->semester,
-            'school_year'        => 'required',
-            'semester'           => 'required',
             'selectedInstructor' => 'required',
+            'school_year'        => 'required|unique:spes,school_year_id,NULL,id,user_id,'.$this->faculty.',semester_id,'.$this->semester,
+            'semester'           => 'required|unique:spes,semester_id,NULL,id,user_id,'.$this->faculty.',school_year_id,'.$this->school_year,
+            'faculty'            => 'required|unique:spes,user_id,NULL,id,school_year_id,'.$this->school_year.',semester_id,'.$this->semester,
         ],[
-            'selectedInstructor.required' => 'The instructor number checkbox field is required.',
+            'selectedInstructor.required' => 'The instructor checkbox field is required.',
             'faculty.required' => 'The instructor field is required.',
-            'unique' => ':input is already exist.'
         ]);
 
         $evaluator = Spe::create([
@@ -433,8 +432,8 @@ class SetPeerEvaluationPage extends Component
 
     public function updatedFaculty()
     {
-        $this->selectedInstructor = [];
         $this->resetSelect();
+        $this->selectedInstructor = [];
 
         $name = User::find($this->faculty);
         $this->name         = $name->name ?? null;

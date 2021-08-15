@@ -28,12 +28,14 @@ class Spe extends Model
         'school_year_id',
     ];
 
-    public function getActivitylogOptions(): LogOptions
+    protected static $logOnlyDirty = true;
+    protected static $submitEmptyLogs = false;
+    protected static $logAttributes = ['name'];
+    protected static $logName = 'Set Peer Evaluation';
+
+    public function getDescriptionForEvent(string $eventName): string
     {
-        return LogOptions::defaults()
-        ->logOnly(['name'])
-        ->useLogName('Set Peer Evaluation')
-        ->setDescriptionForEvent(fn(string $eventName) => "Peer Evaluation has been {$eventName} by ".Auth::user()->name);
+        return "{$eventName} by: ".Auth::user()->name;
     }
 
     public function users()
