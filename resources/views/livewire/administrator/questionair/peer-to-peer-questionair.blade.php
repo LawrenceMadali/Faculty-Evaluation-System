@@ -89,6 +89,7 @@
                     </tbody>
                     </table>
                 </div>
+                {{ $questionairs->links() }}
             </div>
             </div>
         </div>

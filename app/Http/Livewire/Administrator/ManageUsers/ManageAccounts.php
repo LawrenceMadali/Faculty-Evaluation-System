@@ -56,7 +56,7 @@ class ManageAccounts extends Component
         if ($this->role_id == 5 ) {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required|unique:users,id_number',
+                'id_number'     => 'required|unique:users,id_number|min:10',
                 'name'          => 'required',
                 'email'         => 'required|email|unique:users,email',
                 'college_id'    => 'required',
@@ -66,14 +66,14 @@ class ManageAccounts extends Component
         {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required|unique:users,id_number',
+                'id_number'     => 'required|unique:users,id_number|min:10',
                 'name'          => 'required',
                 'email'         => 'required|email|unique:users,email',
             ]);
         } elseif (in_array($this->role_id, [1,2,4])) {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required|unique:users,id_number',
+                'id_number'     => 'required|unique:users,id_number|min:10',
                 'name'          => 'required',
                 'email'         => 'required|email|unique:users,email',
                 'college_id'    => 'required',
@@ -129,7 +129,7 @@ class ManageAccounts extends Component
         if ($this->role_id == 5 ) {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required|unique:users,id_number,'.$this->user->id,
+                'id_number'     => 'required|min:10|unique:users,id_number,'.$this->user->id,
                 'name'          => 'required',
                 'email'         => 'required|email|unique:users,email,'.$this->user->id,
                 'college_id'    => 'required',
@@ -139,14 +139,14 @@ class ManageAccounts extends Component
         {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required|unique:users,id_number,'.$this->user->id,
+                'id_number'     => 'required|min:10|unique:users,id_number,'.$this->user->id,
                 'name'          => 'required',
                 'email'         => 'required|email|unique:users,email,'.$this->user->id,
             ]);
         } elseif (in_array($this->role_id, [1,2,4])) {
             $this->validate([
                 'role_id'       => 'required',
-                'id_number'     => 'required|unique:users,id_number,'.$this->user->id,
+                'id_number'     => 'required|min:10|unique:users,id_number,'.$this->user->id,
                 'name'          => 'required',
                 'email'         => 'required|email|unique:users,email,'.$this->user->id,
                 'college_id'    => 'required',

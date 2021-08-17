@@ -6,10 +6,12 @@ use Livewire\Component;
 use App\Models\Semester;
 use App\Models\SchoolYear;
 use App\Models\PeerQuestionairForm;
-use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
 
 class PeerToPeerQuestionair extends Component
 {
+    use WithPagination;
+
     public $openModal = false;
     public $viewModal = false;
     public $editModal = false;
@@ -233,7 +235,7 @@ class PeerToPeerQuestionair extends Component
     public function render()
     {
         return view('livewire.administrator.questionair.peer-to-peer-questionair',[
-            'questionairs' => PeerQuestionairForm::all(),
+            'questionairs' => PeerQuestionairForm::latest()->paginate(10),
             'schoolYears'  => SchoolYear::all(),
             'sems'         => Semester::all(),
             'count'        => PeerQuestionairForm::where('is_enabled', 1 )->count(),

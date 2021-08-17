@@ -6,9 +6,12 @@ use Livewire\Component;
 use App\Models\Semester;
 use App\Models\SchoolYear;
 use App\Models\StudentQuestionairForm;
+use Livewire\WithPagination;
 
 class StudentQuestionair extends Component
 {
+    use WithPagination;
+
     public $openModal = false;
     public $viewModal = false;
     public $editModal = false;
@@ -232,7 +235,7 @@ class StudentQuestionair extends Component
     public function render()
     {
         return view('livewire.administrator.questionair.student-questionair', [
-            'questionairs' => StudentQuestionairForm::all(),
+            'questionairs' => StudentQuestionairForm::latest()->paginate(10),
             'schoolYears'  => SchoolYear::all(),
             'sems'         => Semester::all(),
             'count'        => StudentQuestionairForm::where('is_enabled', 1 )->count(),
