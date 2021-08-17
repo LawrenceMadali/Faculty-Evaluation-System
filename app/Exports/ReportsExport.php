@@ -4,17 +4,16 @@ namespace App\Exports;
 
 use App\Models\Results;
 use Illuminate\Contracts\View\View;
-use Maatwebsite\Excel\Concerns\Exportable;
 use Maatwebsite\Excel\Concerns\FromView;
+use Maatwebsite\Excel\Events\BeforeSheet;
+use Maatwebsite\Excel\Concerns\Exportable;
+use Maatwebsite\Excel\Concerns\WithEvents;
+use Maatwebsite\Excel\Concerns\WithStyles;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithColumnWidths;
-use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-class ReportsExport implements FromView,
-    WithStyles,
-    WithColumnWidths,
-    ShouldAutoSize
+class ReportsExport implements FromView, WithStyles, WithColumnWidths, ShouldAutoSize, WithEvents
 {
     use Exportable;
 
@@ -34,12 +33,23 @@ class ReportsExport implements FromView,
         ]);
     }
 
+    public function registerEvents(): array
+    {
+        return [
+            BeforeSheet::class => function (BeforeSheet $event) {
+                $event->sheet
+                    ->getPageSetup()
+                    ->setOrientation(\PhpOffice\PhpSpreadsheet\Worksheet\PageSetup::ORIENTATION_LANDSCAPE);
+            },
+        ];
+    }
+
     public function styles(Worksheet $sheet)
     {
         $count = count($this->selectedExport);
 
-        $sheet->getStyle('A1:K'. $count+2)->getAlignment()->setVertical('center');
-        $sheet->getStyle('A1:K'. $count+2)->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:K')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:K')->getAlignment()->setHorizontal('center');
 
         return [
             1 => [ 'font' => ['bold' => true,]]
@@ -49,9 +59,9 @@ class ReportsExport implements FromView,
     public function columnWidths(): array
     {
         return [
-            'A' => 15, 'B' => 10, 'C' => 10, 'D' => 10, 'E' => 10,
-            'F' => 10, 'G' => 5,  'H' =>  5, 'I' => 5,  'J' =>  5,
-            'K' => 11,
+            'A' => 15, 'B' => 12, 'C' => 12, 'D' => 10, 'E' => 12,
+            'F' => 7, 'G' => 7,  'H' =>  7, 'I' => 7,  'J' =>  7,
+            'K' => 12,
         ];
     }
 }

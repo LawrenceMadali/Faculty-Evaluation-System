@@ -19,7 +19,7 @@ class SemesterProperty extends Component
         $validated = $this->validate([
             'name' => 'required|unique:semesters'
         ],
-        ['unique' => 'The :input is already exist.']);
+        ['unique' => 'The :attribute is already exist.']);
 
         Semester::create($validated);
         $this->reset();
@@ -51,7 +51,7 @@ class SemesterProperty extends Component
         $semester = $this->validate([
             'name' => 'required|unique:semesters,name,'.$this->sem
         ],
-        ['unique' => 'The :input is already exist.']);
+        ['unique' => 'The :attribute is already exist.']);
         Semester::find($this->sem)->update($semester);
         $this->reset();
         $this->resetValidation();

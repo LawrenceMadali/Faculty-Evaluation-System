@@ -58,8 +58,14 @@
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->year_and_section }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->instructors->name }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->courses->course }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->created_at->ToFormattedDateString() }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->updated_at->ToFormattedDateString() }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $yrSec->created_at->ToFormattedDateString() }}</div>
+                                        <div class="text-sm text-gray-500">{{ $yrSec->created_at->diffForHumans() }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $yrSec->updated_at->ToFormattedDateString() }}</div>
+                                        <div class="text-sm text-gray-500">{{ $yrSec->updated_at->diffForHumans() }}</div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                     <button wire:click="editOpenModal({{$yrSec->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
                                     </td>
@@ -95,9 +101,9 @@
                 <form wire:submit.prevent="create">
                     <div class="space-y-4">
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course code</label>
+                            <label class="block text-sm font-medium text-gray-700">Course</label>
                             <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">-- choose course code --</option>
+                                <option value="">-- choose course --</option>
                                 @foreach ($courses as $course)
                                 <option value="{{ $course->id }}">{{ $course->course }}</option>
                                 @endforeach

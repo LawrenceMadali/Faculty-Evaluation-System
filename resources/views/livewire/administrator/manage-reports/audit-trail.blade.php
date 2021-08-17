@@ -1,7 +1,7 @@
 <div>
     <div class="space-y-2 mt-2">
         <div class="flex justify-end">
-            <x-jet-button wire:click.prevent="export">
+            <x-jet-button wire:click.prevent="export" wire:loading.attr="disabled">
                 Export
             </x-jet-button>
         </div>

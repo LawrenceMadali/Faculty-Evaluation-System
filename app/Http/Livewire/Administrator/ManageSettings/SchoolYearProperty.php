@@ -19,7 +19,7 @@ class SchoolYearProperty extends Component
         $validated = $this->validate([
             'name' => 'required|min:4|unique:school_years',
         ],
-        ['unique' => 'The :input is already exist.']);
+        ['unique' => 'The :attribute is already exist.']);
 
         SchoolYear::create($validated);
         $this->reset();

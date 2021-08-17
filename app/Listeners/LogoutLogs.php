@@ -32,7 +32,7 @@ class LogoutLogs
     public function handle(Logout $event)
     {
         activity('Logout')
-            ->causedBy($event->user)
+            ->causedBy($event->user->id)
             ->withProperties(['attributes' => [
                 'name' => $event->user->name
                 ]])

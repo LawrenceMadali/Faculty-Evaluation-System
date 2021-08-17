@@ -6,8 +6,8 @@
             <th>College</th>
             <th>Semester</th>
             <th>School Year</th>
-            <th>Peer Evaluation Result</th>
-            <th>Student Evaluation Result</th>
+            <th>PER</th>
+            <th>SER</th>
             <th>Supervisor</th>
             <th>IPCR</th>
             <th>Total</th>

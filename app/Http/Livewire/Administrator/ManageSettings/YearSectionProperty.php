@@ -25,11 +25,11 @@ class YearSectionProperty extends Component
     public function create()
     {
         $validated = $this->validate([
-            'year_and_section'  => 'required|unique:year_and_sections,year_and_section',
+            'year_and_section'  => 'required|unique:year_and_sections,year_and_section,NULL,id,instructor_id,'.$this->instructor_id.',course_id,'.$this->course_id,
             'instructor_id'     => 'required',
             'course_id'         => 'required',
         ],
-        ['unique' => 'The :input is already exist.']);
+        ['unique' => 'The :attribute is already exist.']);
 
         YearAndSection::create($validated);
         $this->reset();
@@ -65,7 +65,7 @@ class YearSectionProperty extends Component
             'instructor_id'     => 'required',
             'course_id'         => 'required',
         ],
-        ['unique' => 'The :input is already exist.']);
+        ['unique' => 'The :attribute is already exist.']);
         YearAndSection::find($this->yearAndSectionId)->update($validated);
         $this->reset();
         $this->resetValidation();
@@ -84,10 +84,10 @@ class YearSectionProperty extends Component
     {
         return view('livewire.administrator.manage-settings.year-section-property', [
             'yrSecs'    => YearAndSection::with('instructors', 'courses')
-            ->latest('id')
-            ->paginate(5),
-            'courses'       => Course::all(),
-            'instructors'   => Instructor::all(),
+                        ->latest('id')
+                        ->paginate(5),
+            'courses'    => Course::all(),
+            'instructors'=> Instructor::all(),
         ]);
     }
 }

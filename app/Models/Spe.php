@@ -7,7 +7,6 @@ use App\Models\Course;
 use App\Models\CourseCode;
 use App\Models\SchoolYear;
 use App\Models\YearAndSection;
-use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;

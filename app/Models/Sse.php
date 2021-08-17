@@ -4,7 +4,6 @@ namespace App\Models;
 
 use App\Models\User;
 use App\Models\Instructor;
-use Spatie\Activitylog\LogOptions;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;

@@ -25,7 +25,7 @@ class LoginLogs
     public function handle(Login $event)
     {
         activity('Login')
-            ->causedBy($event->user)
+            ->causedBy($event->user->id)
             ->withProperties(['attributes' => [
                 'name' => $event->user->name
                 ]])

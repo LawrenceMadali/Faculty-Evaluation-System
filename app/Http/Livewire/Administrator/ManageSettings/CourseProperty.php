@@ -22,12 +22,12 @@ class CourseProperty extends Component
     public function create()
     {
         $validated = $this->validate([
-            'course'        => 'required|unique:courses',
+            'course'        => 'required|unique:courses,course,NULL,id,instructor_id,'.$this->instructor_id,
             'instructor_id' => 'required',
         ],
         [
             'instructor_id.required' => 'The instructor field is required.',
-            'unique' => 'The :input is already exist.'
+            'unique' => 'The :attribute is already exist.'
         ]);
 
         Course::create($validated);
@@ -65,7 +65,7 @@ class CourseProperty extends Component
         ],
         [
             'instructor_id.required' => 'The instructor field is required.',
-            'unique' => 'The :input is already exist.'
+            'unique' => 'The :attribute is already exist.'
         ]);
 
         Course::find($this->courseId)->update($validated);

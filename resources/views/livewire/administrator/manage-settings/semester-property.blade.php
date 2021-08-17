@@ -54,8 +54,14 @@
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sem->id }}</div></td>
                                     <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sem->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sem->created_at->ToFormattedDateString() }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $sem->updated_at->ToFormattedDateString() }}</div></td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $sem->created_at->ToFormattedDateString() }}</div>
+                                        <div class="text-sm text-gray-500">{{ $sem->created_at->diffForHumans() }}</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900">{{ $sem->updated_at->ToFormattedDateString() }}</div>
+                                        <div class="text-sm text-gray-500">{{ $sem->updated_at->diffForHumans() }}</div>
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                     <button wire:click="editOpenModal({{$sem->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
                                     </td>

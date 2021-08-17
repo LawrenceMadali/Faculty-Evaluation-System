@@ -10,11 +10,7 @@ use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Spatie\Activitylog\Models\Activity;
 
-class AuditTrailExport implements
-    FromView,
-    WithStyles,
-    ShouldAutoSize,
-    WithColumnWidths
+class AuditTrailExport implements FromView, WithStyles, ShouldAutoSize, WithColumnWidths
 {
     public function view(): View
     {
@@ -26,10 +22,8 @@ class AuditTrailExport implements
 
     public function styles(Worksheet $sheet)
     {
-        $count = Activity::count();
-
-        $sheet->getStyle('A1:F'. $count+2)->getAlignment()->setVertical('center');
-        $sheet->getStyle('A1:F'. $count+2)->getAlignment()->setHorizontal('center');
+        $sheet->getStyle('A:F')->getAlignment()->setVertical('center');
+        $sheet->getStyle('A:F')->getAlignment()->setHorizontal('center');
 
         return [
             1 => [ 'font' => ['bold' => true,]]

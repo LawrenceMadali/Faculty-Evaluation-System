@@ -19,7 +19,7 @@ class CollegeProperty extends Component
     {
         $college = $this->validate(
         ['name' => 'required|unique:colleges'],
-        ['unique' => 'The :input is already exist.']
+        ['unique' => 'The :attribute is already exist.']
     );
         College::create($college);
         $this->reset();
@@ -49,7 +49,7 @@ class CollegeProperty extends Component
     {
         $college = $this->validate(
             ['name' => 'required|unique:colleges,name,'.$this->collegeId],
-            ['unique' => 'The :input is already exist.']);
+            ['unique' => 'The :attribute is already exist.']);
         College::find($this->collegeId)->update($college);
         $this->reset();
         $this->resetValidation();

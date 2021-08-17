@@ -3,11 +3,10 @@
 namespace App\Models;
 
 use App\Models\Course;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CourseCode extends Model
 {
@@ -16,6 +15,7 @@ class CourseCode extends Model
 
     protected $fillable = [
         'course_id',
+        'semester_id',
         'course_code',
         'instructor_id',
         'year_and_section_id',
@@ -34,6 +34,11 @@ class CourseCode extends Model
     public function year_and_sections()
     {
         return $this->belongsTo(YearAndSection::class, 'year_and_section_id');
+    }
+
+    public function semesters()
+    {
+        return $this->belongsTo(Semester::class, 'semester_id');
     }
 
     protected static $logOnlyDirty = true;

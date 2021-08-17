@@ -131,7 +131,7 @@ Route::group(['middleware' => 'auth'], function()
 
     Route::prefix('Rating Form')->group(function () {
         // -------------------------------------------------- Middleware for instructor --------------------------------------------------
-        Route::group(['middleware' => 'instructorMiddleware' ], function () {
+        Route::group(['middleware' => 'instructorMiddleware'], function () {
 
             Route::get('peer-rater-form', [PeerRaterForm::class, 'index'])->name('peerRaterForm');
 
