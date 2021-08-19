@@ -51,7 +51,17 @@ class StudentRaterForm extends Component
     public $srfModal = false;
 
     protected $rules = [
-        // 'sse_id' => 'required|unique:student_rating_forms,sse_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
+        
+    ];
+
+    protected $messages = [
+           
+    ];
+
+    public function submit()
+    {
+        $validatedData = $this->validate([
+        'sse_id' => 'required|unique:student_rating_forms,sse_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         // validation error for commitment table
         'commitment_1' => 'required',
         'commitment_2' => 'required',
@@ -76,41 +86,35 @@ class StudentRaterForm extends Component
         'management_of_learning_3' => 'required',
         'management_of_learning_4' => 'required',
         'management_of_learning_5' => 'required',
-    ];
+        ],[
+        // custom validation message for commitment table
+        'commitment_1.required' => 'Commitment question 1 is required ',
+        'commitment_2.required' => 'Commitment question 2 is required ',
+        'commitment_3.required' => 'Commitment question 3 is required ',
+        'commitment_4.required' => 'Commitment question 4 is required ',
+        'commitment_5.required' => 'Commitment question 5 is required ',
+        // custom validation message for knowledge of subject table
+        'knowledge_of_subject_1.required' => 'Knowledge of Subject question 1 is required',
+        'knowledge_of_subject_2.required' => 'Knowledge of Subject question 2 is required',
+        'knowledge_of_subject_3.required' => 'Knowledge of Subject question 3 is required',
+        'knowledge_of_subject_4.required' => 'Knowledge of Subject question 4 is required',
+        'knowledge_of_subject_5.required' => 'Knowledge of Subject question 5 is required',
+        // custom validation message for teaching for independeint learning table
+        'teaching_for_independent_learning_1.required' => 'Teaching for Independent Learning question 1 is required',
+        'teaching_for_independent_learning_2.required' => 'Teaching for Independent Learning question 2 is required',
+        'teaching_for_independent_learning_3.required' => 'Teaching for Independent Learning question 3 is required',
+        'teaching_for_independent_learning_4.required' => 'Teaching for Independent Learning question 4 is required',
+        'teaching_for_independent_learning_5.required' => 'Teaching for Independent Learning question 5 is required',
+        // custom validation message for management of learning table
+        'management_of_learning_1.required' => 'Management of Learning question 1 is required',
+        'management_of_learning_2.required' => 'Management of Learning question 2 is required',
+        'management_of_learning_3.required' => 'Management of Learning question 3 is required',
+        'management_of_learning_4.required' => 'Management of Learning question 4 is required',
+        'management_of_learning_5.required' => 'Management of Learning question 5 is required',
+        'unique' => 'The selected faculty has already evaluated.',
 
-    protected $messages = [
-           // custom validation message for commitment table
-           'commitment_1.required' => 'Commitment question 1 is required ',
-           'commitment_2.required' => 'Commitment question 2 is required ',
-           'commitment_3.required' => 'Commitment question 3 is required ',
-           'commitment_4.required' => 'Commitment question 4 is required ',
-           'commitment_5.required' => 'Commitment question 5 is required ',
-           // custom validation message for knowledge of subject table
-           'knowledge_of_subject_1.required' => 'Knowledge of Subject question 1 is required',
-           'knowledge_of_subject_2.required' => 'Knowledge of Subject question 2 is required',
-           'knowledge_of_subject_3.required' => 'Knowledge of Subject question 3 is required',
-           'knowledge_of_subject_4.required' => 'Knowledge of Subject question 4 is required',
-           'knowledge_of_subject_5.required' => 'Knowledge of Subject question 5 is required',
-           // custom validation message for teaching for independeint learning table
-           'teaching_for_independent_learning_1.required' => 'Teaching for Independent Learning question 1 is required',
-           'teaching_for_independent_learning_2.required' => 'Teaching for Independent Learning question 2 is required',
-           'teaching_for_independent_learning_3.required' => 'Teaching for Independent Learning question 3 is required',
-           'teaching_for_independent_learning_4.required' => 'Teaching for Independent Learning question 4 is required',
-           'teaching_for_independent_learning_5.required' => 'Teaching for Independent Learning question 5 is required',
-           // custom validation message for management of learning table
-           'management_of_learning_1.required' => 'Management of Learning question 1 is required',
-           'management_of_learning_2.required' => 'Management of Learning question 2 is required',
-           'management_of_learning_3.required' => 'Management of Learning question 3 is required',
-           'management_of_learning_4.required' => 'Management of Learning question 4 is required',
-           'management_of_learning_5.required' => 'Management of Learning question 5 is required',
-           'unique' => 'The selected faculty has already evaluated.',
-
-            'spe_id.required' => 'The instructor field is required'
-    ];
-
-    public function submit()
-    {
-        $validatedData = $this->validate();
+        'sse_id.required' => 'The instructor field is required.'
+        ]);
 
         StudentRatingForm::create($validatedData +
         [

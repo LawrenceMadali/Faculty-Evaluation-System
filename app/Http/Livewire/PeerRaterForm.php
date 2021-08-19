@@ -49,8 +49,10 @@ class PeerRaterForm extends Component
     public $evaluator_number;
     public $prfModal = false;
 
-    protected $rules = [
-        // 'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
+    public function submit()
+    {
+        $peerRaterForm = $this->validate([
+        'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         // validation for commitment
         'commitment_1' => 'required',
         'commitment_2' => 'required',
@@ -75,10 +77,8 @@ class PeerRaterForm extends Component
         'management_of_learning_3' => 'required',
         'management_of_learning_4' => 'required',
         'management_of_learning_5' => 'required',
-    ];
-
-    protected $messages =[
-        // custom validation message for commitment table
+        ],[
+            // custom validation message for commitment table
         'commitment_1.required' => 'The commitment question number 1 is required ',
         'commitment_2.required' => 'The commitment question number 2 is required ',
         'commitment_3.required' => 'The commitment question number 3 is required ',
@@ -105,11 +105,7 @@ class PeerRaterForm extends Component
         'unique' => 'The selected faculty has already evaluated.',
 
         'spe_id.required' => 'The instructor field is required'
-    ];
-
-    public function submit()
-    {
-        $peerRaterForm = $this->validate();
+        ]);
 
         PeerRatingForm::create($peerRaterForm +
         [

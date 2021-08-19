@@ -15,10 +15,10 @@ module.exports = {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: ({
-                'seal': "url('/images/Seal.png')",
+                'seal': "url('/images/seal.png')",
                 'urs': "url('/images/bg-img.jpg')",
                 'hero': "url('/images/Giants.png')",
-                'urs-side-angle' : "url('/images/bg1.jpg')",
+                'urs-side-angle': "url('/images/bg1.JPG')",
             })
         },
     },
