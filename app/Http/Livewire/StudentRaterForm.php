@@ -124,7 +124,7 @@ class StudentRaterForm extends Component
             $this->commitment_3 +
             $this->commitment_4 +
             $this->commitment_5,
-
+            
             'knowledge_of_subject_total' =>
             $this->knowledge_of_subject_1 +
             $this->knowledge_of_subject_2 +
