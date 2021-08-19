@@ -68,7 +68,7 @@ class CollegeProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.college-property',[
-            'colleges' => College::latest('id')->paginate(5),
+            'colleges' => College::latest()->paginate(5),
         ]);
     }
 }

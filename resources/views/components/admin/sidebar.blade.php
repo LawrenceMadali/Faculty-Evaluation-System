@@ -75,8 +75,8 @@
                 {{ __('Manage Settings') }}
             </x-jet-dropdown-link>
 
-            <x-jet-dropdown-link href="{{ route('manage-users') }}">
-                {{ __('Manage Users') }}
+            <x-jet-dropdown-link href="{{ route('manage-accounts') }}">
+                {{ __('Manage Accounts') }}
             </x-jet-dropdown-link>
         </x-slot>
     </x-jet-dropdown>

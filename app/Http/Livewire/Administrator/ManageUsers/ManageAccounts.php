@@ -194,16 +194,17 @@ class ManageAccounts extends Component
             'studentFile' => 'required|mimes:xlsx, xls'
         ]);
 
-        $import = new UserDataImport();
-        $import->import($this->studentFile);
-        if ($import->failures()->isNotEmpty()) {
-                session()->flash('errorMessage', $import->failures());
-        }
-        else{
-            $this->reset();
-            $this->emit('import');
-        }
+        Excel::import(new UserDataImport, $this->studentFile);
+        $this->reset();
+        $this->emit('import');
         $this->resetValidation();
+
+        activity('Import')
+        ->causedBy($event->user->id)
+        ->withProperties(['attributes' => [
+            'name' => $event->user->name
+            ]])
+        ->log($event->user->name.' is importing users');
     }
 
     public $updateUsers;
@@ -218,6 +219,13 @@ class ManageAccounts extends Component
         $updateImport->import($this->updateUsers);
         $this->reset();
         $this->emit('updated');
+
+        activity('Import update')
+        ->causedBy($event->user->id)
+        ->withProperties(['attributes' => [
+            'name' => $event->user->name
+            ]])
+        ->log($event->user->name.' is updating users');
     }
 
     public function render()
@@ -230,7 +238,6 @@ class ManageAccounts extends Component
             'users'             => User::search($this->search)
                                     ->with('yearAndSections', 'colleges', 'roles', 'courses')
                                     ->where('id' , '!=', auth()->id())
-                                    ->latest('id')
                                     ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                                     ->paginate($this->perPage)
         ]);

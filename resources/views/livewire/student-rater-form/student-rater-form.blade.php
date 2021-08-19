@@ -12,9 +12,9 @@
             </div>
             @endif
         </div>
-        <div class="flex justify-center items-center text-sm text-yellow-700 bg-yellow-200 p-2 rounded-md">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            <p>If the questions are not in present please contact the school staff.</p>
+        <div class="flex items-center justify-center mr-2 w-full text-sm font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
+            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            <span>If the questions are not in present please contact the school staff.</span>
         </div>
         <section class="flex justify-center items-center text-center mb-8 text-gray-700">
             <x-jet-application-mark/>
@@ -78,11 +78,11 @@
             @if ($questionair->is_enabled === 1)
             <form wire:submit.prevent="submit">
                 <div class="space-y-2">
-                    <div class="p-2 bg-yellow-200 rounded-md">
-                        <em class="text-sm text-yellow-700">
-                            Note: Choose Faculty you want to evaluate first... Be sure all chosen Faculty must be evaluated.
-                        </em>
+                    <div class="flex items-center justify-center mr-2 w-full text-sm font-poppins p-2 border-2 border-yellow-400 bg-yellow-200 rounded-md text-yellow-700">
+                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Choose Faculty you want to evaluate first... Be sure all chosen Faculty must be evaluated.</span>
                     </div>
+
                     <div class="flex items-center text-gray-700 font-medium p-2 rounded-md border-none bg-blue-100 space-x-2">
                         <label class="text-sm font-bold">Name of Faculty: &nbsp;</label>
                         <select wire:model="sse_id" class="mt-1 block w-52 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
@@ -96,22 +96,11 @@
                         <x-jet-input-error for="sse_id"/>
                     </div>
                     <div class="hidden">
-                        <div>
-                            <label for="">Semester</label>
-                            <input wire:model="semester_id" type="text">
-                        </div>
-                        <div>
-                            <label for="">School Year</label>
-                            <input wire:model="school_year_id" type="text">
-                        </div>
-                        <div>
-                            <label for="">Id number</label>
-                            <input wire:model="id_number" type="text">
-                        </div>
-                        <div>
-                            <label for="">Name</label>
-                            <input wire:model="name" type="text">
-                        </div>
+                        <input wire:model="name" type="text">
+                        <input wire:model="id_number" type="text">
+                        <input wire:model="college_id" type="text">
+                        <input wire:model="semester_id" type="text">
+                        <input wire:model="school_year_id" type="text">
                     </div>
                     {{-------------------------------------------------- Commitment --------------------------------------------------}}
                     <div class="space-y-2 rounded-lg border-2 border-blue-200 p-2">
@@ -417,7 +406,9 @@
             </div>
             @endif
             @empty
-            <h2 class="p-2 text-center text-sm text-red-700 bg-red-100 rounded-full">Opps! No questionairs found.</h2>
+            <div class="flex items-center justify-center mr-2 w-full text-sm font-poppins p-2 border-2 border-red-400 bg-red-200 rounded-md text-red-700">
+                <span>Opps! No questionairs found.</span>
+            </div>
             @endforelse
         </section>
     </div>

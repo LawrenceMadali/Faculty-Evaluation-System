@@ -86,7 +86,7 @@ class CourseProperty extends Component
     {
         return view('livewire.administrator.manage-settings.course-property',[
             'courses'   => Course::with('instructors')
-            ->latest('id')
+            ->latest()
             ->paginate(5),
             'faculties' => Instructor::all(),
         ]);

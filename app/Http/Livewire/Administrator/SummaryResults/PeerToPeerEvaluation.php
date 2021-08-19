@@ -37,7 +37,7 @@ class PeerToPeerEvaluation extends Component
     {
         return view('livewire.administrator.summary-results.peer-to-peer-evaluation', [
             'instructors' => PeerRatingForm::with('spes', 'semesters', 'schoolYears')
-                            ->latest('id')
+                            ->latest()
                             ->get()
         ]);
     }

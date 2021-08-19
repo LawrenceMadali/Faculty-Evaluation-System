@@ -550,7 +550,7 @@ class SetStudentEvaluationPage extends Component
             'counts'        => Sse::count(),
             'sses'          => Sse::with('schoolYears', 'semesters','instructors',
                             'courses', 'yearSections', 'CourseCodes')
-                            ->latest('id')
+                            ->latest()
                             ->paginate(5),
             'activeCount'   =>Sse::where('is_active', 1)->count(),
             ]);

@@ -109,9 +109,11 @@
         {{-------------------------------------------------- Create Modal  --------------------------------------------------}}
         <x-jet-dialog-modal maxWidth="5xl" wire:model.defer="openModal">
             <x-slot name="title">
-                <label class="block text-sm font-medium text-gray-700">
-                    Create evaluator
-                </label>
+                <div class="flex items-center space-x-2">
+                    <div class="text-sm font-bold">
+                        Create Evaluation
+                    </div>
+                </div>
             </x-slot>
 
             <x-slot name="content">
@@ -148,7 +150,7 @@
                                                 @endif
                                                 @if (!is_null($semester) && $semester != 'null')
                                                     <div class="col-span-6 sm:col-span-2">
-                                                    <label for="instructor" class="block text-sm font-medium text-gray-700">Instructor</label>
+                                                    <label class="block text-sm font-medium text-gray-700">Instructor</label>
                                                     <select wire:model="faculty" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="null">-- choose instructor --</option>
                                                         @foreach ($instructors as $instructor)
@@ -170,6 +172,11 @@
                             </div>
                         </div>
 
+                        <div class="flex items-center mr-2 w-full text-sm font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
+                            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Check the checkbox of percentage you want, or select manually. The percentage checkbox are chose randomly.</span>
+                        </div>
+
                         <div class="flex flex-col">
                             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -178,7 +185,7 @@
                                             <thead class="bg-gray-50">
                                                 <tr>
                                                     <th scope="col" class="flex px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Instructor id number
+                                                        Instructor number
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         @if (!$faculty)

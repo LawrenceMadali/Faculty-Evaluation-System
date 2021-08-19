@@ -1,5 +1,5 @@
 <div>
-    <div class="space-y-4 mt-10">
+    <div class="space-y-4 mt-4">
         {{-------------------------------------------------- College --------------------------------------------------}}
         @livewire('administrator.manage-settings.college-property')
         <x-jet-section-border />

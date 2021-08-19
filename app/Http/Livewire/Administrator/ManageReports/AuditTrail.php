@@ -16,13 +16,14 @@ class AuditTrail extends Component
 
     public function export()
     {
-        return Excel::download(new AuditTrailExport, 'audit-trail.pdf');
+        $date = now();
+        return Excel::download(new AuditTrailExport, 'audit_trail-'.$date.'.pdf');
     }
 
     public function render()
     {
         return view('livewire.administrator.manage-reports.audit-trail', [
-            'activities' => Activity::latest('id')->paginate(5),
+            'activities' => Activity::latest()->paginate(5),
         ]);
     }
 }

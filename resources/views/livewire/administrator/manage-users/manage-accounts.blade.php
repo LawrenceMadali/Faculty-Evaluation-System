@@ -406,6 +406,9 @@
                                 </label>
                                 <p class="pl-1">or drag and drop</p>
                             </div>
+                            <div class=" text-left">
+                                <x-jet-validation-errors class="mb-4" />
+                            </div>
                             <div wire:loading class="text-sm text-green-700 px-2 bg-green-200 rounded-md">
                                 Please wait
                                 <svg class="text-green-700 inline" width="32px" height="32px" viewBox="0 0 120 30" xmlns="http://www.w3.org/2000/svg" fill="currentColor" color="#000000"><circle cx="15" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="60" cy="15" r="9" fill-opacity=".3"><animate attributeName="r" from="9" to="9" begin="0s" dur="0.8s" values="9;15;9" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from=".5" to=".5" begin="0s" dur="0.8s" values=".5;1;.5" calcMode="linear" repeatCount="indefinite"></animate></circle><circle cx="105" cy="15" r="15"><animate attributeName="r" from="15" to="15" begin="0s" dur="0.8s" values="15;9;15" calcMode="linear" repeatCount="indefinite"></animate><animate attributeName="fill-opacity" from="1" to="1" begin="0s" dur="0.8s" values="1;.5;1" calcMode="linear" repeatCount="indefinite"></animate></circle></svg>
@@ -413,36 +416,6 @@
                         </div>
                     </div>
                 </form>
-
-                @if (session()->has('errorMessage'))
-                    <div class="flex flex-col mt-5">
-                        <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                            <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-                                <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg overflow-y-scroll h-80">
-                                    <table class="min-w-full divide-y divide-gray-200">
-                                        <thead class="bg-red-200">
-                                            <tr>
-                                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-red-600 uppercase tracking-wider">Whoops! Something went wrong.</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="bg-red-100 divide-y divide-gray-200">
-                                            @foreach (session()->get('errorMessage') as $validation)
-                                                <tr>
-                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                        @foreach ($validation->errors() as $error)
-                                                            <li class="text-sm text-red-700">{{ $error }} </li>
-                                                        @endforeach
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endif
-
             </x-slot>
             <x-slot name="footer">
                 <x-jet-secondary-button wire:click="closeModal" wire:loading.attr="disabled">

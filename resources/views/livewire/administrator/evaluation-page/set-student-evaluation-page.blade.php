@@ -206,6 +206,11 @@
                             </div>
                         </div>
 
+                        <div class="flex items-center mr-2 text-sm w-full font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
+                            <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <span>Check the checkbox of percentage you want, or select manually. The percentage checkbox are chose randomly.</span>
+                        </div>
+
                         <div class="flex flex-col">
                             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
                                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
@@ -214,7 +219,7 @@
                                             <thead class="bg-gray-50">
                                                 <tr>
                                                     <th scope="col" class="flex px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        student id number
+                                                        student number
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         @if (!$students)

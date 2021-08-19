@@ -84,7 +84,7 @@ class YearSectionProperty extends Component
     {
         return view('livewire.administrator.manage-settings.year-section-property', [
             'yrSecs'    => YearAndSection::with('instructors', 'courses')
-                        ->latest('id')
+                        ->latest()
                         ->paginate(5),
             'courses'    => Course::all(),
             'instructors'=> Instructor::all(),

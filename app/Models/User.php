@@ -48,7 +48,7 @@ class User extends Authenticatable
     protected static $logAttributes = ['role_id', 'id_number', 'name',
                                        'email'  , 'status'   , 'college_id',
                                        'year_and_section_id' , ];
-    protected static $logName = 'Manage User';
+    protected static $logName = 'Manage Accounts';
 
     public function getDescriptionForEvent(string $eventName): string
     {

@@ -37,7 +37,7 @@ class StudentEvaluation extends Component
     {
         return view('livewire.administrator.summary-results.student-evaluation',[
             'students' => StudentRatingForm::with('sses', 'semesters', 'school_years')
-                        ->latest('id')
+                        ->latest()
                         ->get(),
         ]);
     }

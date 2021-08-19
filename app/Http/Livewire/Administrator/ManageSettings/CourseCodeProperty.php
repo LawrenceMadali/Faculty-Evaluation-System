@@ -97,7 +97,7 @@ class CourseCodeProperty extends Component
     {
         return view('livewire.administrator.manage-settings.course-code-property',[
             'ccs'               => CourseCode::with('instructors', 'courses', 'year_and_sections')
-                                ->latest('id')
+                                ->latest()
                                 ->paginate(5),
             'instructors'       => Instructor::all(),
             'courses'           => Course::all(),

@@ -69,7 +69,7 @@ class SemesterProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.semester-property',[
-            'sems'  => Semester::latest('id')->paginate(5),
+            'sems'  => Semester::latest()->paginate(5),
         ]);
     }
 }

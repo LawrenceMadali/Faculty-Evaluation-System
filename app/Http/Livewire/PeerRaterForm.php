@@ -44,6 +44,7 @@ class PeerRaterForm extends Component
     public $spe_id;
     public $comments;
     public $id_number;
+    public $college_id;
     public $semester_id;
     public $school_year_id;
     public $evaluator_number;
@@ -184,6 +185,7 @@ class PeerRaterForm extends Component
             'spe_id'            => $this->spe_id,
             'comments'          => $this->comments,
             'id_number'         => $this->id_number,
+            'college_id'        => $this->college_id,
             'semester_id'       => $this->semester_id,
             'school_year_id'    => $this->school_year_id,
             'evaluator_number'  => Auth::user()->id_number,
@@ -196,12 +198,15 @@ class PeerRaterForm extends Component
     public function updatedSpeId()
     {
         $speId = Spe::find($this->spe_id);
-        $this->name             = $speId->name ?? null;
-        $this->semester_id      = $speId->semester_id ?? null;
-        $this->school_year_id   = $speId->school_year_id ?? null;
-        $this->id_number        = $speId->id_number ?? null;
+        $this->name            = $speId->name ?? null;
+        $this->id_number       = $speId->id_number ?? null;
+        $this->college_id      = $speId->college_id ?? null;
+        $this->semester_id     = $speId->semester_id ?? null;
+        $this->school_year_id  = $speId->school_year_id ?? null;
         $this->validate([
             'spe_id' => 'required|unique:peer_rating_forms,spe_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
+        ],[
+            'unique' => 'The selected faculty has already evaluated.',
         ]);
     }
 

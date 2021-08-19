@@ -31,6 +31,15 @@ class UserUpdate implements ToCollection, WithHeadingRow
                 'college_id'            => $row['college_id'] ?? null,
                 'year_and_section_id'   => $row['year_and_section_id'] ?? null,
             ]);
+
+            if ($row['role_id'] == 4) {
+                Instructor::where('id_number', $row['id_number'])
+                ->update([
+                    'name'                  => $row['name'],
+                    'id_number'             => $row['id_number'],
+                    'college_id'            => $row['college_id'] ?? null,
+                ]);
+            }
         }
     }
 }

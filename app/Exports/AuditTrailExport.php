@@ -15,7 +15,7 @@ class AuditTrailExport implements FromView, WithStyles, ShouldAutoSize, WithColu
     public function view(): View
     {
         return view('audit-trail-pdf', [
-            'activities' => Activity::latest('id')->get(),
+            'activities' => Activity::latest()->get(),
             'currentTime' => now()->format('F d, Y h:ia'),
         ]);
     }

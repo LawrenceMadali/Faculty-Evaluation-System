@@ -78,7 +78,9 @@ class Report extends Component
 
     public function generate()
     {
-        return Excel::download(new ReportsExport($this->selectedExport), 'report.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+        $date = now();
+
+        return Excel::download(new ReportsExport($this->selectedExport), 'report-'.$date.'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
         activity()
             ->causedBy(Auth::user()->id)
@@ -105,7 +107,7 @@ class Report extends Component
                         ->latest('total')
                         ->get(),
             'resultList' => ReportGroupList::with('semesters', 'school_years')
-                        ->latest('id')
+                        ->latest()
                         ->get(),
             'faculties' => Instructor::all(),
             'count'     => count($this->selectedExport),

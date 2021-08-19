@@ -129,7 +129,7 @@ class ManageResult extends Component
         return view('livewire.administrator.manage-results.manage-result',
         [
             'instructors'   => Spe::with('schoolYears', 'semesters')->get(),
-            'results'       => Results::with('semesters', 'school_years')->latest('id')->paginate(5),
+            'results'       => Results::with('semesters', 'school_years')->latest()->paginate(5),
         ]);
     }
 }

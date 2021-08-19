@@ -43,20 +43,13 @@ class StudentRaterForm extends Component
     public $name;
     public $scale;
     public $sse_id;
-    public $id_number;
     public $comments;
+    public $id_number;
+    public $college_id;
     public $semester_id;
     public $school_year_id;
     public $evaluator_number;
     public $srfModal = false;
-
-    protected $rules = [
-        
-    ];
-
-    protected $messages = [
-           
-    ];
 
     public function submit()
     {
@@ -124,7 +117,7 @@ class StudentRaterForm extends Component
             $this->commitment_3 +
             $this->commitment_4 +
             $this->commitment_5,
-            
+
             'knowledge_of_subject_total' =>
             $this->knowledge_of_subject_1 +
             $this->knowledge_of_subject_2 +
@@ -193,6 +186,7 @@ class StudentRaterForm extends Component
             'sse_id'            => $this->sse_id,
             'comments'          => $this->comments,
             'id_number'         => $this->id_number,
+            'college_id'        => $this->college_id,
             'semester_id'       => $this->semester_id,
             'school_year_id'    => $this->school_year_id,
             'evaluator_number'  => Auth::user()->id_number,
@@ -206,12 +200,15 @@ class StudentRaterForm extends Component
     public function updatedSseId()
     {
         $sseId = Sse::find($this->sse_id);
-        $this->name             = $sseId->name ?? null;
-        $this->id_number        = $sseId->id_number ?? null;
-        $this->semester_id      = $sseId->semester_id ?? null;
-        $this->school_year_id   = $sseId->school_year_id ?? null;
+        $this->name           = $sseId->name ?? null;
+        $this->id_number      = $sseId->id_number ?? null;
+        $this->college_id     = $sseId->college_id ?? null;
+        $this->semester_id    = $sseId->semester_id ?? null;
+        $this->school_year_id = $sseId->school_year_id ?? null;
         $this->validate([
             'sse_id' => 'required|unique:student_rating_forms,sse_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
+        ],[
+            'unique' => 'The selected faculty has already evaluated.',
         ]);
     }
 

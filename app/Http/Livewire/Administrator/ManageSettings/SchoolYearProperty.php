@@ -68,7 +68,7 @@ class SchoolYearProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.school-year-property',[
-            'sys' => SchoolYear::latest('id')->paginate(5),
+            'sys' => SchoolYear::latest()->paginate(5),
         ]);
     }
 }

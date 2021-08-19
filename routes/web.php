@@ -38,14 +38,10 @@ use App\Http\Controllers\Admin\SystemManagement\ManageSettings\ManageSettingsCon
 // manage users
 use App\Http\Controllers\Admin\SystemManagement\ManageUsers\InstructorEvaluationDetailsController;
 use App\Http\Controllers\Admin\SystemManagement\ManageUsers\ManageAccountController;
-use App\Http\Controllers\TestingController;
 
 Route::get('/', function () {
     return view('welcome');
 });
-// testing Page
-Route::get('testPDF', [TestingController::class, 'index']);
-
 // auth protection
 Route::group(['middleware' => 'auth'], function()
 {
@@ -96,7 +92,12 @@ Route::group(['middleware' => 'auth'], function()
             // -------------------------------------------------- Manage reports --------------------------------------------------
             Route::prefix('manage-report')->group(function () {
 
-                Route::get('/',[ReportController::class, 'index'])->name('report');
+
+                Route::group(['middleware'  => 'hrMiddleware'], function () {
+
+                    Route::get('/',[ReportController::class, 'index'])->name('report');
+
+                });
 
                 Route::get('manage-reports',[ManageReportController::class, 'index'])->name('manage-reports');
 
