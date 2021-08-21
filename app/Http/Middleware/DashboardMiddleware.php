@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class DeanMiddleware
+class DashboardMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,7 +16,7 @@ class DeanMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array(auth()->user()->role_id, [3, 4, 5])) {
+        if (in_array(auth()->user()->role_id, [4, 5])) {
             abort(403);
         }
 

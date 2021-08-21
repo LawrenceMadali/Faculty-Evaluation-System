@@ -47,6 +47,7 @@ class PeerRatingForm extends Model
         'spe_id',
         'comments',
         'id_number',
+        'college_id',
         'semester_id',
         'school_year_id',
         'evaluator_number',
@@ -80,5 +81,10 @@ class PeerRatingForm extends Model
     public function schoolYears()
     {
         return $this->belongsTo(SchoolYear::class, 'school_year_id');
+    }
+
+    public function colleges()
+    {
+        return $this->belongsTo(College::class, 'college_id');
     }
 }

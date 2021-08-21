@@ -60,11 +60,17 @@ class Kernel extends HttpKernel
      */
     protected $routeMiddleware = [
         'adminMiddleware' => \App\Http\Middleware\AdminMiddleware::class,
-        'deanMiddleware' => \App\Http\Middleware\DeanMiddleware::class,
-        'secretaryMiddleware' => \App\Http\Middleware\SecretaryMiddleware::class,
         'instructorMiddleware' => \App\Http\Middleware\InstructorMiddleware::class,
         'studentMiddleware' => \App\Http\Middleware\StudentMiddleware::class,
-        'hrMiddleware' => \App\Http\Middleware\HumanResourceMiddleware::class,
+
+        'dashboard' => \App\Http\Middleware\DashboardMiddleware::class,
+        'setEvaluation' => \App\Http\Middleware\SetEvaluationMiddleware::class,
+        'summaryResult' => \App\Http\Middleware\SummaryResultMiddleware::class,
+        'accounts' =>\App\Http\Middleware\ManageAccountMiddleware::class,
+        'questionnairs' => \App\Http\Middleware\QuestionnairMiddleware::class,
+        'reports' => \App\Http\Middleware\ReportMiddleware::class,
+        'results' => \App\Http\Middleware\ResultMiddleware::class,
+        'settings' => \App\Http\Middleware\SettingsMiddleware::class,
 
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,

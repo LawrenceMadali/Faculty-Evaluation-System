@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
         $this->call(YearAndSectionSeeder::class);
         $this->call(CourseCodeseeder::class);
         $this->call(AdminSeeder::class);
-        // $this->call(StudentRaterFormQuestionairSeeder::class);
-        // $this->call(PeerRaterFormQuestionairSeeder::class);
+        $this->call(StudentRaterFormQuestionairSeeder::class);
+        $this->call(PeerRaterFormQuestionairSeeder::class);
         // $this->call(SetPeerEvaluationSeeder::class);
         // $this->call(SetStudentEvaluationSeeder::class);
         // $this->call(SpeUserSeeder::class);

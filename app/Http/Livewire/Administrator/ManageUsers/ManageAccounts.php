@@ -200,11 +200,11 @@ class ManageAccounts extends Component
         $this->resetValidation();
 
         activity('Import')
-        ->causedBy($event->user->id)
+        ->causedBy(auth()->user()->id)
         ->withProperties(['attributes' => [
-            'name' => $event->user->name
+            'name' => auth()->user()->name
             ]])
-        ->log($event->user->name.' is importing users');
+        ->log(auth()->user()->name.' is importing users');
     }
 
     public $updateUsers;
@@ -221,11 +221,11 @@ class ManageAccounts extends Component
         $this->emit('updated');
 
         activity('Import update')
-        ->causedBy($event->user->id)
+        ->causedBy(auth()->user()->id)
         ->withProperties(['attributes' => [
-            'name' => $event->user->name
+            'name' => auth()->user()->name
             ]])
-        ->log($event->user->name.' is updating users');
+        ->log(auth()->user()->name.' is updating users');
     }
 
     public function render()
@@ -237,7 +237,6 @@ class ManageAccounts extends Component
             'yearAndSections'   => YearAndSection::all(),
             'users'             => User::search($this->search)
                                     ->with('yearAndSections', 'colleges', 'roles', 'courses')
-                                    ->where('id' , '!=', auth()->id())
                                     ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')
                                     ->paginate($this->perPage)
         ]);

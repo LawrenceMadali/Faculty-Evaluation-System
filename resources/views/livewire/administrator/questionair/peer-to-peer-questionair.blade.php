@@ -330,7 +330,7 @@
         </x-jet-dialog-modal>
 
         {{-------------------------------------------------- View Modal --------------------------------------------------}}
-        <x-jet-dialog-modal maxWidth="4xl" wire:model.defer="viewModal">
+        <x-jet-dialog-modal maxWidth="6xl" wire:model.defer="viewModal">
             <x-slot name="title">
                 {{ __('Questions') }}
             </x-slot>

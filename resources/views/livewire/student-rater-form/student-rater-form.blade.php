@@ -723,7 +723,7 @@
                             </div>
                         </div>
                         <div>
-                            <textarea wire:model.lazy="comments" class="rounded-lg shadow-lg" cols="50" rows="5" placeholder="Comments and Suggestions"></textarea>
+                            <textarea wire:model.lazy="comments" class="resize border rounded-md font-poppins text-sm" cols="25" rows="5" placeholder="comments and suggestions...(optional)"></textarea>
                         </div>
                     </div>
                 </form>

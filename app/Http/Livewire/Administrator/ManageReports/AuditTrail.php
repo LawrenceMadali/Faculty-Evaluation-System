@@ -18,6 +18,13 @@ class AuditTrail extends Component
     {
         $date = now();
         return Excel::download(new AuditTrailExport, 'audit_trail-'.$date.'.pdf');
+
+        activity('Export result')
+            ->causedBy(auth()->user()->id)
+            ->withProperties(['attributes' => [
+                'name' => auth()->user()->name
+                ]])
+            ->log(auth()->user()->name.' is exporting result');
     }
 
     public function render()

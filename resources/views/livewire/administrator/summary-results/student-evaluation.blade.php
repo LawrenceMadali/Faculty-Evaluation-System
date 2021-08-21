@@ -20,7 +20,7 @@
                                         <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $student->sses->name }}</td>
                                         <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $student->semesters->name }}</td>
                                         <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $student->school_years->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-4 text-center whitespace-nowrap">
                                             <div class="text-sm text-gray-900">{{ $student->created_at->toFormattedDateString() }}</div>
                                             <div class="text-sm text-gray-500">{{ $student->created_at->diffForHumans() }}</div>
                                         </td>
@@ -48,9 +48,9 @@
 
 
         {{-------------------------------------------------- View Modal --------------------------------------------------}}
-        <x-jet-dialog-modal maxWidth="3xl" wire:model.defer="viewModal">
+        <x-jet-dialog-modal maxWidth="4xl" wire:model.defer="viewModal">
             <x-slot name="title">
-                {{ __('Student Evaluation Results') }}
+                {{ __('Student Evaluation Result') }}
             </x-slot>
 
             <x-slot name="content">
@@ -72,22 +72,22 @@
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $commitment_total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $commitment_total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $knowledge_of_subject_total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $knowledge_of_subject_total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $teaching_for_independent_learning_total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $teaching_for_independent_learning_total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $management_of_learning_total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $management_of_learning_total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $scale }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $scale }}</div>
                                             </td>
                                         </tr>
                                     </tbody>

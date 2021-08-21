@@ -42,32 +42,49 @@ use App\Http\Controllers\Admin\SystemManagement\ManageUsers\ManageAccountControl
 Route::get('/', function () {
     return view('welcome');
 });
-// auth protection
+
+// Admin
+// -Dashboard(no graph)
+// -Set Evaluation
+// -Manage Users
+// -Manage Settings
+// -Reports(audit trail only)
+// -Manage Questionnaires
+
+// Dean
+// -All features
+
+// HR
+// -Reports
+// -Summary Result
+// -Dashboard(with graph)
+
+// Secretary
+// -Manage Users
+// -Manage Settings
+// -Manage Questionnaires
+
+// auth middleware
 Route::group(['middleware' => 'auth'], function()
 {
     Route::get('/home', function (){ return view('home '); })->name('home');
 
-    // -------------------------------------------------- middleware for admin --------------------------------------------------
-    Route::group(['middleware' => 'adminMiddleware'], function () {
-
         // -------------------------------------------------- Dashboard --------------------------------------------------
-        Route::prefix('dashboard')->group(function () {
+        Route::group(['middleware' => 'dashboard', 'prefix' => 'dashboard'], function () {
 
             Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
         });
-
         // -------------------------------------------------- Set Evaluation --------------------------------------------------
-        Route::prefix('Set Evaluation')->group(function () {
+        Route::group(['middleware' => 'setEvaluation', 'prefix' => 'Set Evaluation'], function () {
 
             Route::get('set-peer-evaluation', [SetPeerEvaluationController::class, 'index'])->name('set-peer-evaluation');
 
             Route::get('set-student-evaluation', [SetStudentEvaluationController::class, 'index'])->name('set-student-evaluation');
 
         });
-
         // -------------------------------------------------- summary result --------------------------------------------------
-        Route::prefix('Summary Result')->group(function () {
+        Route::group(['middleware' => 'summaryResult', 'prefix' => 'Summary Result'], function () {
 
             Route::get('peer-to-peer-evaluation-result', [PeerToPeerController::class, 'index'])->name('peer-to-peer-evaluation-result');
 
@@ -77,9 +94,14 @@ Route::group(['middleware' => 'auth'], function()
 
         // -------------------------------------------------- System Management --------------------------------------------------
         Route::prefix('System Management')->group(function () {
+            // -------------------------------------------------- manage users --------------------------------------------------
+            Route::group(['middleware' => 'accounts', 'prefix' => 'manage-user'], function () {
 
+                Route::get('accounts', [ManageAccountController::class, 'index'])->name('manage-accounts');
+
+            });
             // -------------------------------------------------- manage questionair --------------------------------------------------
-            Route::prefix('manage-questionairs')->group(function () {
+            Route::group(['middleware' => 'questionnairs', 'prefix' => 'manage-questionnairs'], function () {
 
                 Route::get('/', [QuestionairController::class, 'index'])->name('questionair');
 
@@ -88,61 +110,42 @@ Route::group(['middleware' => 'auth'], function()
                 Route::get('student-questionair', [StudentQuestionairController::class, 'index'])->name('srf-questionair');
 
             });
+            // -------------------------------------------------- manage report --------------------------------------------------
+            Route::get('manage-reports',[ManageReportController::class, 'index'])->name('manage-reports');
 
-            // -------------------------------------------------- Manage reports --------------------------------------------------
-            Route::prefix('manage-report')->group(function () {
-
-
-                Route::group(['middleware'  => 'hrMiddleware'], function () {
-
-                    Route::get('/',[ReportController::class, 'index'])->name('report');
-
-                });
-
-                Route::get('manage-reports',[ManageReportController::class, 'index'])->name('manage-reports');
+            Route::group(['middleware' => 'adminMiddleware'], function () {
 
                 Route::get('audit-trail',[AuditTrailController::class, 'index'])->name('audit-trail');
 
             });
+            Route::group(['middleware' => 'reports'], function () {
 
-            // -------------------------------------------------- Manage results --------------------------------------------------
-            Route::prefix('manage-result')->group(function () {
+                Route::get('/',[ReportController::class, 'index'])->name('report');
 
-                Route::get('/', [ManageResultController::class, 'index'])->name('manage-results');
             });
+            // -------------------------------------------------- Manage results --------------------------------------------------
+            Route::group(['middleware'  => 'results', 'prefix' => 'manage-result'], function () {
 
+                   Route::get('/', [ManageResultController::class, 'index'])->name('manage-results');
+
+            });
             // -------------------------------------------------- manage settings --------------------------------------------------
-            Route::prefix('manage-setting')->group(function () {
+            Route::group(['middleware'  => 'settings', 'prefix' => 'manage-settings'], function () {
 
                 Route::get('/', [ManageSettingsController::class, 'index'])->name('manage-settings');
-            });
-
-            // -------------------------------------------------- manage users --------------------------------------------------
-            Route::prefix('manage-user')->group(function () {
-
-                Route::get('/', [ManageUserController::class, 'index'])->name('manage-users');
-
-                Route::get('accounts', [ManageAccountController::class, 'index'])->name('manage-accounts');
-
-                Route::get('evaluating.instructors', [InstructorEvaluationDetailsController::class, 'index'])->name('manage-instructor-information');
 
             });
         });
-    });
-
-    Route::prefix('Rating Form')->group(function () {
         // -------------------------------------------------- Middleware for instructor --------------------------------------------------
-        Route::group(['middleware' => 'instructorMiddleware'], function () {
+        Route::group(['middleware' => 'instructorMiddleware', 'prefix' => 'Rating Form'], function () {
 
             Route::get('peer-rater-form', [PeerRaterForm::class, 'index'])->name('peerRaterForm');
 
         });
-
         // -------------------------------------------------- Middleware for student --------------------------------------------------
-        Route::group(['middleware' => 'studentMiddleware'], function () {
+        Route::group(['middleware' => 'studentMiddleware', 'prefix' => 'Rating Form'], function () {
 
             Route::get('student-rater-form',  [StudentRaterForm::class, 'index'])->name('studentRaterForm');
 
         });
-    });
 });

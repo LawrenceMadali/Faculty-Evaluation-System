@@ -9,49 +9,49 @@
             </x-jet-button>
             <div class="flex items-center mr-2 text-sm font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
                 <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                <span>Cleaning up the logs monthly</span>
+                <span>Cleaning the logs is set monthly.</span>
             </div>
         </div>
         <div class="flex flex-col">
             <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 space-y-2">
+                <div class="py-2 align-middle inline-block min-w-full sm:px-2 lg:px-8 space-y-2">
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Id</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Log name</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">attributes</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">old</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date and time</th>
+                                    <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">User Id</th>
+                                    <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Log name</th>
+                                    <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+                                    <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">attributes</th>
+                                    <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">old</th>
+                                    <th scope="col" class="px-2 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date and time</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($activities as $activity)
                                     <tr>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-2 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900 text-center">
                                                 {{ $activity->causer_id == null ? '-' : $activity->causer_id  }}
                                             </div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-2 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">{{ $activity->log_name }}</div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-2 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">{{ $activity->description }}</div>
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm capitalize">
+                                        <td class="px-2 py-4 whitespace-nowrap text-sm capitalize">
                                             @foreach($activity->changes['attributes'] ?? [] as $key => $value)
                                                 {{ $key }}: {{ $value }} <br/>
                                             @endforeach
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm capitalize">
+                                        <td class="px-2 py-4 whitespace-nowrap text-sm capitalize">
                                             @foreach($activity->changes['old'] ?? [] as $key => $value)
                                                 {{ $key }}: {{ $value }} <br/>
                                             @endforeach
                                         </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-2 py-4 whitespace-nowrap">
                                             <div class="text-sm text-gray-900">{{ $activity->created_at->ToFormattedDateString() }}</div>
                                             <div class="text-sm text-gray-500">{{ $activity->created_at->diffForHumans() }}</div>
                                         </td>

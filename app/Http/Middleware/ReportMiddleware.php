@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class SecretaryMiddleware
+class ReportMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,10 @@ class SecretaryMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array(auth()->user()->role_id, [2, 4, 5])) {
+        if (in_array(auth()->user()->role_id, [1, 3, 4, 5])) {
             abort(403);
         }
+
         return $next($request);
     }
 }

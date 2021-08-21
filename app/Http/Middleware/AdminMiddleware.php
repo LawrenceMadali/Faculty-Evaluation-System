@@ -16,7 +16,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array(auth()->user()->role_id, [4, 5])) {
+        if (in_array(auth()->user()->role_id, [3, 4, 5, 6])) {
             abort(403);
         }
 

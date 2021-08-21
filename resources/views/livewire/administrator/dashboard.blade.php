@@ -32,7 +32,7 @@
         </section>
         <x-jet-section-border/>
         <div class="space-y-56">
-            @if (auth()->user()->college_id == 1)
+            @if (auth()->user()->college_id == 1 || auth()->user()->role_id == 6)
             <div class="space-y-56">
                 <div>
                     @livewire('administrator.charts.college-of-computer-studies.first-semester')
@@ -42,7 +42,7 @@
                 </div>
             </div>
             @endif
-            @if (auth()->user()->college_id == 2)
+            @if (auth()->user()->college_id == 2 || auth()->user()->role_id == 6)
             <div class="space-y-56">
                 <div>
                     @livewire('administrator.charts.college-of-accountancy.first-semester')
@@ -52,7 +52,7 @@
                 </div>
             </div>
             @endif
-            @if (auth()->user()->college_id == 3)
+            @if (auth()->user()->college_id == 3 || auth()->user()->role_id == 6)
             <div class="space-y-56">
                 <div>
                     @livewire('administrator.charts.college-of-business.first-semester')

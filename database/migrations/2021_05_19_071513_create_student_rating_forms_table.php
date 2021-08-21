@@ -52,7 +52,7 @@ class CreateStudentRatingFormsTable extends Migration
             $table->integer('management_of_learning_total');
             $table->longText('comments')->nullable();
             $table->integer('total');
-            $table->integer('scale');
+            $table->float('scale');
             $table->timestamps();
         });
     }

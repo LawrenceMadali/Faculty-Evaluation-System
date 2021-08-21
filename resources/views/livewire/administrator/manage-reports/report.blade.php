@@ -17,6 +17,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($resultList as $result)
+                                @if ($result->college_id == auth()->user()->college_id || auth()->user()->role_id == 6)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->semesters->name }}</div>
@@ -33,6 +34,16 @@
                                         </button>
                                     </td>
                                 </tr>
+                                @else
+                                <tr>
+                                    <td colspan="4">
+                                        <div class="flex justify-center items-center space-x-2">
+                                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                                            <span class="text-xl text-gray-400 font-medium py-8">No report found...</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                                @endif
                                 @empty
                                 <tr>
                                     <td colspan="4">
@@ -177,9 +188,12 @@
                     {{ __('Done') }}
                 </x-jet-secondary-button>
 
-                <x-jet-button class="ml-2" wire:click="generate" wire:loading.attr="disabled">
+                <button type="submit" wire:click="generate" wire:loading.attr="disabled"
+                class="inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray disabled:opacity-25 transition ease-in-out duration-150
+                ml-2" {{ $count == 0 ? 'disabled' : null }}>
                     {{ __('Export') }}
-                </x-jet-button>
+                </button>
+
             </x-slot>
         </x-jet-dialog-modal>
 </div>

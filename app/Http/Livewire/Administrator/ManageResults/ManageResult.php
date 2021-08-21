@@ -95,9 +95,11 @@ class ManageResult extends Component
             'ipcr'          => 'required|lte:5',
             'total'         => 'required',
             'supervisor'    => 'required|lte:5',
-            'instructor'    => 'required',
+            'instructor'    => 'required|unique:results,instructor_id,NULL,id,semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id.',college_id,'.$this->college_id,
             'totalPrfScale' => 'required',
             'totalSrfScale' => 'required',
+        ],[
+            'unique' => 'The selected :attribute is already exist.'
         ]);
 
         Results::create([

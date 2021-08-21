@@ -82,10 +82,12 @@ class Report extends Component
 
         return Excel::download(new ReportsExport($this->selectedExport), 'report-'.$date.'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
-        activity()
-            ->causedBy(Auth::user()->id)
-            ->event('export')
-            ->log('Report exported by '.Auth::user()->name);
+        activity('Export report')
+            ->causedBy(auth()->user()->id)
+            ->withProperties(['attributes' => [
+                'name' => auth()->user()->name
+                ]])
+            ->log(auth()->user()->name.' is exporting report');
     }
 
     public function render()

@@ -19,6 +19,9 @@
                     @case(5)
                         <div class="text-xs text-gray-400">Student</div>
                         @break
+                    @case(6)
+                        <div class="text-xs text-gray-400">Human Resources</div>
+                        @break
                     @default
                 @endswitch
         </div>

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class HumanResourceMiddleware
+class SetEvaluationMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,10 +16,9 @@ class HumanResourceMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array(auth()->user()->role_id, [1, 4, 5])) {
+        if (in_array(auth()->user()->role_id, [3, 4, 5, 6])) {
             abort(403);
         }
-
         return $next($request);
     }
 }

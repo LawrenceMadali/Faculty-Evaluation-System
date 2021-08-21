@@ -16,7 +16,7 @@ class StudentMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (auth()->user()->role_id == 4) {
+        if (in_array(auth()->user()->role_id,[2, 3, 4, 6])) {
             abort(403);
         }
 

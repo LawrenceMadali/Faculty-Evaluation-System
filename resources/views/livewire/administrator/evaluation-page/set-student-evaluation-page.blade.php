@@ -35,32 +35,23 @@
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School year</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course Code</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count of Evaluatee</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
-                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated At</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Course</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">year & Section</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Count of Evaluatee</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created At</th>
+                            <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Updated At</th>
                         </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($sses as $sse)
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center">
+                        <td class="p-4 whitespace-nowrap">
                             <div class="text-sm font-medium text-gray-900">{{ $sse->instructors->name }}</div>
-                        </div>
+                            <div class="text-sm text-gray-700">({{ $sse->semesters->name }} | {{ $sse->schoolYears->name }})</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $sse->schoolYears->name }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $sse->semesters->name }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="p-4 whitespace-nowrap">
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                             {{ $sse->is_active === 0
                             ? 'bg-red-100 text-red-800'
@@ -68,23 +59,21 @@
                             {{ $sse->is_active === 0 ? 'Disabled' : 'Enable' }}
                             </span>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $sse->courses->course }}</div>
+                        <td class="p-4 whitespace-nowrap">
+                            <div class="text-sm font-medium text-gray-900">{{ $sse->courses->course }}</div>
+                            <div class="text-sm text-gray-700">{{ $sse->CourseCodes->course_code }}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="p-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->yearSections->year_and_section }}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{ $sse->CourseCodes->course_code }}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="p-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->evaluatee }}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="p-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->created_at->ToFormattedDateString() }}</div>
                             <div class="text-sm text-gray-500">{{ $sse->created_at->diffForHumans() }}</div>
                         </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
+                        <td class="p-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{ $sse->updated_at->ToFormattedDateString() }}</div>
                             <div class="text-sm text-gray-500">{{ $sse->updated_at->diffForHumans() }}</div>
                         </td>
@@ -93,7 +82,7 @@
                     <tr>
                         <td colspan="10">
                             <div class="flex justify-center items-center space-x-2">
-                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                 <span class="text-xl text-gray-400 font-medium py-8">No evaluation set yet...</span>
                             </div>
                         </td>
@@ -208,7 +197,7 @@
 
                         <div class="flex items-center mr-2 text-sm w-full font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
                             <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>Check the checkbox of percentage you want, or select manually. The percentage checkbox are chose randomly.</span>
+                            <span>Upon checking the checkbox with percentage will be selected randomly based on percentage you choose.</span>
                         </div>
 
                         <div class="flex flex-col">

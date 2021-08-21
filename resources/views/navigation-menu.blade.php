@@ -17,7 +17,7 @@
                     </x-jet-nav-link>
                 </div>
 
-                @if (in_array(auth()->user()->role_id, [1, 2, 3, 4]))
+                @if (in_array(auth()->user()->role_id, [1, 4]))
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('peerRaterForm') }}" :active="request()->routeIs('peerRaterForm')">
                             {{ __('Peer Rater Form') }}
@@ -25,7 +25,7 @@
                     </div>
                 @endif
 
-                @if (in_array(auth()->user()->role_id, [1, 2, 3, 5]))
+                @if (in_array(auth()->user()->role_id, [1, 5]))
                     <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                         <x-jet-nav-link href="{{ route('studentRaterForm') }}" :active="request()->routeIs('studentRaterForm')">
                             {{ __('Student Rater Form') }}
@@ -55,6 +55,9 @@
                                     @break
                                 @case(5)
                                     <div class="text-xs text-gray-300 block">Student</div>
+                                    @break
+                                @case(6)
+                                    <div class="text-xs text-gray-300 block">Human Resources</div>
                                     @break
                                 @default
                             @endswitch
@@ -121,12 +124,12 @@
                 {{ __('Home') }}
             </x-jet-responsive-nav-link>
 
-            @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 4)
+            @if (in_array(Auth::user()->role_id, [1, 4]))
                 <x-jet-responsive-nav-link href="{{ route('peerRaterForm') }}" :active="request()->routeIs('peerRaterForm')">
-                    {{__('Peer to Peer')}}
+                    {{__('Peer Rater Form')}}
                 </x-jet-responsive-nav-link>
             @endif
-            @if (Auth::user()->role_id == 1 || Auth::user()->role_id == 5)
+            @if (in_array(Auth::user()->role_id, [1, 5]))
                 <x-jet-responsive-nav-link href="{{ route('studentRaterForm') }}" :active="request()->routeIs('studentRaterForm')">
                     {{__('Student Rater Form')}}
             </x-jet-responsive-nav-link>

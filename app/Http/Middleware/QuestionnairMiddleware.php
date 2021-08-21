@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class InstructorMiddleware
+class QuestionnairMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,10 @@ class InstructorMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array(auth()->user()->role_id,[2, 3, 5, 6])) {
+        if (in_array(auth()->user()->role_id, [4, 5, 6])) {
             abort(403);
         }
+
         return $next($request);
     }
 }

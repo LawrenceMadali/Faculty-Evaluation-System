@@ -62,13 +62,13 @@
                                     <div class="text-sm font-medium text-gray-900">{{ $spe->instructors->name }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ $spe->schoolYears->name }}</div>
+                                    <div class="text-sm font-medium text-gray-900">{{ $spe->schoolYears->name }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ $spe->semesters->name }}</div>
+                                    <div class="text-sm font-medium text-gray-900">{{ $spe->semesters->name }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-center text-gray-900">{{ $spe->evaluatee }}</div>
+                                    <div class="text-sm font-medium text-center text-gray-900">{{ $spe->evaluatee }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
@@ -91,7 +91,7 @@
                             <tr>
                                 <td colspan="8">
                                     <div class="flex justify-center items-center space-x-2">
-                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
                                         <span class="text-xl text-gray-400 font-medium py-8">No evaluation set yet...</span>
                                     </div>
                                 </td>
@@ -174,7 +174,7 @@
 
                         <div class="flex items-center mr-2 w-full text-sm font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
                             <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            <span>Check the checkbox of percentage you want, or select manually. The percentage checkbox are chose randomly.</span>
+                            <span>Upon checking the checkbox with percentage will be selected randomly based on percentage you choose.</span>
                         </div>
 
                         <div class="flex flex-col">

@@ -46,7 +46,7 @@
                 <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8 space-y-2">
 
                     {{-------------------------------------------------- Buttons --------------------------------------------------}}
-                    <div class="flex justify-between items-center">
+                    <div class="flex justify-between items-center space-x-2">
                         <div class="flex justify-start items-center space-x-2">
 
                             <x-jet-button wire:click.prevent="createOpenModal">
@@ -63,11 +63,11 @@
 
                             <x-jet-secondary-button wire:click="$toggle('UserImportUpdate')">
                                 <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                                Update
+                                Update user
                             </x-jet-secondary-button>
                         </div>
 
-                        <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
                             <div class="relative inline-flex">
                                 <select wire:model="sortField" class="text-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
                                     <option value="created_at">Created at</option>
@@ -96,6 +96,11 @@
                         </div>
                     </div>
 
+                    <div class="flex items-center mr-2 text-sm w-full sm:w-2/3 font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
+                        <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        <span>Creating a single new user, by default the password is: <span class="hover:underline"> "urspassword" </span></span>
+                    </div>
+
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                         <table class="min-w-full">
                             <thead class="bg-gray-50">
@@ -104,8 +109,6 @@
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> name </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> college </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> status </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Role </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> year & section </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> created at </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> updated at </th>
                                 <th scope="col" class="relative px-6 py-3"><span class="sr-only">Edit</span></th>
@@ -114,21 +117,27 @@
                             <tbody class="bg-white">
                                 @forelse ($users as $user)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm text-gray-900">{{ $user->id_number }}</div>
+                                    <td class="p-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">{{ $user->id_number }}</div>
                                     </td>
 
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="p-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-10 w-10"> <img class="h-10 w-10 rounded-full" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}"> </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900"> {{ $user->name }} </div>
                                                 <div class="text-sm text-gray-500"> {{ $user->email }} </div>
+                                                <div class="text-sm font-medium text-gray-900"> {{ $user->role_id == 5 ? 'Year and Section: ' : null }}
+                                                {{ $user->yearAndSections->year_and_section ?? null }}
+                                                </div>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm"> {{ $user->college_id === null ? '-' : $user->colleges->name }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="p-4 whitespace-nowrap text-center">
+                                        <div class="text-sm font-medium text-gray-900">{{ $user->colleges->name ?? null }}</div>
+                                        <div class="text-sm text-gray-500 tracking-wide">({{ $user->roles->name }})</div>
+                                    </td>
+                                    <td class="p-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                         {{ $user->status === 0
                                         ? 'bg-red-100 text-red-800'
@@ -136,24 +145,17 @@
                                         {{ $user->status === 0 ? 'Inactive' : 'Active' }}
                                         </span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> {{ $user->roles->name }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-xs text-gray-500"> {{ $user->year_and_section_id === null ? '-' : $user->yearAndSections->year_and_section }} </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                     <td class="p-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $user->created_at->diffForHumans() }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="p-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $user->updated_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $user->updated_at->diffForHumans() }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-2">
-                                        @if (in_array(auth()->user()->role_id, [2, 3]))
-                                            @if ($user->role_id === 1)
-                                            @else
-                                            <button wire:click.prevent="editOpenModal({{$user->id_number}})" class="text-indigo-600 hover:text-indigo-900"><em>Edit</em></button>
-                                            @endif
-                                        @else
-                                        <button wire:click.prevent="editOpenModal({{$user->id_number}})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
+                                    <td class="p-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-2">
+                                        @if ($user->role_id != 1 && $user->role_id != auth()->user()->role_id)
+                                        <button wire:click.prevent="editOpenModal({{$user->id_number}})" class="text-indigo-600 hover:text-indigo-900"><em>Edit</em></button>
                                         @endif
                                     </td>
                                 </tr>

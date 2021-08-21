@@ -46,6 +46,7 @@ class StudentRatingForm extends Model
         'sse_id',
         'comments',
         'id_number',
+        'college_id',
         'semester_id',
         'school_year_id',
         'evaluator_number',
@@ -84,5 +85,10 @@ class StudentRatingForm extends Model
     public function school_years()
     {
         return $this->belongsTo(SchoolYear::class, 'school_year_id');
+    }
+
+    public function colleges()
+    {
+        return $this->belongsTo(College::class, 'college_id');
     }
 }

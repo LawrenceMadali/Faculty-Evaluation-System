@@ -20,7 +20,7 @@
                                         <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->spes->name }}</td>
                                         <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->semesters->name }}</td>
                                         <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->schoolYears->name }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
+                                        <td class="px-6 py-4 text-center whitespace-nowrap">
                                             <div class="text-sm text-gray-900">{{ $instructor->created_at->toFormattedDateString() }}</div>
                                             <div class="text-sm text-gray-500">{{ $instructor->created_at->diffForHumans() }}</div>
                                         </td>
@@ -45,49 +45,11 @@
             </div>
         </div>
     </div>
-{{--
-        <table class="min-w-full">
-            <thead class="bg-gray-50">
-            <tr>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> evaluated instructor </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> semester </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> school year </th>
-                <th scope="col" class="px-6 py-3 text-xs font-medium text-gray-500 text-center uppercase tracking-wider"> submitted at </th>
-                <th scope="col" class="relative px-6 py-3"><span class="sr-only">View</span></th>
-            </tr>
-            </thead>
-            <tbody class="bg-white">
-                @forelse ($instructors as $instructor)
-                <tr>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->spes->name }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->semesters->name }}</td>
-                    <td class="px-6 text-center py-4 whitespace-nowrap text-sm text-gray-900">{{ $instructor->schoolYears->name }}</td>
-                    <td class="px-6 py-4 whitespace-nowrap">
-                        <div class="text-sm text-gray-900">{{ $instructor->created_at->toFormattedDateString() }}</div>
-                        <div class="text-sm text-gray-500">{{ $instructor->created_at->diffForHumans() }}</div>
-                    </td>
-                    <td class="px-6 py-4 whitespace-nowrap flex my-2 text-right text-sm font-medium space-x-4">
-                        <button wire:click="openViewModal({{ $instructor->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>View</em></button>
-                    </td>
-                </tr>
-                @empty
-                <tr>
-                    <td colspan="5">
-                        <div class="flex justify-center items-center space-x-2">
-                            <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                            <span class="text-xl text-gray-400 font-medium py-8">No results yet...</span>
-                        </div>
-                    </td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table> --}}
-
 
         {{-------------------------------------------------- View Modal --------------------------------------------------}}
-        <x-jet-dialog-modal maxWidth="3xl" wire:model.defer="viewModal">
+        <x-jet-dialog-modal maxWidth="4xl" wire:model.defer="viewModal">
             <x-slot name="title">
-                {{ __('Peer Evaluation Results') }}
+                {{ __('Peer Evaluation Result') }}
             </x-slot>
 
             <x-slot name="content">
@@ -109,22 +71,22 @@
                                     <tbody class="bg-white divide-y divide-gray-200">
                                         <tr>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $commitment_total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $commitment_total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $knowledge_of_subject_total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $knowledge_of_subject_total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $teaching_for_independent_learning_total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $teaching_for_independent_learning_total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $management_of_learning_total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $management_of_learning_total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $total }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $total }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900 text-center">{{ $scale }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $scale }}</div>
                                             </td>
                                         </tr>
                                     </tbody>

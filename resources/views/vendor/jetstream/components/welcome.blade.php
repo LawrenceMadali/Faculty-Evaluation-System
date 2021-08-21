@@ -1,13 +1,16 @@
 <div class="p-6 sm:px-20 bg-white border-b border-gray-200">
-    <div class="flex items-center">
-        <x-jet-application-logo class="block h-12 w-auto" />
-        <span class="p-2 text-3xl font-martel font-bold">
-            University of Rizal System
-        </span>
-    </div>
+    <div class="p-2 sm:p-4 rounded-md bg-blue-50 shadow-md">
+        <div class="flex items-center justify-center text-center">
+            <x-jet-application-mark/>
+            <span class="px-1 sm:px-4 text-lg sm:text-3xl text-blue-900 font-serif font-bold">
+                University of Rizal System
+            </span>
+            <x-jet-application-logo/>
+        </div>
 
-    <div class="mt-8 text-2xl font-serif text-blue-700">
-        Welcome {{ auth()->user()->name }}!
+        <div class="my-4 text-base sm:text-2xl font-serif font-bold text-blue-700 text-center tracking-widest">
+            Welcome {{ auth()->user()->name }}
+        </div>
     </div>
 </div>
 

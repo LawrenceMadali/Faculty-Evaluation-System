@@ -14,6 +14,7 @@
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supervisor</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ipcr</th>
                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                    <th scope="col" class="relative px-6 py-3"><span class="sr-only">Feedback</span></th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
@@ -40,6 +41,9 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->total }}</div>
                                     </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <button wire:click.prevent="openFeedbackModal({{ $result->id }})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>feedback</em></button>
+                                    </td>
                                 </tr>
                                 @empty
                                 <tr>
@@ -54,8 +58,80 @@
                             </tbody>
                         </table>
                     </div>
+                    {{ $results->links() }}
                 </div>
             </div>
         </div>
+
+        <x-jet-dialog-modal wire:model.defer="feedbackModal">
+            <x-slot name="title">
+                {{ __('Feedback') }}
+            </x-slot>
+
+            <x-slot name="content">
+                <div class="flex flex-col">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peer to peer</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            @foreach ($prfs as $prf)
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-900">{{ $prf->comments }}</div>
+                                                <div class="text-sm text-gray-500">{{ $prf->created_at->ToFormattedDateString() }}</div>
+                                            </td>
+                                            @endforeach
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <x-jet-section-border/>
+                <div class="flex flex-col">
+                    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                        <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+                            <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                <table class="min-w-full divide-y divide-gray-200">
+                                    <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="bg-white divide-y divide-gray-200">
+                                        <tr>
+                                            @foreach ($srfs as $srf)
+                                            <td class="px-6 py-4 whitespace-nowrap">
+                                                <div class="text-sm text-gray-900">{{ $srf->comments }}</div>
+                                                <div class="text-sm text-gray-500">{{ $srf->created_at->ToFormattedDateString() }}</div>
+                                            </td>
+                                            @endforeach
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </x-slot>
+
+            <x-slot name="footer">
+                <x-jet-secondary-button wire:click="$toggle('editModal')" wire:loading.attr="disabled">
+                    {{ __('Cancel') }}
+                </x-jet-secondary-button>
+
+                <x-jet-button class="ml-2" wire:click="updateEnable" wire:loading.attr="disabled">
+                    {{ __('Okay') }}
+                </x-jet-button>
+            </x-slot>
+        </x-jet-dialog-modal>
+
     </div>
 </div>
