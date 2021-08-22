@@ -7,9 +7,6 @@ use App\Http\Controllers\PeerRaterForm;
 use App\Http\Controllers\StudentRaterForm;
 use App\Http\Controllers\Admin\DashboardController;
 
-// admin
-use App\Http\Controllers\Admin\ManageUserController;
-
 // summary result
 use App\Http\Controllers\Admin\SummaryResult\PeerToPeerController;
 use App\Http\Controllers\Admin\SummaryResult\StudentEvaluationController;
@@ -36,7 +33,6 @@ use App\Http\Controllers\Admin\SystemManagement\Questionair\StudentQuestionairCo
 use App\Http\Controllers\Admin\SystemManagement\ManageSettings\ManageSettingsController;
 
 // manage users
-use App\Http\Controllers\Admin\SystemManagement\ManageUsers\InstructorEvaluationDetailsController;
 use App\Http\Controllers\Admin\SystemManagement\ManageUsers\ManageAccountController;
 
 Route::get('/', function () {
