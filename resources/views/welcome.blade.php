@@ -16,7 +16,7 @@
                         <div class="flex items-center justify-between">
                             <div>
                                 <a href="/">
-                                    <img class="h-16" src="/images/Seal.png" alt="">
+                                    <img class="h-16" src="/images/seal.png" alt="">
                                 </a>
                             </div>
                             <div>

@@ -16,6 +16,7 @@ use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
 use App\Imports\UserDataImport;
 use App\Imports\UserUpdate;
+use Illuminate\Validation\Rules\Password;
 use Maatwebsite\Excel\Facades\Excel;
 
 class ManageAccounts extends Component
@@ -34,13 +35,14 @@ class ManageAccounts extends Component
     public $UserImportUpdate = false;
     public $viewModal = false;
 
-    public $role_id;
-    public $user_id;
-    public $id_number;
     public $name;
     public $email;
-    public $college_id;
+    public $role_id;
+    public $user_id;
+    public $password;
     public $course_id;
+    public $id_number;
+    public $college_id;
     public $course_code_id;
     public $year_and_section_id;
     public $status = true;
@@ -87,7 +89,7 @@ class ManageAccounts extends Component
             'email'         => $this->email,
             'college_id'    => $this->college_id,
             'year_and_section_id'    => $this->year_and_section_id,
-            'password'      => bcrypt('urspassword'),
+            'password'      => bcrypt('ursb123password'),
         ]);
         $this->reset();
         $this->resetValidation();
@@ -114,6 +116,7 @@ class ManageAccounts extends Component
         $this->name                 = $accId->name;
         $this->email                = $accId->email;
         $this->status               = $accId->status;
+        $this->password             = $accId->password;
         $this->user_id              = $accId->user_id;
         $this->college_id           = $accId->college_id;
         $this->year_and_section_id  = $accId->year_and_section_id;
@@ -131,6 +134,7 @@ class ManageAccounts extends Component
                 'role_id'       => 'required',
                 'id_number'     => 'required|min:10|unique:users,id_number,'.$this->user->id,
                 'name'          => 'required',
+                'password'      => ['required', Password::min(8)->letters()->numbers()],
                 'email'         => 'required|email|unique:users,email,'.$this->user->id,
                 'college_id'    => 'required',
                 'year_and_section_id'    => 'required',
@@ -141,6 +145,7 @@ class ManageAccounts extends Component
                 'role_id'       => 'required',
                 'id_number'     => 'required|min:10|unique:users,id_number,'.$this->user->id,
                 'name'          => 'required',
+                'password'      => ['required', Password::min(8)->letters()->numbers()],
                 'email'         => 'required|email|unique:users,email,'.$this->user->id,
             ]);
         } elseif (in_array($this->role_id, [1,2,4])) {
@@ -148,6 +153,7 @@ class ManageAccounts extends Component
                 'role_id'       => 'required',
                 'id_number'     => 'required|min:10|unique:users,id_number,'.$this->user->id,
                 'name'          => 'required',
+                'password'      => ['required', Password::min(8)->letters()->numbers()],
                 'email'         => 'required|email|unique:users,email,'.$this->user->id,
                 'college_id'    => 'required',
             ]);
@@ -159,6 +165,7 @@ class ManageAccounts extends Component
                 'name'          => $this->name,
                 'email'         => $this->email,
                 'status'        => $this->status,
+                'password'      => bcrypt($this->password),
                 'college_id'    => $this->college_id,
                 'year_and_section_id'    => $this->year_and_section_id,
             ]);

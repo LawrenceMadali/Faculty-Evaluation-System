@@ -18,7 +18,7 @@ class AdminSeeder extends Seeder
             'name'      => 'Administrator',
             'id_number' => '1111111111',
             'email'     => 'Admin@example.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 1,
         ]);
 
@@ -26,7 +26,7 @@ class AdminSeeder extends Seeder
             'name'      => 'Dean',
             'id_number' => '2222222222',
             'email'     => 'Dean@example.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 2,
             'college_id'=> 1,
         ]);
@@ -35,7 +35,7 @@ class AdminSeeder extends Seeder
             'name'      => 'Secretary',
             'id_number' => '3333333333',
             'email'     => 'Secretary@example.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 3,
         ]);
 
@@ -43,7 +43,7 @@ class AdminSeeder extends Seeder
             'name'      => 'ABAOAG, JOYCE LYN M.',
             'id_number' => 4000000400,
             'email'     => 'Example1@email.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 4,
             'college_id'=> 1,
         ]);
@@ -52,7 +52,7 @@ class AdminSeeder extends Seeder
             'name'      => 'ALBITO, NEIL JOHN P.',
             'id_number' => 4000000401,
             'email'     => 'Example2@email.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 4,
             'college_id'=> 1,
         ]);
@@ -61,7 +61,7 @@ class AdminSeeder extends Seeder
             'name'      => 'CABALTERA, BABY EUNICE M.',
             'id_number' => 4000000402,
             'email'     => 'Example3@email.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 4,
             'college_id'=> 1,
         ]);
@@ -70,7 +70,7 @@ class AdminSeeder extends Seeder
             'name'      => 'CANDELARIA, YVES XAVIER S.',
             'id_number' => 4000000403,
             'email'     => 'Example4@email.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 4,
             'college_id'=> 1,
         ]);
@@ -79,7 +79,7 @@ class AdminSeeder extends Seeder
             'name'      => 'Madali, Jan Lawrence F.',
             'id_number' => 1000000011,
             'email'     => 'Lawrencemadali14@example.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 5,
             'college_id'=> 1,
             'year_and_section_id' => 9,
@@ -89,7 +89,7 @@ class AdminSeeder extends Seeder
             'name'      => 'Peroche, Mark Angelo T.',
             'id_number' => 1000000019,
             'email'     => 'markangeloperoche1@example.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 5,
             'college_id'=> 1,
             'year_and_section_id' => 9,
@@ -99,7 +99,7 @@ class AdminSeeder extends Seeder
             'name'      => 'Tolentino, Nick Vincent D.',
             'id_number' => 1000000047,
             'email'     => 'tnick8382@example.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 5,
             'college_id'=> 1,
             'year_and_section_id' => 9,
@@ -109,7 +109,7 @@ class AdminSeeder extends Seeder
             'name'      => 'Cortez, Patricia C.',
             'id_number' => 1000000006,
             'email'     => 'cortezpatricia577@gmail.com',
-            'password'  => bcrypt('password'),
+            'password'  => bcrypt('ursb123password'),
             'role_id'   => 5,
             'college_id'=> 1,
             'year_and_section_id' => 9,

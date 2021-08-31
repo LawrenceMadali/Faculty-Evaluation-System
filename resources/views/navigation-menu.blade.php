@@ -37,32 +37,32 @@
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <!-- Settings Dropdown -->
                 <div class="ml-3 relative flex items-center">
+                    @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                     <div class="px-3 py-2 text-sm text-center">
-                        <div class="text-sm text-gray-100">
-                            {{ Auth::user()->name }}</div>
-                            @switch(Auth::user()->role_id)
-                                @case(1)
-                                    <div class="text-xs text-gray-300 block">Administrator</div>
-                                    @break
-                                @case(2)
-                                    <div class="text-xs text-gray-300 block">Dean</div>
-                                    @break
-                                @case(3)
-                                    <div class="text-xs text-gray-300 block">Secretary</div>
-                                    @break
-                                @case(4)
-                                    <div class="text-xs text-gray-300 block">Instructor</div>
-                                    @break
-                                @case(5)
-                                    <div class="text-xs text-gray-300 block">Student</div>
-                                    @break
-                                @case(6)
-                                    <div class="text-xs text-gray-300 block">Human Resources</div>
-                                    @break
-                                @default
-                            @endswitch
-
+                        <div class="text-sm text-gray-100">{{ Auth::user()->name }}</div>
+                        @switch(Auth::user()->role_id)
+                            @case(1)
+                                <div class="text-xs text-gray-300 block">Administrator</div>
+                                @break
+                            @case(2)
+                                <div class="text-xs text-gray-300 block">Dean</div>
+                                @break
+                            @case(3)
+                                <div class="text-xs text-gray-300 block">Secretary</div>
+                                @break
+                            @case(4)
+                                <div class="text-xs text-gray-300 block">Instructor</div>
+                                @break
+                            @case(5)
+                                <div class="text-xs text-gray-300 block">Student</div>
+                                @break
+                            @case(6)
+                                <div class="text-xs text-gray-300 block">Human Resources</div>
+                                @break
+                            @default
+                        @endswitch
                     </div>
+                    @endif
                     <x-jet-dropdown align="right">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
@@ -71,6 +71,36 @@
                                         <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                                     </button>
                                 </div>
+                            @else
+                            <span class="inline-flex rounded-md">
+                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium font-poppins rounded-full text-gray-300 hover:text-gray-50 focus:outline-none transition ease-in-out duration-150">
+                                    {{ Auth::user()->name }}
+                                    (@switch(Auth::user()->role_id)
+                                        @case(1)
+                                            <div class="text-xs">Administrator</div>
+                                            @break
+                                        @case(2)
+                                            <div class="text-xs">Dean</div>
+                                            @break
+                                        @case(3)
+                                            <div class="text-xs">Secretary</div>
+                                            @break
+                                        @case(4)
+                                            <div class="text-xs">Instructor</div>
+                                            @break
+                                        @case(5)
+                                            <div class="text-xs">Student</div>
+                                            @break
+                                        @case(6)
+                                            <div class="text-xs">Human Resources</div>
+                                            @break
+                                        @default
+                                    @endswitch)
+                                    <svg class="ml-2 -mr-0.5 h-4 w-4 inline transition-transform transform" :class="{ 'rotate-180': open }" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                                    </svg>
+                                </button>
+                            </span>
                             @endif
                         </x-slot>
 
@@ -155,15 +185,15 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                    {{ __('Profile') }}
-                </x-jet-responsive-nav-link>
-
                 @if (in_array(Auth::user()->role_id, [1, 2, 3, 6]))
                     <x-jet-responsive-nav-link href="{{ route('dashboard') }}">
                         {{ __('Dashboard') }}
                     </x-jet-responsive-nav-link>
                 @endif
+
+                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                    {{ __('Profile') }}
+                </x-jet-responsive-nav-link>
 
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">

@@ -58,7 +58,7 @@
 
                             <x-jet-secondary-button wire:click="$toggle('importModal')">
                                 <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
-                                import
+                                import user
                             </x-jet-secondary-button>
 
                             <x-jet-secondary-button wire:click="$toggle('UserImportUpdate')">
@@ -98,7 +98,7 @@
 
                     <div class="flex items-center mr-2 text-sm w-full sm:w-2/3 font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
                         <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                        <span>Creating a single new user, by default the password is: <span class="hover:underline"> "urspassword" </span></span>
+                        <span>Upon creating a single new user, by default the password is: <span class="hover:underline"> "ursb123password" </span></span>
                     </div>
 
                     <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
@@ -318,13 +318,18 @@
                                                 </div>
                                                 <div class="col-span-6 sm:col-span-3">
                                                     <label class="block text-sm font-medium text-gray-700">Id number</label>
-                                                    <input wire:model.lazy="id_number" placeholder="e.g. 0123456789" type="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                    <input wire:model.lazy="id_number" type="number" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                     <x-jet-input-error for="id_number"/>
                                                 </div>
                                                 <div class="col-span-6 sm:col-span-3">
                                                     <label class="block text-sm font-medium text-gray-700">Email</label>
                                                     <input wire:model.lazy="email" placeholder="e.g. JohnDoe@example.com" type="email" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                                                     <x-jet-input-error for="email"/>
+                                                </div>
+                                                <div class="col-span-6 sm:col-span-3">
+                                                    <label class="block text-sm font-medium text-gray-700">Password</label>
+                                                    <input wire:model.lazy="password" type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                                    <x-jet-input-error for="password"/>
                                                 </div>
                                                 @if (in_array($role_id,[2,4,5]))
                                                 <div class="col-span-6 sm:col-span-3">

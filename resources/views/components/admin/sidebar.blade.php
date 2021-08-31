@@ -73,9 +73,17 @@
                 </x-jet-dropdown-link>
             @endif
 
+            @if (in_array(auth()->user()->role_id,[1, 2, 3]))
             <x-jet-dropdown-link href="{{ route('manage-reports') }}">
                 {{ __('Manage Reports') }}
             </x-jet-dropdown-link>
+            @endif
+
+            @if (auth()->user()->role_id == 6))
+            <x-jet-dropdown-link href="{{ route('report') }}">
+                {{ __('Manage Reports') }}
+            </x-jet-dropdown-link>
+            @endif
 
             @if (in_array(auth()->user()->role_id,[1, 2, 3]))
                 @if (auth()->user()->role_id == 2)

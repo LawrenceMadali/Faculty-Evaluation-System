@@ -16,7 +16,7 @@ class ReportMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (in_array(auth()->user()->role_id, [1, 3, 4, 5])) {
+        if (in_array(auth()->user()->role_id, [1, 4, 5])) {
             abort(403);
         }
 

@@ -61,7 +61,7 @@ class ManageResult extends Component
 
     public function updatedSupervisor()
     {
-        $totalItem = ($this->totalPrfScale + $this->totalSrfScale + $this->supervisor + $this->ipcr) / 4 ?? null;
+        $totalItem = floatval($this->totalPrfScale + $this->totalSrfScale + $this->supervisor + $this->ipcr) / 4 ?? null;
         $this->total = number_format(($totalItem), 2);
     }
 
