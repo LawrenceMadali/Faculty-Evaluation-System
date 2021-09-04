@@ -18,9 +18,11 @@ class YearSectionProperty extends Component
     public $createModal = false;
     public $editModal = false;
 
-    protected $messages = [
-        'instructor_id.required' => 'The instructor field is required',
-    ];
+    public function updatedCourseId()
+    {
+        $courses = Course::find($this->course_id);
+        $this->instructor_id = $courses->instructor_id;
+    }
 
     public function create()
     {
@@ -29,7 +31,10 @@ class YearSectionProperty extends Component
             'instructor_id'     => 'required',
             'course_id'         => 'required',
         ],
-        ['unique' => 'The :attribute is already exist.']);
+        [
+            'instructor_id.required' => 'The instructor field is required',
+            'unique' => 'The :attribute is already exist.'
+        ]);
 
         YearAndSection::create($validated);
         $this->reset();
@@ -49,10 +54,11 @@ class YearSectionProperty extends Component
     public function editOpenModal($id)
     {
         $this->yearAndSectionId = $id;
-        $yearAndSectionId       = YearAndSection::find($this->yearAndSectionId);
-        $this->year_and_section = $yearAndSectionId->year_and_section;
-        $this->instructor_id    = $yearAndSectionId->instructor_id;
-        $this->course_id    = $yearAndSectionId->course_id;
+        $yrSec                  = YearAndSection::find($this->yearAndSectionId);
+        $this->course_id        = $yrSec->course_id;
+        $this->instructor_id    = $yrSec->instructor_id;
+        $this->year_and_section = $yrSec->year_and_section;
+
         $this->resetValidation();
 
         $this->editModal = true;
@@ -86,7 +92,7 @@ class YearSectionProperty extends Component
             'yrSecs'    => YearAndSection::with('instructors', 'courses')
                         ->latest()
                         ->paginate(5),
-            'courses'    => Course::all(),
+            'courses'    => Course::with('instructors')->get(),
             'instructors'=> Instructor::all(),
         ]);
     }

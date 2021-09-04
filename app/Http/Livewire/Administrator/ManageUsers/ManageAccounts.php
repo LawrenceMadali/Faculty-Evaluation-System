@@ -5,12 +5,10 @@ namespace App\Http\Livewire\Administrator\ManageUsers;
 use App;
 use Auth;
 use App\Models\User;
-use App\Models\Course;
 use App\Models\College;
 use Livewire\Component;
 use App\Models\CourseCode;
 use App\Models\Instructor;
-use Illuminate\Support\Str;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
@@ -82,15 +80,25 @@ class ManageAccounts extends Component
             ]);
         }
 
-        $accounts = User::create([
-            'role_id'       => $this->role_id,
-            'id_number'     => $this->id_number,
-            'name'          => $this->name,
-            'email'         => $this->email,
-            'college_id'    => $this->college_id,
-            'year_and_section_id'    => $this->year_and_section_id,
-            'password'      => bcrypt('ursb123password'),
-        ]);
+        if (in_array($this->role_id, [1,2,3,4,5,6])) {
+            User::create([
+                'role_id'       => $this->role_id,
+                'id_number'     => $this->id_number,
+                'name'          => $this->name,
+                'email'         => $this->email,
+                'college_id'    => $this->college_id,
+                'year_and_section_id'    => $this->year_and_section_id,
+                'password'      => bcrypt('ursb123password'),
+            ]);
+        }
+
+        if ($this->role_id = 4) {
+            Instructor::create([
+                'name'       => $this->name,
+                'id_number'  => $this->id_number,
+                'college_id' => $this->college_id,
+            ]);
+        }
         $this->reset();
         $this->resetValidation();
         $this->emit('created');
@@ -239,7 +247,6 @@ class ManageAccounts extends Component
     {
         return view('livewire.administrator.manage-users.manage-accounts', [
             'colleges'          => College::all(),
-            'courses'           => Course::all(),
             'courseCodes'       => CourseCode::all(),
             'yearAndSections'   => YearAndSection::all(),
             'users'             => User::search($this->search)

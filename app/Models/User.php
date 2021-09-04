@@ -33,12 +33,12 @@ class User extends Authenticatable
      */
 
     protected $fillable = [
-        'role_id',
-        'id_number',
         'name',
         'email',
-        'password',
         'status',
+        'role_id',
+        'password',
+        'id_number',
         'college_id',
         'year_and_section_id',
     ];
@@ -52,7 +52,11 @@ class User extends Authenticatable
 
     public function getDescriptionForEvent(string $eventName): string
     {
-        return "{$eventName} by: ".Auth::user()->name;
+        if (auth()->user()) {
+            return "{$eventName} by: ".Auth::user()->name;
+        } else {
+            return "{$eventName}";
+        }
     }
 
     /**
@@ -93,8 +97,8 @@ class User extends Authenticatable
         : static::query()
         ->where('id_number', 'LIKE' , '%'.$search.'%')
         ->orWhere('name', 'LIKE' , '%'.$search.'%')
-        ->orWhere('college_id', 'LIKE' , '%'.$search.'%')
         ->orWhere('email', 'LIKE' , '%'.$search.'%')
+        ->orWhere('updated_at', 'LIKE' , '%'.$search.'%')
         ->orwhere('created_at', 'LIKE' , '%'.$search.'%');
     }
 

@@ -107,7 +107,7 @@
                             <tr>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> id number </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> name </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> college </th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> others </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> status </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> created at </th>
                                 <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> updated at </th>
@@ -123,19 +123,34 @@
 
                                     <td class="p-4 whitespace-nowrap">
                                         <div class="flex items-center">
+                                        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                             <div class="flex-shrink-0 h-10 w-10"> <img class="h-10 w-10 rounded-full" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}"> </div>
                                             <div class="ml-4">
                                                 <div class="text-sm font-medium text-gray-900"> {{ $user->name }} </div>
                                                 <div class="text-sm text-gray-500"> {{ $user->email }} </div>
-                                                <div class="text-sm font-medium text-gray-900"> {{ $user->role_id == 5 ? 'Year and Section: ' : null }}
-                                                {{ $user->yearAndSections->year_and_section ?? null }}
-                                                </div>
                                             </div>
+                                        @else
+                                            <div class="ml-4">
+                                                <div class="text-sm font-medium text-gray-900"> {{ $user->name }} </div>
+                                                <div class="text-sm text-gray-500"> {{ $user->email }} </div>
+                                            </div>
+                                        @endif
                                         </div>
                                     </td>
-                                    <td class="p-4 whitespace-nowrap text-center">
-                                        <div class="text-sm font-medium text-gray-900">{{ $user->colleges->name ?? null }}</div>
-                                        <div class="text-sm text-gray-500 tracking-wide">({{ $user->roles->name }})</div>
+                                    <td class="p-4 whitespace-nowrap">
+                                        <div class="text-sm text-gray-900 tracking-wide">
+                                            <span class="font-medium">Role: </span>{{ $user->roles->name }}
+                                        </div>
+                                        @if ($user->role_id == 5)
+                                        <div class="text-sm text-gray-900 tracking-wide">
+                                            <span class="font-medium">Year and Section: </span> {{ $user->yearAndSections->year_and_section ?? null }}
+                                        </div>
+                                        @endif
+                                        @if (in_array($user->role_id, [2, 4, 5]))
+                                        <div class="text-sm text-gray-900 tracking-wide">
+                                            <span class="font-medium">College: </span>  {{ $user->colleges->name ?? null }}
+                                        </div>
+                                        @endif
                                     </td>
                                     <td class="p-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full

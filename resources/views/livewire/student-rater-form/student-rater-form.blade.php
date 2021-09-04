@@ -1,17 +1,5 @@
 <div>
     <div class="mx-4 md:mx-36 my-16 space-y-4 font-Montserrat">
-        <div>
-            @if (session()->has('message'))
-            <div class="w-full text-white bg-green-500 mb-2 rounded-md">
-                <div class="container flex items-center justify-between px-6 py-4 mx-auto">
-                    <div class="flex">
-                        <svg viewBox="0 0 40 40" class="w-6 h-6 fill-current"><path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"></path></svg>
-                        <p class="mx-3">{{ session('message') }}</p>
-                    </div>
-                </div>
-            </div>
-            @endif
-        </div>
         <div class="flex items-center justify-center mr-2 w-full text-sm font-poppins p-2 border-2 border-blue-500 bg-blue-200 rounded-md text-blue-700">
             <svg class="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
             <span>If the questions are not in present please contact the school staff.</span>
@@ -92,8 +80,9 @@
                             <option value="{{ $as->id }}">{{ $as->name }}</option>
                             @endif
                             @endforeach
+                            <x-jet-input-error for="sse_id" class="hidden md:block bg-red-100 p-1 rounded-md font-poppins border border-red-500"/>
                         </select>
-                        <x-jet-input-error for="sse_id"/>
+                        <x-jet-input-error for="sse_id" class="md:hidden bg-red-100 p-1 rounded-md font-poppins border border-red-500"/>
                     </div>
                     <div class="hidden">
                         <input wire:model="name" type="text">
@@ -399,10 +388,36 @@
                     </div>
                 </div>
             </form>
-            <div class="flex justify-end items-center px-4 py-3 bg-gray-50 text-right sm:px-6">
-                <x-jet-button class="ml-2" wire:click="$toggle('srfModal')" wire:loading.attr="disabled">
+            <div class="flex justify-between">
+                <div class="flex items-center px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <x-jet-secondary-button class="ml-2 flex items-center" onclick="window.scrollTo({top: 0, left: 0, behavior: 'smooth'});">
+                        {{ __('Go to top') }}
+                        <svg class="w-5 h-5 ml-1 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"></path></svg>
+                    </x-jet-secondary-button>
+                </div>
+
+                <x-jet-action-message class="mr-3" on="submitted">
+                    <div class="flex w-full max-w-sm mx-auto overflow-hidden bg-white rounded-lg shadow-md dark:bg-gray-800">
+                        <div class="flex items-center justify-center w-12 bg-green-500">
+                            <svg class="w-6 h-6 text-white fill-current" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M20 3.33331C10.8 3.33331 3.33337 10.8 3.33337 20C3.33337 29.2 10.8 36.6666 20 36.6666C29.2 36.6666 36.6667 29.2 36.6667 20C36.6667 10.8 29.2 3.33331 20 3.33331ZM16.6667 28.3333L8.33337 20L10.6834 17.65L16.6667 23.6166L29.3167 10.9666L31.6667 13.3333L16.6667 28.3333Z"/>
+                            </svg>
+                        </div>
+
+                        <div class="px-4 py-2 -mx-3">
+                            <div class="mx-3 font-poppins">
+                                <span class="font-semibold text-green-500 dark:text-green-400">Success</span>
+                                <p class="text-sm text-gray-600 dark:text-gray-200">Thank you! Your response will be recorded!</p>
+                            </div>
+                        </div>
+                    </div>
+                </x-jet-action-message>
+
+                <div class="flex items-center px-4 py-3 bg-gray-50 text-right sm:px-6">
+                    <x-jet-button class="ml-2" wire:click="$toggle('srfModal')" wire:loading.attr="disabled">
                     {{ __('Submit') }}
-                </x-jet-button>
+                    </x-jet-button>
+                </div>
             </div>
             @endif
             @empty
@@ -723,7 +738,7 @@
                             </div>
                         </div>
                         <div>
-                            <textarea wire:model.lazy="comments" class="resize border rounded-md font-poppins text-sm" cols="25" rows="5" placeholder="comments and suggestions...(optional)"></textarea>
+                            <textarea wire:model.lazy="comments" class="resize border rounded-md font-poppins text-sm" rows="5" placeholder="comments and suggestions...(optional)"></textarea>
                         </div>
                     </div>
                 </form>

@@ -36,7 +36,7 @@
                     </div>
                 @else
                 <span class="inline-flex rounded-md">
-                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium font-poppins rounded-full text-gray-300 hover:text-gray-50 focus:outline-none transition ease-in-out duration-150">
+                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium font-poppins rounded-full text-gray-500 hover:text-gray-400 focus:outline-none transition ease-in-out duration-150">
                         {{ Auth::user()->name }}
                         (@switch(Auth::user()->role_id)
                             @case(1)

@@ -190,8 +190,8 @@ class PeerRaterForm extends Component
             'school_year_id'    => $this->school_year_id,
             'evaluator_number'  => Auth::user()->id_number,
         ]);
-
-        session()->flash('message', 'Thank you! Your response will be recorded.');
+        
+        $this->emit('submitted');
         $this->reset();
     }
 

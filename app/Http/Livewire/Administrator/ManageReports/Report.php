@@ -33,7 +33,7 @@ class Report extends Component
         if ($value) {
             $this->selectedExport = Results::where(['semester_id' => $this->semester, 'school_year_id' => $this->school_year])
             ->with('semesters','school_years', 'instructors')
-            ->when($this->instructors, function($query){$query->where('instructor_id', $this->instructors);})
+            ->when($this->instructors, function($query){$query->where('id_number', $this->instructors);})
             ->when($this->school_years, function($query){$query->where('school_year_id', $this->school_years);})
             ->when($this->semesters, function($query){$query->where('semester_id', $this->semesters);})
             ->pluck('id')
@@ -98,7 +98,7 @@ class Report extends Component
                         'school_year_id' => $this->school_year])
                         ->with('semesters','school_years', 'instructors')
                         ->when($this->instructors, function($query){
-                            $query->where('instructor_id', $this->instructors);
+                            $query->where('id_number', $this->instructors);
                         })
                         ->when($this->semesters, function($query){
                             $query->where('semester_id', $this->semesters);

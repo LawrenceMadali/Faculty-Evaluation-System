@@ -89,7 +89,7 @@
                                     <select wire:model="instructors" class="mt-1 block w-56 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                         <option value="">-- filter by instructor --</option>
                                         @foreach ($faculties as $faculty)
-                                        <option value="{{ $faculty->id }}">{{ $faculty->name }}</option>
+                                        <option value="{{ $faculty->id_number }}">{{ $faculty->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -137,7 +137,7 @@
                                                 <input wire:model="selectedExport" value="{{ $result->id }}" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
-                                                <div class="text-sm font-medium text-gray-900">{{ $result->instructors->name }}</div>
+                                                <div class="text-sm font-medium text-gray-900">{{ $result->name }}</div>
                                             </td>
                                             <td class="px-6 py-4 whitespace-nowrap">
                                                 <div class="text-sm text-gray-900">{{ $result->semesters->name }}</div>

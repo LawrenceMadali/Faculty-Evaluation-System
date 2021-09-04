@@ -23,6 +23,13 @@ class CourseCodeProperty extends Component
     public $editModal = false;
     public $createModal = false;
 
+    public function updatedYearAndSectionId()
+    {
+        $yrSec = YearAndSection::find($this->year_and_section_id);
+        $this->instructor_id = $yrSec->instructor_id;
+        $this->course_id = $yrSec->course_id;
+    }
+
     public function create()
     {
         $validated = $this->validate([

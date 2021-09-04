@@ -40,14 +40,11 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> ID </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course Code </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Instructor </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Year & Section </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Semester </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated at </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> ID </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course Code </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Properties </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated at </th>
                                 <th scope="col" class="relative px-6 py-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
@@ -56,21 +53,27 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($ccs as $cc)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $cc->id }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $cc->course_code }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $cc->instructors->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $cc->courses->course }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $cc->year_and_sections->year_and_section }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $cc->semesters->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $cc->id }}</div></td>
+                                    <td class="px-3 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">{{ $cc->course_code }} </div>
+                                    </td>
+                                    <td class="px-3 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900"> <span class="text-sm text-gray-500">Year and Section: </span>{{ $cc->year_and_sections->year_and_section }} </div>
+                                        <div class="text-sm font-medium text-gray-900"> <span class="text-sm text-gray-500">Semester: </span>{{ $cc->semesters->name }} </div>
+                                        <div class="text-sm font-medium text-gray-900"> <span class="text-sm text-gray-500">Instructor: </span>{{ $cc->instructors->name }} </div>
+                                        <div class="text-sm font-medium text-gray-900"> <span class="text-sm text-gray-500">Course: </span>{{ $cc->courses->course }}</div>
+                                    </td>
+
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $cc->created_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $cc->created_at->diffForHumans() }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $cc->updated_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $cc->updated_at->diffForHumans() }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                    <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                     <button wire:click="editOpenModal({{$cc->id}})" class="text-indigo-600 hover:text-indigo-900 hover:underline"><em>Edit</em></button>
                                     </td>
                                 </tr>
@@ -105,50 +108,37 @@
                     <div class="space-y-4">
 
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Instructor</label>
-                            <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">-- choose instructor --</option>
-                                @foreach ($instructors as $instructor)
-                                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="instructor_id"/>
+                            <label class="block text-sm font-medium text-gray-700">Course Code</label>
+                            <input wire:model.lazy="course_code" type="text" placeholder="e.g. (course code) - (desciption)" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="course_code"/>
                         </div>
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">-- choose course --</option>
-                                @foreach ($courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->course }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="course_id"/>
-                        </div>
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Year and Section</label>
-                            <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">-- choose year and section --</option>
-                                @foreach ($year_and_sections as $yas)
-                                <option value="{{ $yas->id }}">{{ $yas->year_and_section }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="year_and_section_id"/>
-                        </div>
+
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Semester</label>
                             <select wire:model="semester_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">-- choose semester --</option>
+                                <option value="">-- select --</option>
                                 @foreach ($semesters as $sem)
                                 <option value="{{ $sem->id }}">{{ $sem->name }}</option>
                                 @endforeach
                             </select>
                             <x-jet-input-error for="semester_id"/>
                         </div>
+
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course Code</label>
-                            <input wire:model.lazy="course_code" type="text" placeholder="e.g. (course code) - (desciption)" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="course_code"/>
+                            <label class="block text-sm font-medium text-gray-700">Properties</label>
+                            <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="">-- select --</option>
+                                @foreach ($year_and_sections as $yas)
+                                <option value="{{ $yas->id }}">{{ $yas->year_and_section }}  || <span> {{ $yas->instructors->name }} || {{ $yas->courses->course }} </span> </option>
+                                @endforeach
+                            </select>
+                            <x-jet-input-error for="year_and_section_id"/>
                         </div>
+                        <div>
+                            <input wire:model="instructor_id" type="text" hidden>
+                            <input wire:model="course_id" type="text" hidden>
+                        </div>
+
                     </div>
                 </form>
             </x-slot>
@@ -175,40 +165,37 @@
                     <div class="space-y-4">
 
                         <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Instructor</label>
-                            <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">-- choose instructor --</option>
-                                @foreach ($instructors as $instructor)
-                                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="instructor_id"/>
-                        </div>
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <select wire:model="course_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">-- choose course --</option>
-                                @foreach ($courses as $course)
-                                <option value="{{ $course->id }}">{{ $course->course }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="course_id"/>
-                        </div>
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Year and Section</label>
-                            <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="">-- choose year and section --</option>
-                                @foreach ($year_and_sections as $yas)
-                                <option value="{{ $yas->id }}">{{ $yas->year_and_section }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="year_and_section_id"/>
-                        </div>
-                        <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Course Code</label>
                             <input wire:model.lazy="course_code" type="text" placeholder="e.g. (course code) - (desciption)" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
                             <x-jet-input-error for="course_code"/>
                         </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Semester</label>
+                            <select wire:model="semester_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="">-- select --</option>
+                                @foreach ($semesters as $sem)
+                                <option value="{{ $sem->id }}">{{ $sem->name }}</option>
+                                @endforeach
+                            </select>
+                            <x-jet-input-error for="semester_id"/>
+                        </div>
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Year and Section</label>
+                            <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                                <option value="">-- select --</option>
+                                @foreach ($year_and_sections as $yas)
+                                <option value="{{ $yas->id }}">{{ $yas->year_and_section }}  | <span> ({{ $yas->instructors->name }}) ({{ $yas->courses->course }}) </span> </option>
+                                @endforeach
+                            </select>
+                            <x-jet-input-error for="year_and_section_id"/>
+                        </div>
+                        <div>
+                            <input wire:model="instructor_id" type="text" hidden>
+                            <input wire:model="course_id" type="text" hidden>
+                        </div>
+
                     </div>
                 </form>
             </x-slot>

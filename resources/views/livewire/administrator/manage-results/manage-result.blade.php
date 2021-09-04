@@ -109,7 +109,7 @@
                                 @forelse ($results as $result)
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap">
-                                        <div class="text-sm font-medium text-gray-900">{{ $result->instructors->name }}</div>
+                                        <div class="text-sm font-medium text-gray-900">{{ $result->name }}</div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->semesters->name }}</div>
