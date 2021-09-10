@@ -28,4 +28,12 @@ class Course extends Model
     {
         return "{$eventName} by: ".Auth::user()->name;
     }
+
+    public static function search($search)
+    {
+        return empty($search)
+        ? static::query()
+        : static::query()
+        ->where('course', 'LIKE' , '%'.$search.'%');
+    }
 }

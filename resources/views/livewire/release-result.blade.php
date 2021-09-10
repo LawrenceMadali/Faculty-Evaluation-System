@@ -123,11 +123,7 @@
             </x-slot>
 
             <x-slot name="footer">
-                <x-jet-secondary-button wire:click="$toggle('editModal')" wire:loading.attr="disabled">
-                    {{ __('Cancel') }}
-                </x-jet-secondary-button>
-
-                <x-jet-button class="ml-2" wire:click="updateEnable" wire:loading.attr="disabled">
+                <x-jet-button wire:click="$toggle('feedbackModal')" wire:loading.attr="disabled">
                     {{ __('Okay') }}
                 </x-jet-button>
             </x-slot>

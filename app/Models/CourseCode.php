@@ -50,4 +50,12 @@ class CourseCode extends Model
     {
         return "{$eventName} by: ".Auth::user()->name;
     }
+
+    public static function search($search)
+    {
+        return empty($search)
+        ? static::query()
+        : static::query()
+        ->where('course_code', 'LIKE' , '%'.$search.'%');
+    }
 }

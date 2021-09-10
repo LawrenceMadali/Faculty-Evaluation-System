@@ -18,7 +18,7 @@
                 <form wire:submit.prevent="submitResult">
                     <div class="shadow overflow-hidden sm:rounded-md">
                         <div class="px-4 py-5 bg-white sm:p-6">
-                            <div class="grid grid-cols-6 gap-6">
+                            <div class="grid grid-cols-6 gap-2">
                                 <div class="col-span-6">
                                     <x-jet-validation-errors class="mb-4" />
                                 </div>
@@ -40,12 +40,20 @@
                                 </div>
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block text-sm font-medium text-gray-700">Peer Rater Form</label>
+                                    @if ( $srfResults == null || $prfResults == null )
+                                    <input value=" {{ $totalPrfScale }} " disabled type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    @else
                                     <input wire:model="totalPrfScale" disabled type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    @endif
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-3">
                                     <label class="block text-sm font-medium text-gray-700">Student Rater Form</label>
+                                    @if ( $srfResults == null || $prfResults == null )
+                                    <input value=" {{ $totalSrfScale }} " disabled type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    @else
                                     <input wire:model="totalSrfScale" disabled type="text" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                                    @endif
                                 </div>
 
                                 <div class="col-span-6 sm:col-span-2">
@@ -62,10 +70,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-                                <button wire:click.prevent="submitResult" wire:loading.attr="disabled" type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                Save
-                                </button>
+                        <div class="flex justify-between px-4 py-3 bg-gray-50 text-right sm:px-6">
+                            <div wire:loading>
+                                <svg width="32px" height="32px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" color="#000000"><style>@keyframes svg-animation-23116f45{0%{transform:rotate(0deg)}to{transform:rotate(360deg)}}@keyframes circle-animation-23116f45{0%,25%{stroke-dashoffset:280;transform:rotate(0)}50%,75%{stroke-dashoffset:75;transform:rotate(45deg)}to{stroke-dashoffset:280;transform:rotate(360deg)}}</style><g style="animation:2s linear infinite svg-animation-23116f45;transform-origin:50% 50%"><circle cx="50" cy="50" r="45" style="animation:2s ease-in-out infinite both circle-animation-23116f45;transform-origin:50% 50%" display="block" fill="transparent" stroke="currentColor" stroke-linecap="round" stroke-dasharray="283" stroke-dashoffset="280" stroke-width="10"></circle></g></svg>
+                            </div>
+                            <div> </div>
+                            <div class="space-x-2">
+                                @if ($total == null)
+                                <x-jet-button class="ml-2" wire:click.prevent="compute" wire:loading.attr="disabled">
+                                    {{ __('Compute') }}
+                                </x-jet-button>
+                                @else
+                                <x-jet-button class="ml-2" wire:click.prevent="submitResult" wire:loading.attr="disabled">
+                                    {{ __('Save') }}
+                                </x-jet-button>
+                                @endif
+                            </div>
                         </div>
                     </div>
                 </form>
@@ -92,56 +112,56 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Year</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peer Rater Form</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Rater Form</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supervisor</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ipcr</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Created at</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Instructor</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">School Year</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Peer Rater Form</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student Rater Form</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Supervisor</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ipcr</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                    <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                                     <th scope="col" class="relative px-6 py-3"><span class="sr-only">Edit</span></th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($results as $result)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">{{ $result->name }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->semesters->name }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->school_years->name }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->peer_evaluation_result }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->student_evaluation_result }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->supervisor }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->ipcr }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->total }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                         {{ $result->is_release === 0 ? 'bg-red-100 text-red-800' : 'bg-green-100 text-green-800'}}">
                                         {{ $result->is_release === 0 ? 'Not release' : 'Released' }}</span>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $result->created_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $result->created_at->diffForHumans() }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                    <td class="px-3 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                         <button wire:click="openEditModal({{ $result->id}})" class="text-indigo-600 hover:text-indigo-900 italic">Release</button>
                                     </td>
                                 </tr>

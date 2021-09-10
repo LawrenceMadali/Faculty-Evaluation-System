@@ -74,7 +74,7 @@ class StudentQuestionair extends Component
 
     private $validationRules = [
         1 => [
-            'school_year'=> 'required|unique:peer_questionair_forms,school_year',
+            'school_year'  => 'required',
             'semester'     => 'required',
         ],
         2 => [
@@ -107,6 +107,10 @@ class StudentQuestionair extends Component
             ]
         ];
 
+        public function openCreateModal()
+        {
+            $this->openModal = true;
+        }
 
     public function create()
     {

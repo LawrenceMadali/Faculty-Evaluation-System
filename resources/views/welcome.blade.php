@@ -6,7 +6,7 @@
 
         <link rel="stylesheet" href="{{asset('css/app.css')}}">
 
-        <title>University of Rizal System | Faculty Evaluation System</title>
+        <title>URS Binangonan Campus | Faculty Evaluation System</title>
     </head>
     <body>
         <div class="w-full bg-bottom bg-urs sm:bg-urs-side-angle bg-cover">

@@ -19,6 +19,7 @@ class CreateResultsTable extends Migration
             $table->bigInteger('id_number');
             $table->foreignId('college_id')->constrained();
             $table->foreignId('semester_id')->constrained();
+            $table->foreignId('instructor_id')->constrained();
             $table->foreignId('school_year_id')->constrained();
             $table->boolean('is_release')->default(false);
             $table->float('student_evaluation_result');

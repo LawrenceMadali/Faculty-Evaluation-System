@@ -74,7 +74,7 @@ class PeerToPeerQuestionair extends Component
 
     private $validationRules = [
         1 => [
-            'school_year'=> 'required|unique:peer_questionair_forms,school_year',
+            'school_year'  => 'required',
             'semester'     => 'required',
         ],
         2 => [
@@ -107,6 +107,16 @@ class PeerToPeerQuestionair extends Component
             ]
         ];
 
+
+    public function openCreateModal()
+    {
+        $this->openModal = true;
+        $this->reset(
+        'A_Question_1','A_Question_2','A_Question_3','A_Question_4','A_Question_5',
+        'B_Question_1','B_Question_2','B_Question_3','B_Question_4','B_Question_5',
+        'C_Question_1','C_Question_2','C_Question_3','C_Question_4','C_Question_5',
+        'D_Question_1','D_Question_2','D_Question_3','D_Question_4','D_Question_5');
+    }
 
     public function create()
     {
@@ -200,6 +210,8 @@ class PeerToPeerQuestionair extends Component
         $this->openModal = false;
         $this->statusModal = false;
         $this->viewModal = false;
+        $this->reset();
+        $this->resetValidation();
     }
 
     public function openViewModal($id)

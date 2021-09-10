@@ -3,15 +3,11 @@
 namespace App\Http\Livewire\Administrator\ManageReports;
 
 use App\Exports\ReportsExport;
-use App\Exports\ResultExport;
 use App\Models\Instructor;
 use App\Models\ReportGroupList;
 use App\Models\Results;
-use App\Models\SchoolYear;
-use App\Models\Semester;
 use Livewire\Component;
 use Maatwebsite\Excel\Facades\Excel;
-use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf;
 
 class Report extends Component
 {
@@ -79,7 +75,6 @@ class Report extends Component
     public function generate()
     {
         $date = now();
-
         return Excel::download(new ReportsExport($this->selectedExport), 'report-'.$date.'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
 
         activity('Export report')

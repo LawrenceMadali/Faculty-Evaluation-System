@@ -25,11 +25,13 @@
             </div>
         </x-jet-action-message>
 
-        <div class="flex justify-start items-center">
+        <div class="flex justify-start items-center space-x-4">
             <x-jet-button wire:click.prevent="createOpenModal">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 Add Course
             </x-jet-button>
+
+            <x-jet-input wire:model="search" type="text" placeholder="Search course..."/>
         </div>
 
         <div>
@@ -97,6 +99,13 @@
             <x-slot name="content">
                 <form wire:submit.prevent="create">
                     <div class="space-y-4">
+
+                        <div class="col-span-6">
+                            <label class="block text-sm font-medium text-gray-700">Course</label>
+                            <input wire:model.lazy="course" type="text" placeholder="e.g. Bachelor of Science in Information System" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                            <x-jet-input-error for="course"/>
+                        </div>
+
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Instructor</label>
                             <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -108,11 +117,6 @@
                             <x-jet-input-error for="instructor_id"/>
                         </div>
 
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">Course</label>
-                            <input wire:model.lazy="course" type="text" placeholder="e.g. Bachelor of Science in Information System" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                            <x-jet-input-error for="course"/>
-                        </div>
                     </div>
                 </form>
             </x-slot>
@@ -137,16 +141,6 @@
             <x-slot name="content">
                 <form wire:submit.prevent="update">
                     <div class="space-y-4">
-                        <div class="col-span-6">
-                            <label class="block text-sm font-medium text-gray-700">instructor</label>
-                            <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                <option value="null">-- select --</option>
-                                @foreach ($faculties as $instructor)
-                                <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
-                                @endforeach
-                            </select>
-                            <x-jet-input-error for="instructor_id"/>
-                        </div>
 
                         <div class="col-span-6">
                             <label class="block text-sm font-medium text-gray-700">Course name</label>
@@ -154,6 +148,18 @@
                             <x-jet-input-error for="course"/>
                         </div>
                     </div>
+
+                    <div class="col-span-6">
+                        <label class="block text-sm font-medium text-gray-700">instructor</label>
+                        <select wire:model="instructor_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                            <option value="null">-- select --</option>
+                            @foreach ($faculties as $instructor)
+                            <option value="{{ $instructor->id }}">{{ $instructor->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-jet-input-error for="instructor_id"/>
+                    </div>
+
                 </form>
             </x-slot>
 

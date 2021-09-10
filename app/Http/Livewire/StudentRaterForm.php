@@ -206,7 +206,7 @@ class StudentRaterForm extends Component
         $this->validate([
             'sse_id' => 'required|unique:student_rating_forms,sse_id,NULL,id,evaluator_number,'.Auth::user()->id_number.',semester_id,'.$this->semester_id.',school_year_id,'.$this->school_year_id,
         ],[
-            'unique' => 'The selected faculty has already evaluated.',
+            'unique' => 'The selected faculty is already evaluated.',
         ]);
     }
 

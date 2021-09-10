@@ -19,6 +19,8 @@ class CourseProperty extends Component
     public $createModal = false;
     public $editModal = false;
 
+    public $search = '';
+
     public function create()
     {
         $validated = $this->validate([
@@ -85,9 +87,10 @@ class CourseProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.course-property',[
-            'courses'   => Course::with('instructors')
-            ->latest()
-            ->paginate(5),
+            'courses'   => Course::search($this->search)
+                        ->with('instructors')
+                        ->latest()
+                        ->paginate(5),
             'faculties' => Instructor::all(),
         ]);
     }

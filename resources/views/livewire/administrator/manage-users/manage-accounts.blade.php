@@ -70,12 +70,10 @@
                         <div class="flex items-center space-x-2">
                             <div class="relative inline-flex">
                                 <select wire:model="sortField" class="text-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm">
-                                    <option value="created_at">Created at</option>
-                                    <option value="updated_at">Updated at</option>
-                                    <option value="id_number">Id number</option>
                                     <option value="name">Name</option>
                                     <option value="role_id">Role</option>
-                                    <option value="year_and_section_id">Year and Section</option>
+                                    <option value="id_number">Id number</option>
+                                    <option value="created_at">Created at</option>
                                 </select>
                             </div>
                             <div class="relative inline-flex">
@@ -261,7 +259,7 @@
                                                     <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="">-- choose year and section --</option>
                                                         @foreach ($yearAndSections as $yearAndSection)
-                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }}</option>
+                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }} | {{ $yearAndSection->courses->course }} | {{ $yearAndSection->instructors->name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <x-jet-input-error for="year_and_section_id"/>
@@ -364,7 +362,7 @@
                                                     <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="">-- choose year and section --</option>
                                                         @foreach ($yearAndSections as $yearAndSection)
-                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }}</option>
+                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }} | {{ $yearAndSection->courses->course }} | {{ $yearAndSection->instructors->name }}</option>
                                                         @endforeach
                                                     </select>
                                                     <x-jet-input-error for="year_and_section_id"/>

@@ -71,8 +71,9 @@
                         <span>Choose Faculty you want to evaluate first... Be sure all chosen Faculty must be evaluated.</span>
                     </div>
 
+                    <x-jet-input-error for="sse_id" class="bg-red-100 p-1 rounded-md font-poppins border border-red-500"/>
                     <div class="flex items-center text-gray-700 font-medium p-2 rounded-md border-none bg-blue-100 space-x-2">
-                        <label class="text-sm font-bold">Name of Faculty: &nbsp;</label>
+                        <label class="text-sm font-bold">Faculty Name: &nbsp;</label>
                         <select wire:model="sse_id" class="mt-1 block w-52 py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                             <option value="null">-- select --</option>
                             @foreach ($assignStudents as $as)
@@ -80,9 +81,7 @@
                             <option value="{{ $as->id }}">{{ $as->name }}</option>
                             @endif
                             @endforeach
-                            <x-jet-input-error for="sse_id" class="hidden md:block bg-red-100 p-1 rounded-md font-poppins border border-red-500"/>
                         </select>
-                        <x-jet-input-error for="sse_id" class="md:hidden bg-red-100 p-1 rounded-md font-poppins border border-red-500"/>
                     </div>
                     <div class="hidden">
                         <input wire:model="name" type="text">
@@ -390,9 +389,14 @@
             </form>
             <div class="flex justify-between">
                 <div class="flex items-center px-4 py-3 bg-gray-50 text-right sm:px-6">
-                    <x-jet-secondary-button class="ml-2 flex items-center" onclick="window.scrollTo({top: 0, left: 0, behavior: 'smooth'});">
-                        {{ __('Go to top') }}
-                        <svg class="w-5 h-5 ml-1 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z"></path></svg>
+                    <x-jet-secondary-button class="flex items-center" onclick="window.scrollTo({top: 0, left: 0, behavior: 'smooth'});">
+                        <span class="hidden sm:block">{{ __('Go to top') }}</span>
+                        <svg class="hidden sm:block w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+                        </svg>
+                        <svg class="sm:hidden w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 11l7-7 7 7M5 19l7-7 7 7"></path>
+                        </svg>
                     </x-jet-secondary-button>
                 </div>
 
@@ -737,8 +741,15 @@
                                 <x-jet-input-error for="management_of_learning_5"/>
                             </div>
                         </div>
-                        <div>
-                            <textarea wire:model.lazy="comments" class="resize border rounded-md font-poppins text-sm" rows="5" placeholder="comments and suggestions...(optional)"></textarea>
+                        <div class="hidden sm:block">
+                            <textarea wire:model.lazy="comments" class="resize border rounded-md font-poppins text-sm"
+                               cols="45" rows="5" placeholder="Comments and Suggestions (optional)">
+                            </textarea>
+                        </div>
+                        <div class="sm:hidden">
+                            <textarea wire:model.lazy="comments" class="resize border rounded-md font-poppins text-sm"
+                               rows="5" placeholder="Comments and Suggestions (optional)">
+                            </textarea>
                         </div>
                     </div>
                 </form>

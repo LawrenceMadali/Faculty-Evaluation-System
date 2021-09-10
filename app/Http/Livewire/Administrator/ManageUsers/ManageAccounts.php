@@ -24,7 +24,7 @@ class ManageAccounts extends Component
 
     public $search = '';
     public $perPage = 5;
-    public $sortField = 'name';
+    public $sortField = 'name'; 
     public $sortAsc = true;
 
     public $createModal = false;
@@ -92,7 +92,7 @@ class ManageAccounts extends Component
             ]);
         }
 
-        if ($this->role_id = 4) {
+        if ($this->role_id == 4) {
             Instructor::create([
                 'name'       => $this->name,
                 'id_number'  => $this->id_number,
@@ -178,7 +178,7 @@ class ManageAccounts extends Component
                 'year_and_section_id'    => $this->year_and_section_id,
             ]);
 
-            if ($this->role_id = 4) {
+            if ($this->role_id == 4) {
                 $updateInstructor = Instructor::where('id_number', $this->accId);
                 $updateInstructor->update([
                     'name'       => $this->name,
@@ -248,7 +248,7 @@ class ManageAccounts extends Component
         return view('livewire.administrator.manage-users.manage-accounts', [
             'colleges'          => College::all(),
             'courseCodes'       => CourseCode::all(),
-            'yearAndSections'   => YearAndSection::all(),
+            'yearAndSections'   => YearAndSection::with('courses', 'instructors')->get(),
             'users'             => User::search($this->search)
                                     ->with('yearAndSections', 'colleges', 'roles', 'courses')
                                     ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')

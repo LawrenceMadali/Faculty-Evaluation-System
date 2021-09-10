@@ -23,6 +23,8 @@ class CourseCodeProperty extends Component
     public $editModal = false;
     public $createModal = false;
 
+    public $search = '';
+
     public function updatedYearAndSectionId()
     {
         $yrSec = YearAndSection::find($this->year_and_section_id);
@@ -103,7 +105,8 @@ class CourseCodeProperty extends Component
     public function render()
     {
         return view('livewire.administrator.manage-settings.course-code-property',[
-            'ccs'               => CourseCode::with('instructors', 'courses', 'year_and_sections')
+            'ccs'               => CourseCode::search($this->search)
+                                ->with('instructors', 'courses', 'year_and_sections')
                                 ->latest()
                                 ->paginate(5),
             'instructors'       => Instructor::all(),

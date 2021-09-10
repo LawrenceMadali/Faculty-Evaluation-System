@@ -25,11 +25,13 @@
             </div>
         </x-jet-action-message>
 
-        <div class="flex justify-start items-center">
+        <div class="flex justify-start items-center space-x-4">
             <x-jet-button wire:click.prevent="createOpenModal">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path></svg>
                 Add Year and Section
             </x-jet-button>
+
+            <x-jet-input wire:model="search" type="text" placeholder="Search year and section..."/>
         </div>
 
         <div>
@@ -40,12 +42,12 @@
                         <table class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Id </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Year & Section </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Instructor </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated at </th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Id </th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Year & Section </th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Course </th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Instructor </th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Updated at </th>
                                 <th scope="col" class="relative px-6 py-3">
                                     <span class="sr-only">Edit</span>
                                 </th>
@@ -54,28 +56,28 @@
                             <tbody class="bg-white divide-y divide-gray-200">
                                 @forelse ($yrSecs as $yrSec)
                                 <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->id }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->year_and_section }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->courses->course }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->instructors->name }}</div></td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->id }}</div></td>
+                                    <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-center text-gray-900">{{ $yrSec->year_and_section }}</div></td>
+                                    <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->courses->course }}</div></td>
+                                    <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->instructors->name }}</div></td>
+                                    <td class="p-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $yrSec->created_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $yrSec->created_at->diffForHumans() }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
+                                    <td class="p-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $yrSec->updated_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $yrSec->updated_at->diffForHumans() }}</div>
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
+                                    <td class="p-4 whitespace-nowrap text-right text-sm font-medium space-x-2">
                                     <button wire:click="editOpenModal({{$yrSec->id}})" class="text-indigo-600 hover:text-indigo-900">Edit</button>
                                     </td>
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="6">
+                                    <td colspan="7">
                                         <div class="flex justify-center items-center space-x-2">
                                             <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                                            <span class="text-xl text-gray-400 font-medium py-8">No results yet...</span>
+                                            <span class="text-xl text-gray-400 font-medium py-8">No result...</span>
                                         </div>
                                     </td>
                                 </tr>

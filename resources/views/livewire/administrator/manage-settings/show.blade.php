@@ -1,12 +1,5 @@
 <div>
     <div class="space-y-4 mt-4">
-        {{--------------------------------------------------- School Year --------------------------------------------------}}
-        @livewire('administrator.manage-settings.school-year-property')
-        <x-jet-section-border />
-
-        {{-------------------------------------------------- Semester --------------------------------------------------}}
-        @livewire('administrator.manage-settings.semester-property')
-        <x-jet-section-border />
 
         {{-------------------------------------------------- College --------------------------------------------------}}
         @livewire('administrator.manage-settings.college-property')
@@ -24,6 +17,13 @@
         @livewire('administrator.manage-settings.course-code-property')
         <x-jet-section-border />
 
+        {{--------------------------------------------------- School Year --------------------------------------------------}}
+        @livewire('administrator.manage-settings.school-year-property')
+        <x-jet-section-border />
+
+        {{-------------------------------------------------- Semester --------------------------------------------------}}
+        @livewire('administrator.manage-settings.semester-property')
+        <x-jet-section-border />
 
     </div>
 </div>

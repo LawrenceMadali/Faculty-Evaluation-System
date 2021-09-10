@@ -38,4 +38,12 @@ class YearAndSection extends Model
     {
         return "{$eventName} by: ".Auth::user()->name;
     }
+
+    public static function search($search)
+    {
+        return empty($search)
+        ? static::query()
+        : static::query()
+        ->where('year_and_section', 'LIKE' , '%'.$search.'%');
+    }
 }
