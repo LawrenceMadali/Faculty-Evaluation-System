@@ -103,23 +103,23 @@
                         <table class="min-w-full">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> id number </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> name </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> others </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> status </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> created at </th>
-                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> updated at </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> id number </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> name </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> others </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> status </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> created at </th>
+                                <th scope="col" class="p-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> updated at </th>
                                 <th scope="col" class="relative px-6 py-3"><span class="sr-only">Edit</span></th>
                             </tr>
                             </thead>
                             <tbody class="bg-white">
                                 @forelse ($users as $user)
                                 <tr>
-                                    <td class="p-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm font-medium text-gray-900">{{ $user->id_number }}</div>
                                     </td>
 
-                                    <td class="p-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
                                         @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                             <div class="flex-shrink-0 h-10 w-10"> <img class="h-10 w-10 rounded-full" src="{{ $user->profile_photo_url }}" alt="{{ $user->name }}"> </div>
@@ -135,22 +135,22 @@
                                         @endif
                                         </div>
                                     </td>
-                                    <td class="p-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900 tracking-wide">
                                             <span class="font-medium">Role: </span>{{ $user->roles->name }}
                                         </div>
                                         @if ($user->role_id == 5)
                                         <div class="text-sm text-gray-900 tracking-wide">
-                                            <span class="font-medium">Year and Section: </span> {{ $user->yearAndSections->year_and_section ?? null }}
+                                            <span class="font-medium">Year and Section: </span> {{ $user->yearAndSections->year_and_section }}
                                         </div>
                                         @endif
                                         @if (in_array($user->role_id, [2, 4, 5]))
                                         <div class="text-sm text-gray-900 tracking-wide">
-                                            <span class="font-medium">College: </span>  {{ $user->colleges->name ?? null }}
+                                            <span class="font-medium">College: </span>  {{ $user->colleges->name }}
                                         </div>
                                         @endif
                                     </td>
-                                    <td class="p-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
                                         {{ $user->status === 0
                                         ? 'bg-red-100 text-red-800'
@@ -158,11 +158,11 @@
                                         {{ $user->status === 0 ? 'Inactive' : 'Active' }}
                                         </span>
                                     </td>
-                                     <td class="p-4 whitespace-nowrap">
+                                     <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $user->created_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $user->created_at->diffForHumans() }}</div>
                                     </td>
-                                    <td class="p-4 whitespace-nowrap">
+                                    <td class="px-3 py-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $user->updated_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $user->updated_at->diffForHumans() }}</div>
                                     </td>
@@ -259,7 +259,7 @@
                                                     <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="">-- choose year and section --</option>
                                                         @foreach ($yearAndSections as $yearAndSection)
-                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }} | {{ $yearAndSection->courses->course }} | {{ $yearAndSection->instructors->name }}</option>
+                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }} | {{ $yearAndSection->courses->course }}</option>
                                                         @endforeach
                                                     </select>
                                                     <x-jet-input-error for="year_and_section_id"/>
@@ -362,7 +362,7 @@
                                                     <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                                         <option value="">-- choose year and section --</option>
                                                         @foreach ($yearAndSections as $yearAndSection)
-                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }} | {{ $yearAndSection->courses->course }} | {{ $yearAndSection->instructors->name }}</option>
+                                                        <option value="{{ $yearAndSection->id }}">{{ $yearAndSection->year_and_section }} | {{ $yearAndSection->courses->course }}</option>
                                                         @endforeach
                                                     </select>
                                                     <x-jet-input-error for="year_and_section_id"/>

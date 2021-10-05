@@ -3,8 +3,6 @@
 namespace App\Http\Livewire\Administrator\Questionair;
 
 use Livewire\Component;
-use App\Models\Semester;
-use App\Models\SchoolYear;
 use App\Models\PeerQuestionairForm;
 use Livewire\WithPagination;
 
@@ -18,9 +16,6 @@ class PeerToPeerQuestionair extends Component
     public $statusModal = false;
 
     public $currentPage = 1;
-
-    public $school_year;
-    public $semester;
     public $is_enabled = true;
     public $name;
 
@@ -51,22 +46,18 @@ class PeerToPeerQuestionair extends Component
     public $pages = [
 
         1 => [
-            'heading'       => 'Date range and semester',
-            'subHeading'    => 'Please choose date range and semester'
-        ],
-        2 => [
             'heading'       => 'Commitment',
             'subHeading'    => 'Create questionair for Commitment.'
         ],
-        3 => [
+        2 => [
             'heading'       => 'Knowledge of Subject',
             'subHeading'    => 'Create questionair for Knowledge of Subject.'
         ],
-        4 => [
+        3 => [
             'heading'       => 'Teaching for Independent Learning',
             'subHeading'    => 'Create questionair for Knowledge of Teaching for Independent Learning.'
         ],
-        5 => [
+        4 => [
             'heading'       => 'Management of Learning',
             'subHeading'    => 'Create questionair for Knowledge of Teaching for Management of Learning.'
         ],
@@ -74,31 +65,27 @@ class PeerToPeerQuestionair extends Component
 
     private $validationRules = [
         1 => [
-            'school_year'  => 'required',
-            'semester'     => 'required',
-        ],
-        2 => [
             'A_Question_1' => 'required',
             'A_Question_2' => 'required',
             'A_Question_3' => 'required',
             'A_Question_4' => 'required',
             'A_Question_5' => 'required',
         ],
-        3 => [
+        2 => [
             'B_Question_1' => 'required',
             'B_Question_2' => 'required',
             'B_Question_3' => 'required',
             'B_Question_4' => 'required',
             'B_Question_5' => 'required',
         ],
-        4 => [
+        3 => [
             'C_Question_1' => 'required',
             'C_Question_2' => 'required',
             'C_Question_3' => 'required',
             'C_Question_4' => 'required',
             'C_Question_5' => 'required',
         ],
-        5 => [
+        4 => [
             'D_Question_1' => 'required',
             'D_Question_2' => 'required',
             'D_Question_3' => 'required',
@@ -125,10 +112,7 @@ class PeerToPeerQuestionair extends Component
         $this->validate($rules);
 
         PeerQuestionairForm::create([
-            'school_year'   => $this->school_year,
-            'semester'      => $this->semester,
             'name'          => auth()->user()->name,
-
             'A_Question_1' => $this->A_Question_1,
             'A_Question_2' => $this->A_Question_2,
             'A_Question_3' => $this->A_Question_3,
@@ -248,8 +232,6 @@ class PeerToPeerQuestionair extends Component
     {
         return view('livewire.administrator.questionair.peer-to-peer-questionair',[
             'questionairs' => PeerQuestionairForm::latest()->paginate(10),
-            'schoolYears'  => SchoolYear::all(),
-            'sems'         => Semester::all(),
             'count'        => PeerQuestionairForm::where('is_enabled', 1 )->count(),
         ]);
     }

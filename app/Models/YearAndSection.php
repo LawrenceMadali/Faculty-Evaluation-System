@@ -15,9 +15,13 @@ class YearAndSection extends Model
 
     protected $fillable = [
         'year_and_section',
-        'instructor_id',
         'course_id',
     ];
+
+    public function yrSecInstructors()
+    {
+        return $this->belongsToMany(Instructor::class, 'instructor_year_and_sections')->withTimestamps();
+    }
 
     public function instructors()
     {

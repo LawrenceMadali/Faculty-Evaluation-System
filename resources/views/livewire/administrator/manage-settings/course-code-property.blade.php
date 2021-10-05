@@ -131,14 +131,19 @@
                             <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="">-- select --</option>
                                 @foreach ($year_and_sections as $yas)
-                                <option value="{{ $yas->id }}">{{ $yas->year_and_section }}  || <span> {{ $yas->instructors->name }} || {{ $yas->courses->course }} </span> </option>
+                                <option value="{{ $yas->id }}">{{ $yas->year_and_section }}  |
+                                    @foreach ($yas->yrSecInstructors as $y)
+                                    <span> {{ $y->name }} </span> |
+                                    @endforeach
+                                    <span> {{ $yas->courses->course }} </span>
+                                </option>
                                 @endforeach
                             </select>
                             <x-jet-input-error for="year_and_section_id"/>
                         </div>
-                        <div>
-                            <input wire:model="instructor_id" type="text" hidden>
-                            <input wire:model="course_id" type="text" hidden>
+                        <div class="hidden">
+                            <input wire:model="instructor_id" type="text">
+                            <input wire:model="course_id" type="text">
                         </div>
 
                     </div>
@@ -188,7 +193,12 @@
                             <select wire:model="year_and_section_id" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
                                 <option value="">-- select --</option>
                                 @foreach ($year_and_sections as $yas)
-                                <option value="{{ $yas->id }}">{{ $yas->year_and_section }}  | <span> ({{ $yas->instructors->name }}) ({{ $yas->courses->course }}) </span> </option>
+                                <option value="{{ $yas->id }}">{{ $yas->year_and_section }}  |
+                                    @foreach ($yas->yrSecInstructors as $y)
+                                    <span> {{ $y->name }} </span> |
+                                    @endforeach
+                                    <span> {{ $yas->courses->course }} </span>
+                                </option>
                                 @endforeach
                             </select>
                             <x-jet-input-error for="year_and_section_id"/>

@@ -16,8 +16,6 @@ class PeerRaterFormQuestionairSeeder extends Seeder
     {
         PeerQuestionairForm::create([
             'name'         => 'Administrator',
-            'semester'     => '1st semester',
-            'school_year'  => '2020-2021',
             'A_Question_1' => 'Demonstrate sensitivity to student’s ability to attend and to absorb content information.',
             'A_Question_2' => 'Integrates sensitively his/her learning objectives with those of the students in a collaborative process.',
             'A_Question_3' => 'Makes self-available to students beyond official time slots.',

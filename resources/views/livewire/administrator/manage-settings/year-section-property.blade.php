@@ -59,7 +59,9 @@
                                     <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->id }}</div></td>
                                     <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-center text-gray-900">{{ $yrSec->year_and_section }}</div></td>
                                     <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->courses->course }}</div></td>
-                                    <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $yrSec->instructors->name }}</div></td>
+                                    @foreach ($yrSec->yrSecInstructors as $y)
+                                    <td class="p-4 whitespace-nowrap"><div class="text-sm font-medium text-gray-900">{{ $y->name }}</div></td>
+                                    @endforeach
                                     <td class="p-4 whitespace-nowrap">
                                         <div class="text-sm text-gray-900">{{ $yrSec->created_at->ToFormattedDateString() }}</div>
                                         <div class="text-sm text-gray-500">{{ $yrSec->created_at->diffForHumans() }}</div>

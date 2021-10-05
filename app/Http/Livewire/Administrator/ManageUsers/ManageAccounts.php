@@ -24,7 +24,7 @@ class ManageAccounts extends Component
 
     public $search = '';
     public $perPage = 5;
-    public $sortField = 'name'; 
+    public $sortField = 'name';
     public $sortAsc = true;
 
     public $createModal = false;
@@ -248,7 +248,7 @@ class ManageAccounts extends Component
         return view('livewire.administrator.manage-users.manage-accounts', [
             'colleges'          => College::all(),
             'courseCodes'       => CourseCode::all(),
-            'yearAndSections'   => YearAndSection::with('courses', 'instructors')->get(),
+            'yearAndSections'   => YearAndSection::with('courses')->get(),
             'users'             => User::search($this->search)
                                     ->with('yearAndSections', 'colleges', 'roles', 'courses')
                                     ->orderBy($this->sortField, $this->sortAsc ? 'asc' : 'desc')

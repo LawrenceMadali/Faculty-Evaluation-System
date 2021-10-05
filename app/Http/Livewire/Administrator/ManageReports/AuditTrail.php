@@ -17,14 +17,7 @@ class AuditTrail extends Component
     public function export()
     {
         $date = now();
-        return Excel::download(new AuditTrailExport, 'audit_trail-'.$date.'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
-
-        activity('Export audit trail')
-            ->causedBy(auth()->user()->id)
-            ->withProperties(['attributes' => [
-                'name' => auth()->user()->name
-                ]])
-            ->log(auth()->user()->name.' is exporting audit trail');
+        return Excel::download(new AuditTrailExport, 'audit_trail-'.$date.'.pdf');
     }
 
     public function render()

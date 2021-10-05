@@ -412,6 +412,7 @@ class SetPeerEvaluationPage extends Component
         ],[
             'selectedInstructor.required' => 'The instructor checkbox field is required.',
             'faculty.required' => 'The instructor field is required.',
+            'unique'    => 'The :attribute has already exist.'
         ]);
 
         $evaluator = Spe::create([

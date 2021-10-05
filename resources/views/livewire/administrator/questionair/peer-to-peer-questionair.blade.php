@@ -39,8 +39,6 @@
                     <thead class="bg-gray-50">
                         <tr>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> status </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Semester </th>
-                        <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> School year </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created By </th>
                         <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"> Created at </th>
                         <th scope="col" class="relative px-6 py-3"> <span class="sr-only">Edit</span> </th>
@@ -60,8 +58,6 @@
                                     </span>
                                 @endif
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap"><div class="flex items-center">{{ $q->semester }}</div></td>
-                            <td class="px-6 py-4 whitespace-nowrap">{{ $q->school_year }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">{{ $q->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="text-sm text-gray-900">{{ $q->created_at->toFormattedDateString() }}</div>
@@ -102,10 +98,10 @@
                 <div class="mt-10 sm:mt-0">
                     <div class="md:col-span-1">
                         <div class="px-4 sm:px-0">
-                        <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $pages[$currentPage]['heading'] }}</h3>
-                        <p class="mt-1 text-sm text-gray-600">
-                            {{ $pages[$currentPage]['subHeading'] }}
-                        </p>
+                            <h3 class="text-lg font-medium leading-6 text-gray-900">{{ $pages[$currentPage]['heading'] }}</h3>
+                            <p class="mt-1 text-sm text-gray-600">
+                                {{ $pages[$currentPage]['subHeading'] }}
+                            </p>
                         </div>
                     </div>
                     <div class="mt-5 md:mt-0 md:col-span-2">
@@ -114,31 +110,6 @@
                             <div class="px-4 py-5 bg-white sm:p-6">
                             <div class="grid grid-cols-6 gap-2">
                                 @if ($currentPage === 1)
-                                <div class="col-span-6">
-                                    <x-jet-validation-errors class="mb-4" />
-                                </div>
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label class="block text-sm font-medium text-gray-700 pr-2">School year</label>
-                                    <div class=" flex items-center">
-                                        <select wire:model="school_year" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                            <option value="null">-- choose school year --</option>
-                                            @foreach ($schoolYears as $Sy)
-                                            <option value="{{ $Sy->name }}">{{ $Sy->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="col-span-6 sm:col-span-3">
-                                    <label class="block text-sm font-medium text-gray-700 pr-2">Semester</label>
-                                    <select wire:model="semester" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                                        <option value="null">-- choose semester --</option>
-                                        @foreach ($sems as $sem)
-                                        <option value="{{ $sem->name }}">{{ $sem->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @elseif ($currentPage === 2)
                                     <div class="col-span-6">
                                     <x-jet-label for="A_Question_1" value="{{ __('Question number 1') }}" />
                                     <x-jet-input wire:model.lazy="A_Question_1" id="A_Question_1"  name="A_Question_1" type="text" class="block mt-1 w-full" :value="old('A_Question_1')" />
@@ -169,7 +140,7 @@
                                     <x-jet-input-error for="A_Question_5"/>
                                     </div>
 
-                                @elseif ($currentPage === 3)
+                                @elseif ($currentPage === 2)
                                 {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
                                     <div class="col-span-6">
                                     <x-jet-label for="B_Question_1" value="{{ __('Question number 1') }}" />
@@ -201,7 +172,7 @@
                                     <x-jet-input-error for="B_Question_5"/>
                                     </div>
 
-                                @elseif ($currentPage === 4)
+                                @elseif ($currentPage === 3)
                                 {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
                                     <div class="col-span-6">
                                     <x-jet-label for="C_Question_1" value="{{ __('Question number 1') }}" />
@@ -233,7 +204,7 @@
                                     <x-jet-input-error for="C_Question_5"/>
                                     </div>
 
-                                @elseif ($currentPage === 5)
+                                @elseif ($currentPage === 4)
                                 {{-- ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- --}}
                                     <div class="col-span-6">
                                     <x-jet-label for="D_Question_1" value="{{ __('Question number 1') }}" />

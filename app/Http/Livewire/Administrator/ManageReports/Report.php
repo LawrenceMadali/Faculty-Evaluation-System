@@ -75,14 +75,7 @@ class Report extends Component
     public function generate()
     {
         $date = now();
-        return Excel::download(new ReportsExport($this->selectedExport), 'report-'.$date.'.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
-
-        activity('Export report')
-            ->causedBy(auth()->user()->id)
-            ->withProperties(['attributes' => [
-                'name' => auth()->user()->name
-                ]])
-            ->log(auth()->user()->name.' is exporting report');
+        return Excel::download(new ReportsExport($this->selectedExport), 'report-'.$date.'.pdf');
     }
 
     public function render()

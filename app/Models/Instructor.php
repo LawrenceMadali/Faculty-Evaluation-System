@@ -19,6 +19,11 @@ class Instructor extends Model
         'course_code_id',
     ];
 
+    public function instructorYrSec()
+    {
+        return $this->belongsToMany(YearAndSection::class, 'instructor_year_and_sections')->withTimestamps();
+    }
+
     public function users()
     {
         return $this->belongsTo(User::class, 'user_id');

@@ -12,9 +12,7 @@ use App\Models\CourseCode;
 use App\Models\Instructor;
 use App\Models\SchoolYear;
 use Livewire\WithPagination;
-use Livewire\WithFileUploads;
 use App\Models\YearAndSection;
-use Illuminate\Support\Facades\Auth;
 
 class SetStudentEvaluationPage extends Component
 {
@@ -52,12 +50,11 @@ class SetStudentEvaluationPage extends Component
     // course
     public $courses = null;
     public $course = null;
-    public function updatedCourse($course, $instructor)
+    public function updatedCourse($course)
     {
         if ($course) {
             $this->yearAndSections = YearAndSection::where(
                 [
-                'instructor_id'=> $this->instructor,
                 'course_id'     => $this->course,
                 ])->get() ?? null;
 
@@ -494,6 +491,7 @@ class SetStudentEvaluationPage extends Component
             'selectedStudents'  => 'required',
         ],[
             'selectedStudents.required' => 'This student checkbox field is required.',
+            'unique'    => 'The :attribute has already exist.'
         ]);
 
         $evaluator = Sse::create([

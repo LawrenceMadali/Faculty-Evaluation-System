@@ -100,9 +100,11 @@
         {{-------------------------------------------------- Create Modal  --------------------------------------------------}}
         <x-jet-dialog-modal maxWidth="5xl" wire:model.defer="openModal">
             <x-slot name="title">
-                <label class="block text-sm font-medium text-gray-700">
-                    Create evaluator
-                </label>
+                <div class="flex items-center space-x-2">
+                    <div class="text-sm font-bold">
+                        Create Evaluation
+                    </div>
+                </div>
             </x-slot>
 
             <x-slot name="content">

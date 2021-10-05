@@ -3,8 +3,6 @@
 namespace App\Http\Livewire\Administrator\Questionair;
 
 use Livewire\Component;
-use App\Models\Semester;
-use App\Models\SchoolYear;
 use App\Models\StudentQuestionairForm;
 use Livewire\WithPagination;
 
@@ -18,9 +16,6 @@ class StudentQuestionair extends Component
     public $statusModal = false;
 
     public $currentPage = 1;
-
-    public $school_year;
-    public $semester;
     public $is_enabled = true;
     public $name;
 
@@ -49,56 +44,47 @@ class StudentQuestionair extends Component
     public $D_Question_5;
 
     public $pages = [
-
         1 => [
-            'heading'       => 'Date range and semester',
-            'subHeading'    => 'Please choose date range and semester'
-        ],
-        2 => [
             'heading'       => 'Commitment',
             'subHeading'    => 'Create questionair for Commitment.'
         ],
-        3 => [
+        2 => [
             'heading'       => 'Knowledge of Subject',
             'subHeading'    => 'Create questionair for Knowledge of Subject.'
         ],
-        4 => [
+        3 => [
             'heading'       => 'Teaching for Independent Learning',
-            'subHeading'    => 'Create questionair for Knowledge of Teaching for Independent Learning.'
+            'subHeading'    => 'Create questionair for Independent Learning.'
         ],
-        5 => [
+        4 => [
             'heading'       => 'Management of Learning',
-            'subHeading'    => 'Create questionair for Knowledge of Teaching for Management of Learning.'
+            'subHeading'    => 'Create questionair for Management of Learning.'
         ],
     ];
 
     private $validationRules = [
         1 => [
-            'school_year'  => 'required',
-            'semester'     => 'required',
-        ],
-        2 => [
             'A_Question_1' => 'required',
             'A_Question_2' => 'required',
             'A_Question_3' => 'required',
             'A_Question_4' => 'required',
             'A_Question_5' => 'required',
         ],
-        3 => [
+        2 => [
             'B_Question_1' => 'required',
             'B_Question_2' => 'required',
             'B_Question_3' => 'required',
             'B_Question_4' => 'required',
             'B_Question_5' => 'required',
         ],
-        4 => [
+        3 => [
             'C_Question_1' => 'required',
             'C_Question_2' => 'required',
             'C_Question_3' => 'required',
             'C_Question_4' => 'required',
             'C_Question_5' => 'required',
         ],
-        5 => [
+        4 => [
             'D_Question_1' => 'required',
             'D_Question_2' => 'required',
             'D_Question_3' => 'required',
@@ -110,6 +96,12 @@ class StudentQuestionair extends Component
         public function openCreateModal()
         {
             $this->openModal = true;
+            $this->reset([
+                'A_Question_1', 'A_Question_2', 'A_Question_3', 'A_Question_4', 'A_Question_5',
+                'B_Question_1', 'B_Question_2', 'B_Question_3', 'B_Question_4', 'B_Question_5',
+                'C_Question_1', 'C_Question_2', 'C_Question_3', 'C_Question_4', 'C_Question_5',
+                'D_Question_1', 'D_Question_2', 'D_Question_3', 'D_Question_4', 'D_Question_5',
+            ]);
         }
 
     public function create()
@@ -119,10 +111,7 @@ class StudentQuestionair extends Component
         $this->validate($rules);
 
         StudentQuestionairForm::create([
-            'school_year'   => $this->school_year,
-            'semester'      => $this->semester,
             'name'          => auth()->user()->name,
-
             'A_Question_1' => $this->A_Question_1,
             'A_Question_2' => $this->A_Question_2,
             'A_Question_3' => $this->A_Question_3,
@@ -172,7 +161,6 @@ class StudentQuestionair extends Component
         $questionairId = StudentQuestionairForm::find($this->questionairId);
         $this->is_enabled = $questionairId->is_enabled;
         $this->resetValidation();
-
         $this->statusModal = true;
     }
 
@@ -240,8 +228,6 @@ class StudentQuestionair extends Component
     {
         return view('livewire.administrator.questionair.student-questionair', [
             'questionairs' => StudentQuestionairForm::latest()->paginate(10),
-            'schoolYears'  => SchoolYear::all(),
-            'sems'         => Semester::all(),
             'count'        => StudentQuestionairForm::where('is_enabled', 1 )->count(),
         ]);
     }

@@ -39,8 +39,7 @@ class Sse extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'sse_users')
-        ->withTimestamps();
+        return $this->belongsToMany(User::class, 'sse_users')->withTimestamps();
     }
 
     public function schoolYears()

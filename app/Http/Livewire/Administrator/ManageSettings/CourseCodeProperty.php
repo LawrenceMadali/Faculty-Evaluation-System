@@ -28,8 +28,10 @@ class CourseCodeProperty extends Component
     public function updatedYearAndSectionId()
     {
         $yrSec = YearAndSection::find($this->year_and_section_id);
-        $this->instructor_id = $yrSec->instructor_id;
         $this->course_id = $yrSec->course_id;
+        foreach ($yrSec->yrSecInstructors as $y) {
+            $this->instructor_id = $y->id;
+        }
     }
 
     public function create()
@@ -111,7 +113,7 @@ class CourseCodeProperty extends Component
                                 ->paginate(5),
             'instructors'       => Instructor::all(),
             'courses'           => Course::all(),
-            'year_and_sections' => YearAndSection::all(),
+            'year_and_sections' => YearAndSection::with('courses')->get(),
             'semesters'         => Semester::all(),
         ]);
     }

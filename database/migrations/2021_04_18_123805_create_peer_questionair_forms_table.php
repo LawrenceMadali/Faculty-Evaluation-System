@@ -16,8 +16,6 @@ class CreatePeerQuestionairFormsTable extends Migration
         Schema::create('peer_questionair_forms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('semester');
-            $table->string('school_year');
             $table->boolean('is_enabled')->default(false);
             $table->string('A_Question_1');
             $table->string('A_Question_2');

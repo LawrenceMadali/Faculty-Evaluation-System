@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Administrator\ManageSettings;
 use App\Models\Course;
 use Livewire\Component;
 use App\Models\Instructor;
+use App\Models\InstructorYearAndSection;
 use Livewire\WithPagination;
 use App\Models\YearAndSection;
 
@@ -29,16 +30,16 @@ class YearSectionProperty extends Component
     public function create()
     {
         $validated = $this->validate([
-            'year_and_section'  => 'required|unique:year_and_sections,year_and_section,NULL,id,instructor_id,'.$this->instructor_id.',course_id,'.$this->course_id,
-            'instructor_id'     => 'required',
+            'year_and_section'  => 'required|unique:year_and_sections,year_and_section,NULL,id,course_id,'.$this->course_id,
             'course_id'         => 'required',
         ],
         [
-            'instructor_id.required' => 'The instructor field is required',
             'unique' => 'The :attribute is already exist.'
         ]);
 
-        YearAndSection::create($validated);
+        $yrSection =  YearAndSection::create($validated);
+
+        $yrSection->yrSecInstructors()->sync($this->instructor_id);
         $this->reset();
         $this->resetValidation();
         $this->emit('added');
@@ -70,11 +71,12 @@ class YearSectionProperty extends Component
     {
         $validated = $this->validate([
             'year_and_section'  => 'required|unique:year_and_sections,year_and_section,'.$this->yearAndSectionId,
-            'instructor_id'     => 'required',
             'course_id'         => 'required',
         ],
         ['unique' => 'The :attribute is already exist.']);
         YearAndSection::find($this->yearAndSectionId)->update($validated);
+        $yearSec = YearAndSection::find($this->yearAndSectionId);
+        $yearSec->yrSecInstructors()->sync($this->instructor_id, ['instructor_id' => $this->instructor_id], false);
         $this->reset();
         $this->resetValidation();
         $this->emit('updated');
