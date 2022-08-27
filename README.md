@@ -36,10 +36,10 @@
 ### Manage Questionnaires
 ![image](https://user-images.githubusercontent.com/71894862/187033463-431668a3-8b1b-4cb4-8adc-31ba67c7df0a.png)
 
-Peer-to-Peer Questionnaires
+### Peer-to-Peer Questionnaires
 ![image](https://user-images.githubusercontent.com/71894862/187033486-6566a9ea-961d-4683-89d9-91b1a0de2a3f.png)
 
-Student Questionnaires
+### Student Questionnaires
 ![image](https://user-images.githubusercontent.com/71894862/187033498-cb42dae8-8268-404c-ae03-af5204d6d6c0.png)
 
 ### Audit Trail
